@@ -19,8 +19,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SaveIcon from '@material-ui/icons/Save';
 import HomeIcon from '@material-ui/icons/Home';
-import MailIcon from '@material-ui/icons/Mail';
+import MailIcon from '@material-ui/icons/ContactMail';
 import PhoneIcon from '@material-ui/icons/Phone';
+import HelpText from './HelpText';
 
 
 export default class ControlPanelCLPHome extends Component {
@@ -100,53 +101,57 @@ export default class ControlPanelCLPHome extends Component {
       marginLeft: "auto",
       marginRight: "auto",
       marginTop:10,
+      paddingBottom:16,
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     return (
-    <form style={neu} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
-      <Grid style={{paddingLeft: 10}} container spacing={3}>
-        <Grid item xs={12}>
-          <TextField id="clp-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is normally the name of your constituency"/>
-        </Grid>
-        <Grid item xs={12}>
-          <TextField id="clp-description" value={this.state.description} label="Description" onChange={this.handleChangeDescription} fullWidth multiline rows="4" rowsMax="6"/>
-        </Grid>
-        <Grid item xs={12}>
-          <TextField id="clp-dn" value={this.state.dn} label="Domain Name" onChange={this.handleChangeDn} />
-        </Grid>
-        <Grid item xs={12}>
-        <FormControl >
-            <InputLabel htmlFor="clp-phone">Telephone Number</InputLabel>
-            <Input
-              id="clp-phone"
-              type='text'
-              value={this.state.phone}
-              onChange={this.handleChangePhone}
-              endAdornment={<InputAdornment position="end"><PhoneIcon /></InputAdornment>}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl >
-            <InputLabel htmlFor="clp-email">Email</InputLabel>
-            <Input
-              id="clp-email"
-              type='text'
-              value={this.state.email}
-              onChange={this.handleChangeEmail}
-              endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <Button color="primary" type="submit">
-            <SaveIcon />Save
-          </Button>
-        </Grid>
+      <div>
+        <HelpText name='clp.role' style="neu"/>      
+        <form style={neu} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+          <Grid style={{paddingLeft: 10}} container spacing={3}>
+            <Grid item xs={12}>
+              <TextField id="clp-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is normally the name of your constituency"/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField id="clp-description" value={this.state.description} label="Description" onChange={this.handleChangeDescription} fullWidth multiline rows="4" rowsMax="6"/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField id="clp-dn" value={this.state.dn} label="Domain Name" onChange={this.handleChangeDn} />
+            </Grid>
+            <Grid item xs={12}>
+            <FormControl >
+                <InputLabel htmlFor="clp-phone">Telephone Number</InputLabel>
+                <Input
+                  id="clp-phone"
+                  type='text'
+                  value={this.state.phone}
+                  onChange={this.handleChangePhone}
+                  endAdornment={<InputAdornment position="end"><PhoneIcon /></InputAdornment>}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl >
+                <InputLabel htmlFor="clp-email">Email</InputLabel>
+                <Input
+                  id="clp-email"
+                  type='text'
+                  value={this.state.email}
+                  onChange={this.handleChangeEmail}
+                  endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Button color="primary" type="submit">
+                <SaveIcon />Save
+              </Button>
+            </Grid>
 
-      </Grid>
-    </form>  
+          </Grid>
+        </form>  
+  </div>
     );
   }
 }

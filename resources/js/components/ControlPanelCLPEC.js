@@ -107,7 +107,7 @@ export default class ControlPanelCLPEC extends Component {
     return (
       <Grid container spacing={3}>
         <Grid item xs={3}>
-          <List component="nav" style={neu} aria-label="contacts">
+          <List component="nav" style={neu} aria-label="EC">
             {listitems}
           </List>
         </Grid>

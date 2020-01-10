@@ -29,6 +29,9 @@ class DatabaseSeeder extends Seeder
 
             "ADMINUSER" => uniqid(),
 
+            "COUNCIL" => uniqid(),
+            "COUNCIL" => uniqid(),
+
             "CHAIR" => uniqid(),
             "SECRETARY" => uniqid(),
             "TREASURER" => uniqid(),
@@ -45,6 +48,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UserTableSeeder::class,$guids);
         $this->call(ClpTableSeeder::class,$guids);
+        $this->call(CouncilTableSeeder::class,$guids);
         $this->call(ClpRolesTableSeeder::class,$guids);
         $this->call(BranchTableSeeder::class,$guids);
         $this->call(RolesAndPermissionsSeeder::class,$guids);
@@ -79,6 +83,22 @@ class ClpTableSeeder extends Seeder
     }
 
 }
+
+class CouncilTableSeeder extends Seeder 
+{
+    public function run($guids)
+    {
+        DB::table('councils')->delete();
+
+        Cclp::create(array(
+            'clp' => $guids["CLP"],
+            'guid' => $guids["COUNCIL"],
+            'name' => 'My local council',
+        ));
+    }
+
+}
+
 
 class ClpRolesTableSeeder extends Seeder 
 {

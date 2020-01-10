@@ -27,6 +27,7 @@ Route::get('/helptext/{id}', 'HelptextController');
 Route::resource('clp', 'ClpController');
 Route::resource('profile', 'ProfileController');
 Route::resource('ec', 'ECController');
+Route::resource('people', 'PeopleController');
 Route::resource('userdir', 'UserdirController');
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');
 Route::get('ec/{role}/{user}/adduser', 'ECController@addroleuser');

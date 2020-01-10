@@ -71,9 +71,13 @@ class UserdirController extends Controller
         app('debugbar')->disable();
 
 
-        $data->data = User::select('guid','name','publicemail')->where("clp",$clpGuid)->skip($perpage*($page-1))->take($perpage)->get();
+        $data->data = User::select('guid','name','publicemail')->where("clp",$clpGuid)->skip($perpage*($page-1))->take($perpage)->get();        
         $data->page = $page;
         $data->count = User::where("clp",$clpGuid)->count();
+        foreach($data->data as $user)
+        {
+            $user->image = "/images/defaultuser.png";
+        }
 
         return(json_encode($data));
     }

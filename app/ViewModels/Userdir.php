@@ -16,9 +16,11 @@ class Userdir extends Model
 
     public $clpGuid = "UNDEFINED";
     public $name = 'Undefined';
+    public $image = "/images/defaultuser.png";
 
-    protected $appends = ['clpGuid','name'];
-    //protected $visible = ['clpGuid', 'name'];
+
+    protected $appends = ['clpGuid','name', 'image'];
+    //protected $visible = ['clpGuid', 'name', 'image'];
  
     public function getclpGuidAttribute()
     {
@@ -30,6 +32,10 @@ class Userdir extends Model
         return $this->name;
     }
 
+    public function getimageAttribute()
+    {
+        return "/images/defaultuser.png";
+    }
 
     function __construct($id)
     {

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 import PropTypes from 'prop-types';
 
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -12,16 +10,13 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import HomeIcon from '@material-ui/icons/Home';
-import GavelIcon from '@material-ui/icons/Gavel';
-import PeopleIcon from '@material-ui/icons/People';
-import PersonIcon from '@material-ui/icons/Person';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import MembershipIcon from '@material-ui/icons/CardMembership';
 
 import ControlPanelCLPHome from './ControlPanelCLPHome';
 import ControlPanelCLPSocial from './ControlPanelCLPSocial';
-import ControlPanelCLPEC from './ControlPanelCLPEC';
 
-import HelpText from './HelpText';
 
 
 function TabPanel(props) {
@@ -79,14 +74,12 @@ export default function SimpleTabs() {
 
   return (
     <div className={classes.root}>
-      <HelpText name='clp.role' />      
       <AppBar position="static">
         <Tabs style={tabStyle} value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Home" icon={<HomeIcon />}  {...a11yProps(0)} />
+          <Tab label="Basic Information" icon={<HomeIcon />}  {...a11yProps(0)} />
           <Tab label="Social Media" icon={<MembershipIcon />} {...a11yProps(1)} />
-          <Tab label="Executive Comittee" icon={<GavelIcon />} {...a11yProps(1)} />
-          <Tab label="Counselors"  icon={<PeopleIcon />} {...a11yProps(2)} />
-          <Tab label="Candidate"  icon={<PersonIcon />} {...a11yProps(2)} />
+          <Tab label="Councils" icon={<AccountBalanceIcon />} {...a11yProps(1)} />
+          <Tab label="Branches"  icon={<AccountTreeIcon />} {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel style={tabpageStyle} value={value} index={0}>
@@ -96,13 +89,10 @@ export default function SimpleTabs() {
         <ControlPanelCLPSocial />
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={2}>
-        <ControlPanelCLPEC />
+        Wards
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Councilor Details
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        Candidate Details
+        Branches
       </TabPanel>
     </div>
   );

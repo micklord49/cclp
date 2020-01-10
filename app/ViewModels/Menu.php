@@ -42,13 +42,14 @@ class Menu
 
         if(Auth::check())
         {
-            $this->Class = "navbar-dark bg-primary";
+            $this->Class = "navbar-dark bg-dark";
 
             $menu->AddSubMenu(new MenuItem("Edit Profile","/profile",true));
 
             if(auth()->user()->can('Edit CLP'))
             {
                 $menu->AddSubMenu(new MenuItem("Edit CLP","/clp",true));
+                $menu->AddSubMenu(new MenuItem("Edit the people of the CLP","/people",true));
             }
 
             $menu->AddSubMenu(new MenuItem("Logout","/logout",true));

@@ -62,6 +62,18 @@ export default class HelpText extends Component {
       let morehead = this.state.morehead;
       let moretext = this.state.moretext;
 
+      const neu = {
+        backgroundColor: "#E0E5EC" ,
+        borderRadius:4,
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop:10,
+        paddingLeft:4,
+        paddingRight:10,
+        boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+      };
+  
+  
       if(typeof morehead == 'undefined')  morehead="More...";
       if(morehead.length == 0)  morehead="More...";
 
@@ -69,7 +81,7 @@ export default class HelpText extends Component {
   
       if(moretext.length > 0)
         return (
-        <ExpansionPanel>
+        <ExpansionPanel style={neu}>
             <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
             >
@@ -91,16 +103,38 @@ export default class HelpText extends Component {
     const head = this.state.heading;
     const text = this.state.text;
 
+    const neu = {
+      backgroundColor: "#E0E5EC" ,
+      borderRadius:4,
+      marginLeft: "auto",
+      marginRight: "auto",
+      marginTop:10,
+      marginBottom:10,
+      paddingBottom:16,
+      paddingLeft:10,
+      paddingRight:10,
+      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+    };
+
+    const helptextstyle = {
+      backgroundColor: "#E0E5EC" ,
+      marginTop:5,
+      textSize:".8em",
+      paddingBottom:16,
+      paddingLeft:20,
+      paddingRight:10,
+    };
+
     let morecontrol;
 
     morecontrol = this.moretextcontrol();
 
     return (
-        <Paper>
+        <Paper style={neu}>
             <h3>
             <div dangerouslySetInnerHTML={{__html: head}} />
             </h3>
-            <div dangerouslySetInnerHTML={{__html: text}} />
+            <div style={helptextstyle} dangerouslySetInnerHTML={{__html: text}} />
             {morecontrol}
         </Paper>
     );

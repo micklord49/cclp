@@ -61,8 +61,8 @@ export default class UserList extends Component {
     let users="";
 
     const mycontainerstyle ={ 
-      maxHeight: 200,
-      minHeight: 200,
+      maxHeight: 300,
+      minHeight: 300,
       overflowX: "scroll",
       overflowY: "hidden",    
       display: "flex",  

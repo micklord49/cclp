@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Fade from '@material-ui/core/Fade';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -26,6 +27,9 @@ const useStyles = theme => ({
     marginBottom:10,
     marginLeft:10,
   },
+  media: {
+    height: 100,
+  },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
@@ -42,7 +46,7 @@ const useStyles = theme => ({
 class UserCard extends Component {
   constructor(props) {
       super(props);
-      this.state = {guid: ''};
+      this.state = {guid: '', checked: true, image: ""};
       this.ondelete = this.ondelete.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -52,6 +56,7 @@ class UserCard extends Component {
     axios.get("/userdir/" + this.props.guid + "/edit")
     .then(response => {
       this.setState({  name: response.data.name });
+      this.setState({  image: response.data.image });
     })
     .catch(function (error) {
       console.log(error);
@@ -60,6 +65,7 @@ class UserCard extends Component {
 
   ondelete()
   {
+    this.setState({ checked: false })
     console.log("Firing UserCard.ondelete");
     this.props.ondelete();
   }
@@ -70,17 +76,25 @@ class UserCard extends Component {
     const { classes } = this.props;
     
     return (
-      <Card className={classes.card}>
-            <CardHeader
-                action={
-                <IconButton aria-label="settings" onClick={() => { this.ondelete();}}>
-                    <DeleteIcon />
-                </IconButton>
-                }
-                title={this.state.name}
-                subheader="September 14, 2016"
-            />
-        </Card>
+      <Fade in={this.state.checked}>
+        <Card className={classes.card}>
+              <CardHeader
+                  action={
+                  <IconButton aria-label="settings" onClick={() => { this.ondelete();}}>
+                      <DeleteIcon />
+                  </IconButton>
+                  }
+                  title={this.state.name}
+              />
+              <CardMedia
+                className={classes.media}
+                src={this.state.image}
+                title="Paella dish"
+                >
+                <img src={this.state.image} />
+            </CardMedia>
+          </Card>
+        </Fade>
     );
   }
 }
