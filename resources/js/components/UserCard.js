@@ -43,15 +43,11 @@ class UserCard extends Component {
   constructor(props) {
       super(props);
       this.state = {guid: ''};
-      //this.handleChangeName = this.handleChangeName.bind(this);
+      this.ondelete = this.ondelete.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount(){
-      this.refresh();
-  }
-
-  refresh()
+  componentDidMount()
   {
     axios.get("/userdir/" + this.props.guid + "/edit")
     .then(response => {
@@ -60,6 +56,12 @@ class UserCard extends Component {
     .catch(function (error) {
       console.log(error);
     })
+  }
+
+  ondelete()
+  {
+    console.log("Firing UserCard.ondelete");
+    this.props.ondelete();
   }
 
   render() 
@@ -71,7 +73,7 @@ class UserCard extends Component {
       <Card className={classes.card}>
             <CardHeader
                 action={
-                <IconButton aria-label="settings">
+                <IconButton aria-label="settings" onClick={() => { this.ondelete();}}>
                     <DeleteIcon />
                 </IconButton>
                 }

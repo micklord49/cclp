@@ -50,19 +50,15 @@ export default class UserSearch extends Component {
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeName(e){
-    this.setState({
-      name: e.target.value
-    })
-  }
-
   componentDidMount(){
   }
 
 
   addUser(guid)
   {
+    console.log("Recieved ControlPanelUserGroup.addUser");
     if(guid === undefined)    return;
+    console.log("Firing UserSearch.addUser");
     this.props.addUser(guid);
   }
 
@@ -76,7 +72,7 @@ export default class UserSearch extends Component {
               field: 'url',
               Title: 'Avatar',
               render: rowData => 
-                        <IconButton color="primary" onClick={() => this.addUser(rowData.guid)}>
+                        <IconButton color="primary" onClick={() => {this.addUser(rowData.guid)}}>
                           <AddIcon />
                         </IconButton>
             },
@@ -92,13 +88,13 @@ export default class UserSearch extends Component {
                   resolve({
                     data: result.data,
                     page: result.page - 1,
-                    count: result.count,
+                    totalCount: result.count,
                   })
                 })
             })
    
                 }
-          title="Users"
+          title="Users" 
         />
       </div>
     );

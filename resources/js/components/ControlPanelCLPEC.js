@@ -69,6 +69,7 @@ export default class ControlPanelCLPEC extends Component {
 
   rolechanged()
   {
+    console.log("ControlPanelEC - role changes");
     axios.get("/ec/1/edit")
     .then(response => {
       this.setState({  roles: response.data.roles });

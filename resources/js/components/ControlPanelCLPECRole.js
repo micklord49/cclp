@@ -20,7 +20,7 @@ export default class ControlPanelCLPECRole extends Component {
   constructor(props) {
       super(props);
       this.state = {role: new Object()};
-      //this.handleChangeName = this.handleChangeName.bind(this);
+      this.addUser = this.addUser.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -65,11 +65,21 @@ export default class ControlPanelCLPECRole extends Component {
     let uri = '/ec/'+this.props.role.guid+'/'+guid+'/adduser';
     axios.get(uri, {}).then((response) => {
           //this.props.history.push('/display-item');
-    });
+          console.log("Firing ControlPanelECRole.onChange event")
+          this.props.onChange();
+        });
 
-    this.props.onChange();
   }
 
+  removeUser(guid)
+  {
+    let uri = '/ec/'+this.props.role.guid+'/'+guid+'/removeuser';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          console.log("Firing ControlPanelECRole.onChange event")
+          this.props.onChange();
+        });
+  }
 
   render() 
   {
@@ -92,7 +102,7 @@ export default class ControlPanelCLPECRole extends Component {
             <h5 style={neu}>{this.props.role.description}</h5>
           </Grid>
           <Grid item xs={12}>
-            <ControlPanelUserGroup users={this.props.role.users} addUser={(guid) => this.addUser(guid)}/>
+            <ControlPanelUserGroup onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.props.role.users} addUser={(guid) => this.addUser(guid)}/>
           </Grid>
           <Grid item xs={12}>
             <HelpText name={this.props.role.help}/>

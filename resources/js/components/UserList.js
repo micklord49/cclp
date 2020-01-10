@@ -41,21 +41,20 @@ export default class UserList extends Component {
   constructor(props) {
       super(props);
       this.state = {role: new Array()};
-      //this.handleChangeName = this.handleChangeName.bind(this);
+      this.onRemoveUser = this.onRemoveUser.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChangeName(e){
-    this.setState({
-      name: e.target.value
-    })
   }
 
   componentDidMount(){
   }
 
 
-  
+  onRemoveUser(guid)
+  {
+    console.log("Userlist recieved ondelete event from UserCard")
+    console.log("Firing UserList.onremoveuser")
+    this.props.onremoveuser(guid);
+  }
 
   render() 
   {
@@ -73,7 +72,7 @@ export default class UserList extends Component {
     if(this.props.users != null)
     {
         users = this.props.users.map(user => (
-                <UserCard key={user.guid} guid={user.guid} />
+                <UserCard key={user.guid} guid={user.guid} ondelete={()=>{this.onRemoveUser(user.guid);}}/>
             ))
         console.log('Rendered '+this.props.users.length+' UserCard(s).');
     }

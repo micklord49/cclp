@@ -89,7 +89,26 @@ class ECController extends Controller
         //
     }
 
-    public function addrolluser($role,$user)
+    public function removeroleuser($role,$user)
+    {
+        if(Auth::check())
+        {
+            if(!auth()->user()->can('Edit CLP'))
+            {
+                abort(404);
+            }
+        }
+        else {
+            abort(404);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+
+        ClpRoleuser::where('clp',$clpGuid)->where('clprole',$role)->where('user',$user)->delete();
+        Log::info('Removing user '.$user.' from role '.$role);
+    }
+
+    public function addroleuser($role,$user)
     {
         if(Auth::check())
         {
@@ -111,6 +130,5 @@ class ECController extends Controller
         ));
 
         Log::info('Adding user '.$user.' to role '.$role);
-
     }
 }

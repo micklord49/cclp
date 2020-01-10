@@ -31,6 +31,8 @@ export default class ControlPanelUserGroup extends Component {
   constructor(props) {
       super(props);
       this.state = {facebook: '', twitter: '', instagram: '', youtube: '', tumblr: ''};
+      this.addUser = this.addUser.bind(this);
+      this.onRemoveUser = this.onRemoveUser.bind(this);
   }
 
   componentDidMount(){
@@ -38,17 +40,22 @@ export default class ControlPanelUserGroup extends Component {
 
   addUser(guid)
   {
+    console.log("Firing ControlPanelUserGroup.addUser");
     this.props.addUser(guid);
   }
 
+  onRemoveUser(guid)
+  {
+    console.log("Firing ControlPanelUserGroup.onremoveuser");
+    this.props.onremoveuser(guid);
+  }
 
   render() 
   {
-
     return (
         <div>
-            <UserList users={this.props.users}></UserList>
-            <UserSearch addUser={(guid) => this.addUser(guid)} ></UserSearch>
+            <UserList users={this.props.users} onremoveuser={(guid) => {this.onRemoveUser(guid);}} ></UserList>
+            <UserSearch addUser={(guid) => { this.addUser(guid)}} ></UserSearch>
         </div>
     );
   }
