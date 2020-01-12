@@ -30,6 +30,7 @@ Route::resource('ec', 'ECController');
 Route::resource('people', 'PeopleController');
 Route::resource('userdir', 'UserdirController');
 Route::resource('councils', 'CouncilsController');
+Route::resource('wards', 'WardsController');
 
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');
 
@@ -38,5 +39,9 @@ Route::get('ec/{role}/{user}/removeuser', 'ECController@removeroleuser');
 
 Route::get('councils/dir/all', 'CouncilsController@dir');
 Route::get('councils/{council}/wards', 'CouncilsController@wards');
+Route::get('councils/{council}/wards', 'CouncilsController@wards');
 
+Route::get('councillors/dir/all', 'CouncillorController@dir');
+Route::get('councillors/{user}/adduser', 'CouncillorController@adduser');
+Route::get('councillors/{user}/removeuser', 'CouncillorController@removeuser');
 

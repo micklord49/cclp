@@ -20,6 +20,7 @@ import MembershipIcon from '@material-ui/icons/CardMembership';
 import ControlPanelCLPHome from './ControlPanelCLPHome';
 import ControlPanelCLPSocial from './ControlPanelCLPSocial';
 import ControlPanelCLPEC from './ControlPanelCLPEC';
+import ControlPanelCLPCouncillors from './ControlPanelCLPCouncillors';
 
 import HelpText from './HelpText';
 
@@ -82,7 +83,7 @@ export default function SimpleTabs() {
       <AppBar position="static">
         <Tabs style={tabStyle} value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Executive Comittee" icon={<GavelIcon />} {...a11yProps(1)} />
-          <Tab label="Counselors"  icon={<PeopleIcon />} {...a11yProps(2)} />
+          <Tab label="Counsellors"  icon={<PeopleIcon />} {...a11yProps(2)} />
           <Tab label="Candidate"  icon={<PersonIcon />} {...a11yProps(2)} />
         </Tabs>
       </AppBar>
@@ -90,7 +91,7 @@ export default function SimpleTabs() {
         <ControlPanelCLPEC />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Councilor Details
+        <ControlPanelCLPCouncillors />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Candidate Details

@@ -16,11 +16,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
 
 //
-//  Icons
-import StarIcon from '@material-ui/icons/Star';
-import StarOutlineIcon from '@material-ui/icons/StarBorder';
-
-//
 //  CCLP Components
 import NavList from './NavList';
 import ControlPannelCLPCouncil from './ControlPanelCLPCouncil';
@@ -29,7 +24,7 @@ import ControlPannelCLPCouncil from './ControlPanelCLPCouncil';
 export default class ControlPanelCLPCouncils extends Component {
   constructor(props) {
       super(props);
-      this.state = {councils: new Array(), selectedcouncil: '', open: false};
+      this.state = {councils: new Array(), selectedcouncil: '', open: false, newname: ''};
   }
 
   componentDidMount()
@@ -50,8 +45,13 @@ export default class ControlPanelCLPCouncils extends Component {
   handleAddCouncil()
   {
     this.setState({open: false});
+    this.addnewcouncil();
   };
 
+  handleChangeNewName(e)
+  {
+    this.setState({newname: e.target.value});
+  };
 
   refresh()
   {
@@ -69,22 +69,11 @@ export default class ControlPanelCLPCouncils extends Component {
 
   councilselected(guid)
   {
-    if(typeof(guid)=="undefined")
-    {
-      console.log("Council not defined yet");
-      return;
-    }
-    if(typeof(this.state.selectedcouncil)=="undefined")
-    {
-      console.log("My council not set");
-      return;
-    }
-    if(this.state.selectedcouncil.guid==guid) 
-    {
-      console.log("Council already selected.");
-      return;
-    }
-    this.props.councils.forEach(element => {
+    if(typeof(guid)=="undefined")                         return;
+    if(typeof(this.state.selectedcouncil)=="undefined")   return;
+    if(this.state.selectedcouncil.guid==guid)             return;
+
+    this.state.councils.forEach(element => {
       if(element.guid==guid)
       {
         this.setState({ selectedcouncil: element });
@@ -92,9 +81,24 @@ export default class ControlPanelCLPCouncils extends Component {
     });
   }
 
-  councilupdated(guid)
+  councilupdated()
   {
+    this.refresh();
   }
+
+  addnewcouncil() 
+  {
+    const council = {
+      name: this.state.newname,
+    }
+
+    let uri = '/councils';
+    axios.post(uri, council).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+    });
+  }
+
 
   render() 
   {
@@ -134,6 +138,7 @@ export default class ControlPanelCLPCouncils extends Component {
                 label="Council Name"
                 type="text"
                 fullWidth
+                onChange={e => this.handleChangeNewName(e)}
             />
             </DialogContent>
             <DialogActions>

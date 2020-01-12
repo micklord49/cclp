@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 use App\Council;
 use App\Ward;
@@ -41,6 +44,25 @@ class CouncilsController extends Controller
     public function store(Request $request)
     {
         //
+        if(Auth::check())
+        {
+            if(!auth()->user()->can('Edit CLP'))
+            {
+                abort(403);
+            }
+        }
+        else {
+            abort(403);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+
+        Council::create(array(
+            'clp' => $clpGuid,
+            'guid' => uniqid(),
+            'name' => $request->name,
+        ));
+
     }
 
     /**
@@ -49,7 +71,7 @@ class CouncilsController extends Controller
      * @param  \App\Councilor  $councilor
      * @return \Illuminate\Http\Response
      */
-    public function show($councilor)
+    public function show($request)
     {
         //
     }
@@ -74,11 +96,37 @@ class CouncilsController extends Controller
      * @param  \App\Councilor  $councilor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $councilor)
+    public function update(Request $request, $council)
     {
-        //        
+        if(Auth::check())
+        {
+            if(!auth()->user()->can('Edit CLP'))
+            {
+                abort(403);
+            }
+        }
+        else {
+            abort(403);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+        $c = Council::where('guid',$council)->first();
+
+        try 
+        {
+            $c->name = $request->name;
+        }
+        catch(Exception $e)
+        {
+            report($e);
+        }
+
+        $c->save();
     }
 
+
+
+    
     /**
      * Remove the specified resource from storage.
      *

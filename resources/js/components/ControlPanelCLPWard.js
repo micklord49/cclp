@@ -28,7 +28,6 @@ export default class ControlPanelCLPWard extends Component {
   constructor(props) {
       super(props);
       this.state = {name: ""};
-      this.handleChangeName = this.handleChangeName.bind(this);
   }
 
   handleChangeName(e){
@@ -38,23 +37,20 @@ export default class ControlPanelCLPWard extends Component {
   }
 
   componentDidMount(){
-    if(typeof(this.props.council) == "undefined") 
+    if(typeof(this.props.ward) == "undefined") 
     {
-      console.log("Not loading data - ward not defined yet")
       return;
     }
     this.refresh();
   }
 
   componentDidUpdate(prevProps) {
-    console.log("Updating ward");
-    if(typeof(this.props.council) == "undefined") 
+    if(typeof(this.props.ward) == "undefined") 
     {
       return;
     }
-    if(prevProps.council == this.props.council)
+    if(prevProps.ward == this.props.ward)
     {
-      console.log("Not reloading - already set");
       return;
     }
     this.refresh();
@@ -63,9 +59,12 @@ export default class ControlPanelCLPWard extends Component {
 
   refresh()
   {
-    console.log("Loading data for council:"+this.props.council)
+    if(this.props.ward=='')
+    {
+      return;
+    }
 
-    axios.get("/councils/" + this.props.council + "/edit")
+    axios.get("/wards/" + this.props.ward + "/edit")
       .then(response => {
         this.setState({ name: response.data[0].name });
       })
@@ -74,16 +73,16 @@ export default class ControlPanelCLPWard extends Component {
       })
   }
 
-  handleSubmit(event) 
+  onSave(event) 
   {
     event.preventDefault();
 
-    const council = {
+    const ward = {
       name: this.state.name,
     }
 
-    let uri = '/council/'+this.props.council.guid;
-    axios.patch(uri, council).then((response) => {
+    let uri = '/wards/'+this.props.ward;
+    axios.patch(uri, ward).then((response) => {
           //this.props.history.push('/display-item');
     });
   }
@@ -104,25 +103,24 @@ export default class ControlPanelCLPWard extends Component {
       marginRight: "auto",
       marginTop:10,
       paddingBottom:16,
+      paddingRight:16,
+      marginRight:16,
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
-    console.log("ControlPanelCLPWard - Render");
-    console.log(this.state);
-
     return (
-      <div>
+      <div style={neu}>
           <Grid style={{paddingLeft: 10}} container spacing={3}>
             <Grid item xs={12}>
-              <TextField id="ward-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is normally the full official name of the council"/>
+              <TextField id="ward-name" value={this.state.name} label="Name" onChange={(e) => this.handleChangeName(e)} helperText="This is normally the full official name of the council"/>
             </Grid>
             <Grid item xs={12}>
-              <Button color="primary">
+              <Button color="primary" onClick={(e)=>this.onSave(e)}>
                 <SaveIcon />Save
               </Button>
             </Grid>
           </Grid>
-  </div>
+      </div>
     );
   }
 }

@@ -33,23 +33,14 @@ export default class ControlPanelCLPCouncil extends Component {
   }
 
   componentDidMount(){
-    if(typeof(this.props.council) == "undefined") 
-    {
-      return;
-    }
+    if(typeof(this.props.council) == "undefined")   return;
     this.refresh();
   }
 
-  componentDidUpdate(prevProps) {
-    if(typeof(this.props.council) == "undefined") 
-    {
-      return;
-    }
-    if(prevProps.council == this.props.council)
-    {
-      console.log("Not reloading - already set");
-      return;
-    }
+  componentDidUpdate(prevProps) 
+  {
+    if(typeof(this.props.council) == "undefined")   return;
+    if(prevProps.council == this.props.council)     return;
     this.refresh();
   }
   
@@ -73,16 +64,16 @@ export default class ControlPanelCLPCouncil extends Component {
       name: this.state.name,
     }
 
-    let uri = '/council/'+this.props.council.guid;
+    let uri = '/councils/'+this.props.council;
     axios.patch(uri, council).then((response) => {
           //this.props.history.push('/display-item');
+          this.props.onChange();
     });
   }
 
 
   render() 
   {
-
     const neu = {
       backgroundColor: "#E0E5EC" ,
       borderRadius:4,
@@ -98,8 +89,6 @@ export default class ControlPanelCLPCouncil extends Component {
     {
       return(<div></div>);
     }
-    console.log("ControlPanelCLPCouncil - Render");
-    console.log(this.state);
 
     return (
       <div>
@@ -114,9 +103,8 @@ export default class ControlPanelCLPCouncil extends Component {
               </Button>
             </Grid>
             <Grid item xs={12}>
-              <ControlPanelCLPWards council={this.props.council.guid}/>
+              <ControlPanelCLPWards council={this.props.council}/>
             </Grid>
-
           </Grid>
         </form>  
   </div>

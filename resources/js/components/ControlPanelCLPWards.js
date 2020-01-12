@@ -24,21 +24,65 @@ import ControlPannelCLPWard from './ControlPanelCLPWard';
 export default class ControlPanelCLPWards extends Component {
   constructor(props) {
       super(props);
-      this.state = {wards: new Array(), selectedward: '', open:false};
+      this.state = {wards: new Array(), selectedcouncil: '', selectedward: '', open:false, newname: ''};
   }
 
   componentDidMount()
   {
-    //this.refresh();
+    this.refresh();
   }
+
+  componentDidUpdate(prevProps) 
+  {
+    if(typeof(this.props.council)=="undefined")
+    {
+      console.log("Council not defined yet - not loading wards");
+      return;
+    }
+    if(this.props.council=="")
+    {
+      console.log("Council not defined yet - not loading wards");
+      return;
+    }
+    if(this.props.council==this.state.selectedcouncil)
+    {
+      console.log("Council already loaded - not loading wards");
+      return;
+    }
+    this.refresh();
+  }
+
+
+  handleClickOpen()
+  {
+    this.setState({open: true});
+  };
+
+  handleClose()
+  {
+    this.setState({open: false});
+  };
+
+  handleAddWard()
+  {
+    this.setState({open: false});
+    this.addnewward();
+  };
+
+  handleChangeNewName(e)
+  {
+    this.setState({newname: e.target.value});
+  };
 
   refresh()
   {
-    axios.get("/councils/+" + this.props.council + "/wards")
+    console.log("Loading wards...");
+    axios.get("/councils/" + this.props.council + "/wards")
           .then(response => {
             const items = response.data;
             this.setState({ wards: items,
-                            selectedward: items[0] 
+                            selectedward: items[0],
+                            selectedcouncil: this.props.council 
                           });
           })
           .catch(function (error) {
@@ -63,7 +107,7 @@ export default class ControlPanelCLPWards extends Component {
       console.log("Ward already selected.");
       return;
     }
-    this.props.wards.forEach(element => {
+    this.state.wards.forEach(element => {
       if(element.guid==guid)
       {
         this.setState({ selectedward: element });
@@ -73,23 +117,22 @@ export default class ControlPanelCLPWards extends Component {
 
   wardupdated(guid)
   {
+    this.refresh();
   }
 
-  handleClickOpen()
+  addnewward() 
   {
-    this.setState({open: true});
-  };
+    const ward = {
+      council: this.props.council,
+      name: this.state.newname,
+    }
 
-  handleClose()
-  {
-    this.setState({open: false});
-  };
-
-  handleAddWard()
-  {
-    this.setState({open: false});
-  };
-
+    let uri = '/wards';
+    axios.post(uri, ward).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+    });
+  }
 
   render() 
   {
@@ -109,13 +152,15 @@ export default class ControlPanelCLPWards extends Component {
       color: "#90959C" ,
     };
 
-    if(typeof(this.state.selectedward) == "undefined") 
-    {
-      return(<div></div>);
-    }
-
     const open = this.state.open;
 
+    let ward="";
+    if(typeof(this.state.selectedward)!="undefined")
+    {
+      ward = this.state.selectedward.guid;
+    }
+
+    console.log("Rendering ControlPanelCLPWards");
 
     return (
         <div style={neu}>
@@ -128,7 +173,7 @@ export default class ControlPanelCLPWards extends Component {
                     <NavList items={this.state.wards} onSelect={(guid) => this.wardselected(guid)} />
                 </Grid>
                 <Grid item xs={9}>
-                    <ControlPannelCLPWard council={this.props.council} ward={this.state.selectedward.guid} onChange={() => this.wardupdated()} />
+                    <ControlPannelCLPWard council={this.props.council} ward={ward} onChange={() => this.wardupdated()} />
                 </Grid>
             </Grid>
             <Dialog open={open} onClose={()=>{this.handleClose();}} aria-labelledby="form-dialog-title">
@@ -144,7 +189,8 @@ export default class ControlPanelCLPWards extends Component {
                     label="Ward Name"
                     type="text"
                     fullWidth
-                />
+                    onChange={e => this.handleChangeNewName(e)}
+                  />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => {this.handleClose();}} color="primary">
