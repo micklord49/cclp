@@ -2,25 +2,28 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
+//
+//  Material UI Controls
 import Grid from '@material-ui/core/Grid';
-
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+//
+//  Icons
 import StarIcon from '@material-ui/icons/Star';
 import StarOutlineIcon from '@material-ui/icons/StarBorder';
 
-import ControlPannelECRole from './ControlPanelCLPECRole';
+//
+//  CCLP Components
+import ControlPanelCLPECRole from './ControlPanelCLPECRole';
 
 export default class ControlPanelCLPEC extends Component {
   constructor(props) {
       super(props);
       this.state = {roles: new Array(), selectedrole: ''};
-      this.selectRole = this.selectRole.bind(this);
+      //this.selectRole = this.selectRole.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -34,7 +37,6 @@ export default class ControlPanelCLPEC extends Component {
     }
   }
 
-
   componentDidMount(){
     axios.get("/ec/1/edit")
     .then(response => {
@@ -45,7 +47,6 @@ export default class ControlPanelCLPEC extends Component {
       console.log(error);
     })
   }
-
 
   handleSubmit(event) 
   {
@@ -112,7 +113,7 @@ export default class ControlPanelCLPEC extends Component {
           </List>
         </Grid>
         <Grid item xs={9}>
-          <ControlPannelECRole role={this.state.selectedrole} onChange={() => this.rolechanged()} />
+          <ControlPanelCLPECRole role={this.state.selectedrole} onChange={() => this.rolechanged()} />
         </Grid>
     </Grid>
     );

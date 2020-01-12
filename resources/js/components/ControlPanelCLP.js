@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 
+
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -16,6 +17,7 @@ import MembershipIcon from '@material-ui/icons/CardMembership';
 
 import ControlPanelCLPHome from './ControlPanelCLPHome';
 import ControlPanelCLPSocial from './ControlPanelCLPSocial';
+import ControlPanelCLPCouncils from './ControlPanelCLPCouncils';
 
 
 
@@ -89,7 +91,7 @@ export default function SimpleTabs() {
         <ControlPanelCLPSocial />
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={2}>
-        Wards
+        <ControlPanelCLPCouncils />
       </TabPanel>
       <TabPanel value={value} index={3}>
         Branches

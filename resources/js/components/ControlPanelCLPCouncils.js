@@ -5,10 +5,15 @@ import axios from 'axios';
 //
 //  Library Components
 import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import AddIcon from '@material-ui/icons/Add';
 
 //
 //  Icons
@@ -17,87 +22,82 @@ import StarOutlineIcon from '@material-ui/icons/StarBorder';
 
 //
 //  CCLP Components
-import ControlPannelECRole from './ControlPanelCLPECRole';
+import NavList from './NavList';
+import ControlPannelCLPCouncil from './ControlPanelCLPCouncil';
 
 
-export default class ControlPanelCounsils extends Component {
+export default class ControlPanelCLPCouncils extends Component {
   constructor(props) {
       super(props);
-      this.state = {roles: new Array(), selectedrole: ''};
-      this.selectRole = this.selectRole.bind(this);
-      //this.handleSubmit = this.handleSubmit.bind(this);
+      this.state = {councils: new Array(), selectedcouncil: '', open: false};
   }
 
-  selectCouncil(r){
-    for(let i=0;i<this.state.roles.length;i++)
-    {
-      if(this.state.councils[i].guid == r)  
-      {
-        this.setState({ selectedcouncil: this.state.councils[i] });
-      }
-    }
-  }
-
-
-  componentDidMount(){
-    axios.get("/ec/1/edit")
-    .then(response => {
-      this.setState({  councils: response.data.councils});
-      this.setState({  selectedrole: response.data.councils[0] });
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
-
-
-  handleSubmit(event) 
+  componentDidMount()
   {
-    event.preventDefault();
+    this.refresh();
+  }
 
-    const clp = {
-      type: 'INFO',
-      name: this.state.name,
-      description: this.state.description,
-      dn: this.state.dn,
-      phone: this.state.phone,
-      email: this.state.email
+  handleClickOpen()
+  {
+    this.setState({open: true});
+  };
+
+  handleClose()
+  {
+    this.setState({open: false});
+  };
+
+  handleAddCouncil()
+  {
+    this.setState({open: false});
+  };
+
+
+  refresh()
+  {
+    axios.get("/councils/dir/all")
+          .then(response => {
+            const items = response.data;
+            this.setState({ councils: items,
+                            selectedcouncil: items[0] 
+                          });
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+  }
+
+  councilselected(guid)
+  {
+    if(typeof(guid)=="undefined")
+    {
+      console.log("Council not defined yet");
+      return;
     }
-
-    let uri = '/clp/1';
-    axios.patch(uri, clp).then((response) => {
-          //this.props.history.push('/display-item');
+    if(typeof(this.state.selectedcouncil)=="undefined")
+    {
+      console.log("My council not set");
+      return;
+    }
+    if(this.state.selectedcouncil.guid==guid) 
+    {
+      console.log("Council already selected.");
+      return;
+    }
+    this.props.councils.forEach(element => {
+      if(element.guid==guid)
+      {
+        this.setState({ selectedcouncil: element });
+      }
     });
   }
 
-
-  councilchanged()
+  councilupdated(guid)
   {
-    console.log("ControlPanelEC - role changes");
-    axios.get("/ec/1/edit")
-    .then(response => {
-      this.setState({  roles: response.data.roles });
-      this.selectRole(this.state.selectedrole.guid);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
   }
 
   render() 
   {
-    let listitems = "";
-    if(this.state.councils != null)
-    {
-      listitems = this.state.councils.map((item,key) =>
-            <ListItem key={item.guid} button onClick={() => this.selectCouncil(item.guid)}>
-              <ListItemIcon>
-              {item.mandatory == 1 ? <StarIcon /> : <StarOutlineIcon />}
-              </ListItemIcon>
-              <ListItemText primary={item.description} />
-            </ListItem>
-      );
-    }
     
     const neu = {
       backgroundColor: "#E0E5EC" ,
@@ -108,17 +108,44 @@ export default class ControlPanelCounsils extends Component {
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
+    const open = this.state.open;
+
     return (
+      <div>
       <Grid container spacing={3}>
         <Grid item xs={3}>
-          <List component="nav" style={neu} aria-label="Councils">
-            {listitems}
-          </List>
+          <Button startIcon={<AddIcon />} onClick={() => {this.handleClickOpen();}} color="primary">Add New Council</Button>
+          <NavList items={this.state.councils} onSelect={(guid) => this.councilselected(guid)} />
         </Grid>
         <Grid item xs={9}>
-          <ControlPannelECRole role={this.state.selectedrole} onChange={() => this.rolechanged()} />
+          <ControlPannelCLPCouncil council={this.state.selectedcouncil.guid} onChange={() => this.councilupdated()} />
         </Grid>
-    </Grid>
+      </Grid>
+      <Dialog open={open} onClose={()=>{this.handleClose();}} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Add new Council</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+                Add a new council to your CLP. This shold be a local government council in your CLP as defined by the electoral commission.
+            </DialogContentText>
+            <TextField
+                autoFocus
+                margin="dense"
+                id="wardname"
+                label="Council Name"
+                type="text"
+                fullWidth
+            />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => {this.handleClose();}} color="primary">
+                    Cancel
+                </Button>
+                <Button onClick={() => {this.handleAddCouncil();}} color="primary">
+                    Add
+                </Button>
+            </DialogActions>
+        </Dialog>
+        </div>
     );
   }
 }

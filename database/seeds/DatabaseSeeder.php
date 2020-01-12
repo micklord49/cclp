@@ -14,6 +14,7 @@ use App\ClpRoleuser;
 use App\User;
 use App\Branch;
 use App\Helptext;
+use App\Council;
 
 class DatabaseSeeder extends Seeder
 {
@@ -90,7 +91,7 @@ class CouncilTableSeeder extends Seeder
     {
         DB::table('councils')->delete();
 
-        Cclp::create(array(
+        Council::create(array(
             'clp' => $guids["CLP"],
             'guid' => $guids["COUNCIL"],
             'name' => 'My local council',

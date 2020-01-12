@@ -29,8 +29,14 @@ Route::resource('profile', 'ProfileController');
 Route::resource('ec', 'ECController');
 Route::resource('people', 'PeopleController');
 Route::resource('userdir', 'UserdirController');
+Route::resource('councils', 'CouncilsController');
+
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');
+
 Route::get('ec/{role}/{user}/adduser', 'ECController@addroleuser');
 Route::get('ec/{role}/{user}/removeuser', 'ECController@removeroleuser');
+
+Route::get('councils/dir/all', 'CouncilsController@dir');
+Route::get('councils/{council}/wards', 'CouncilsController@wards');
 
 
