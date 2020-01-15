@@ -13,3 +13,7 @@ require('./bootstrap');
  
 require('./components/Main');
 */
+
+require ('./plugins/nouislider.min.js');
+require ('./material-kit.min.js?v=2.0.6');
+

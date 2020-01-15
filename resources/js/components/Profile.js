@@ -15,10 +15,11 @@ import HomeIcon from '@material-ui/icons/Home';
 import GavelIcon from '@material-ui/icons/Gavel';
 import FaceIcon from '@material-ui/icons/Face';
 import MembershipIcon from '@material-ui/icons/CardMembership';
-import PeopleIcon from '@material-ui/icons/People';
+import CameraIcon from '@material-ui/icons/Camera';
 import PersonIcon from '@material-ui/icons/Person';
 
 import ProfileInfo from './ProfileInfo';
+import ProfilePicture from './ProfilePicture';
 import ProfileSocialMedia from './ProfileSocialMedia';
 
 function TabPanel(props) {
@@ -66,22 +67,35 @@ export default function SimpleTabs() {
     setValue(newValue);
   };
 
+  const tabStyle = {
+    backgroundColor: "#A0A5AC" 
+  };
+
+  const tabpageStyle = {
+    backgroundColor: "#E0E5EC" 
+  };
+
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+        <Tabs style={tabStyle} value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Personal Information" icon={<FaceIcon />}  {...a11yProps(0)} />
+          <Tab label="Profile Picture" icon={<CameraIcon />}  {...a11yProps(0)} />
           <Tab label="Social Media" icon={<MembershipIcon />} {...a11yProps(1)} />
           <Tab label="Membership" icon={<MembershipIcon />} {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel style={tabpageStyle} value={value} index={0}>
         <ProfileInfo />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel style={tabpageStyle} value={value} index={1}>
+        <ProfilePicture />
+      </TabPanel>
+      <TabPanel style={tabpageStyle} value={value} index={2}>
         <ProfileSocialMedia />
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel style={tabpageStyle} value={value} index={3}>
         Membership
       </TabPanel>
     </div>

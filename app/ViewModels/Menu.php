@@ -14,6 +14,7 @@ class Menu
 
     public $Menu = [];
     public $Class = "";
+    public $Extra = "";
 
     public function __construct($clpGuid)
     {
@@ -22,15 +23,16 @@ class Menu
 
         $this->Menu = [ new MenuItem("Home","/",true) ];
 
-        $this->Class = "navbar-light bg-light";
+        $this->Class = "navbar-light bg-light ";
+        //$this->Extra = 'color-on-scroll=50';
 
         switch($siteType)
         {
             case "CLP":
-                $peopleMenu = new MenuItem("People","/people",true);
-                $peopleMenu->AddSubMenu($this->ECMenu($clpGuid));
-                $peopleMenu->AddSubMenu($this->CouncilorsMenu($clpGuid));
-                array_push($this->Menu , $peopleMenu);
+                //$peopleMenu = new MenuItem("People","/people",true);
+                //$peopleMenu->AddSubMenu($this->ECMenu($clpGuid));
+                //$peopleMenu->AddSubMenu($this->CouncilorsMenu($clpGuid));
+                //array_push($this->Menu , $peopleMenu);
                 array_push($this->Menu , new MenuItem("Contact","/contact",true));
                 array_push($this->Menu , $this->AccountMenu());
         }

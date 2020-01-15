@@ -122,19 +122,34 @@ export default class ProfileInfo extends Component {
   render() 
   {
 
+    const neu = {
+      backgroundColor: "#E0E5EC" ,
+      borderRadius:4,
+      marginLeft: "auto",
+      marginRight: "auto",
+      marginTop:10,
+      paddingBottom:16,
+      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+    };
+
     return (
+      <div style={neu}>
     <form noValidate autoComplete="off" onSubmit={this.handleSubmit} >
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField id="info-user" value={this.state.email} label="User Login (you cannot change this)" 
-            InputProps={{
-                readOnly: true,
-            }} onChange={this.handleChangeName} helperText="This is the email address you created your account with"/>
+      <Grid style={{paddingLeft: 10},{paddingRight: 20}} container spacing={2}>
+        <Grid item xs={6}>
+          <Grid container>
+            <Grid item xs={12}>
+                <TextField id="info-user" value={this.state.email} label="User Login (you cannot change this)" 
+                InputProps={{
+                    readOnly: true,
+                }} onChange={this.handleChangeName} helperText="This is the email address you created your account with"/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField id="info-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is your full name as you wish it to appear to other users."/>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <TextField id="info-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is your full name as you wish it to appear to other users."/>
-        </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField id="info-about" value={this.state.about} label="About Me" onChange={this.handleChangeAbout} fullWidth multiline rows="4" rowsMax="6"/>
         </Grid>
         <Grid item xs={12}>
@@ -195,6 +210,6 @@ export default class ProfileInfo extends Component {
         </Grid>
       </Grid>
     </form>  
-    );
+    </div>    );
   }
 }

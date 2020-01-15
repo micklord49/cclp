@@ -35,12 +35,12 @@ class ClpSettings
                 }
                 else
                 {
-                    $clpGuid = $clps[0]['guid'];
+                    $clpGuid = $clps[0]->guid;
                 }
             }
             else
             {
-                $clpGuid = $clps[0]['guid'];
+                $clpGuid = $clps[0]->guid;
             }
         }
         else

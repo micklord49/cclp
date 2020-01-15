@@ -106,7 +106,7 @@ export default class ControlPanelCLPHome extends Component {
     };
 
     return (
-      <div>
+      <div style={neu}>
         <HelpText name='clp.role' style="neu"/>      
         <form style={neu} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
           <Grid style={{paddingLeft: 10}} container spacing={3}>

@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-lg {{$Data->menu->Class}} fixed-top">
-    <a class="navbar-brand" href="#"><img src="/images/cclp.png"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+<nav class="navbar navbar-expand-lg {{$Data->menu->Class}} fixed-top" {{$Data->menu->Extra}}>
+        <a class="navbar-brand" href="#"><img src="/images/cclp.png"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 @foreach($Data->menu->Menu as $menu)
                     @if(isset($menu->SubItems))
@@ -39,5 +39,5 @@
                     @endif
                 @endforeach
             </ul>
-    </div>
+        </div>
 </nav>
