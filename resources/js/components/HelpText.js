@@ -65,8 +65,8 @@ export default class HelpText extends Component {
       const neu = {
         backgroundColor: "#E0E5EC" ,
         borderRadius:4,
-        marginLeft: "auto",
-        marginRight: "auto",
+        marginLeft: 20,
+        marginRight: 20,
         marginTop:10,
         paddingLeft:4,
         paddingRight:10,
@@ -103,21 +103,28 @@ export default class HelpText extends Component {
     const head = this.state.heading;
     const text = this.state.text;
 
-    const neu = {
-      backgroundColor: "#E0E5EC" ,
-      borderRadius:4,
+    const helpcontrolstyle = {
       marginLeft: "auto",
       marginRight: "auto",
       marginTop:10,
       marginBottom:10,
+      paddingTop:10,
+      paddingBottom:16,
+    };
+
+
+    const helpheadingstyle = {
+      marginLeft: "auto",
+      marginRight: "auto",
+      marginTop:10,
+      marginBottom:10,
+      paddingTop:10,
       paddingBottom:16,
       paddingLeft:10,
       paddingRight:10,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     const helptextstyle = {
-      backgroundColor: "#E0E5EC" ,
       marginTop:5,
       textSize:".8em",
       paddingBottom:16,
@@ -130,13 +137,13 @@ export default class HelpText extends Component {
     morecontrol = this.moretextcontrol();
 
     return (
-        <Paper style={neu}>
-            <h3>
+        <div style={helpcontrolstyle}>
+            <h3 style={helpheadingstyle}>
             <div dangerouslySetInnerHTML={{__html: head}} />
             </h3>
             <div style={helptextstyle} dangerouslySetInnerHTML={{__html: text}} />
             {morecontrol}
-        </Paper>
+        </div>
     );
   }
 }

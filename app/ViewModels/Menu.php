@@ -23,8 +23,6 @@ class Menu
 
         $this->Menu = [ new MenuItem("Home","/",true) ];
 
-        $this->Class = "navbar-light bg-light ";
-        //$this->Extra = 'color-on-scroll=50';
 
         switch($siteType)
         {
@@ -46,7 +44,7 @@ class Menu
         {
             $this->Class = "navbar-dark bg-dark";
 
-            $menu->AddSubMenu(new MenuItem("Edit Profile","/profile",true));
+            $menu->AddSubMenu(new MenuItem("Edit Profile","/profile/".auth()->user()->guid,true));
 
             if(auth()->user()->can('Edit CLP'))
             {
@@ -58,6 +56,9 @@ class Menu
         }
         else
         {
+            $this->Class = "navbar-light navbar-transparent navbar-color-on-scroll";
+            $this->Extra = 'color-on-scroll=100';
+
             $menu->AddSubMenu(new MenuItem("Login","/login",true));
             $menu->AddSubMenu(new MenuItem("Register","/register",true));
         }

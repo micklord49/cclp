@@ -11,7 +11,10 @@ try {
     $ = window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-
+    require('bootstrap-material-design');
+    require ('./plugins/nouislider.min.js');
+    require ('./material-kit.min.js?v=2.0.6');
+    
 } catch (e) {}
 
 /**

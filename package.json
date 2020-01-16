@@ -33,7 +33,9 @@
         "date-fns": "^2.8.1",
         "material-components-web": "^4.0.0",
         "material-table": "^1.54.2",
+        "medium-editor": "^5.23.3",
         "react-feather": "^2.0.3",
-        "react-icons": "^3.8.0"
+        "react-icons": "^3.8.0",
+        "react-medium-editor": "^1.8.1"
     }
 }

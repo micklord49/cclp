@@ -103,7 +103,7 @@ class WardsController extends Controller
         $newimage = uniqid("IMG");
         $owner = request()->owner;
 
-        $path = request()->file('image')->store('images')
+        $path = request()->file('image')->store('images');
 
         Image::create(array(
             'guid' => $newimage,

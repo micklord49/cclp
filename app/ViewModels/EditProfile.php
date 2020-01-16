@@ -20,13 +20,17 @@ class EditProfile extends Model
 
     public $roles;
 
-    public function __construct()
+    public function __construct($guid=null)
     {
-        $clpGuid = config('appsettings.clpGUID');
-        $this->guid = $clpGuid;
-        $this->menu = new Menu($clpGuid);
-
-
-
+        if($guid==null)
+        {
+            $clpGuid = config('appsettings.clpGUID');
+            $this->guid = $clpGuid;
+        }
+        else
+        {
+            $this->guid = $guid;
+        }
+        $this->menu = new Menu($this->guid);
     }
 }

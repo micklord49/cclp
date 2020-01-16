@@ -102,13 +102,14 @@ export default class ControlPanelCLPHome extends Component {
       marginRight: "auto",
       marginTop:10,
       paddingBottom:16,
+      paddingRight:20,
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     return (
       <div style={neu}>
         <HelpText name='clp.role' style="neu"/>      
-        <form style={neu} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+        <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
           <Grid style={{paddingLeft: 10}} container spacing={3}>
             <Grid item xs={12}>
               <TextField id="clp-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is normally the name of your constituency"/>

@@ -31,13 +31,19 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
+require('medium-editor/dist/css/medium-editor.css');
+require('medium-editor/dist/css/themes/default.css');
+
+// ES module
+import Editor from 'react-medium-editor';
+
+
 
 export default class ProfileInfo extends Component {
   constructor(props) {
       super(props);
       this.state = {email: '', name: '', about: '', birthdate: '01/01/1970', hidebirthdate: true, telephone: '', publicemail: ''};
       this.handleChangeName = this.handleChangeName.bind(this);
-      this.handleChangeAbout = this.handleChangeAbout.bind(this);
       this.handleChangeBirthdate = this.handleChangeBirthdate.bind(this);
       this.handleChangeHideBirthdate = this.handleChangeHideBirthdate.bind(this);
       this.handleChangeTelephone = this.handleChangeTelephone.bind(this);
@@ -65,9 +71,9 @@ export default class ProfileInfo extends Component {
 
   
   
-  handleChangeAbout(e){
+  handleChangeAbout(text,medium){
     this.setState({
-      about: e.target.value
+      about: text
     })
   }
   handleChangeTelephone(e){
@@ -82,7 +88,7 @@ export default class ProfileInfo extends Component {
   }
  
   componentDidMount(){
-    axios.get("/profile/1/edit")
+    axios.get("/profile/"+this.props.guid+"/edit")
       .then(response => {
         this.setState({ email: response.data.email, 
                         name: response.data.name, 
@@ -112,7 +118,7 @@ export default class ProfileInfo extends Component {
       publicemail: this.state.publicemail
     }
 
-    let uri = 'http://localhost/profile/1';
+    let uri = 'http://localhost/profile/'+this.props.guid;
     axios.patch(uri, user).then((response) => {
           //this.props.history.push('/display-item');
     });
@@ -129,13 +135,20 @@ export default class ProfileInfo extends Component {
       marginRight: "auto",
       marginTop:10,
       paddingBottom:16,
+      paddingLeft:10,
+      paddingRight: 20,
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     return (
       <div style={neu}>
     <form noValidate autoComplete="off" onSubmit={this.handleSubmit} >
-      <Grid style={{paddingLeft: 10},{paddingRight: 20}} container spacing={2}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+            <Button color="primary" type="submit">
+                <SaveIcon />Save
+            </Button>
+        </Grid>
         <Grid item xs={6}>
           <Grid container>
             <Grid item xs={12}>
@@ -147,37 +160,48 @@ export default class ProfileInfo extends Component {
             <Grid item xs={12}>
               <TextField id="info-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is your full name as you wish it to appear to other users."/>
             </Grid>
+            <Grid item xs={12}>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  margin="normal"
+                  id="info-birthdate"
+                  label="Birthdate"
+                  format="dd/MM/yyyy"
+                  value={this.state.birthdate}
+                  onChange={this.handleChangeBirthdate}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.hidebirthdate}
+                    onChange={this.handleChangeHideBirthdate}
+                    value="true"
+                    color="primary"
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                    />
+                  }
+                label="Hide your birthdate"
+              />
+            </Grid>
           </Grid>
         </Grid>
         <Grid item xs={6}>
-          <TextField id="info-about" value={this.state.about} label="About Me" onChange={this.handleChangeAbout} fullWidth multiline rows="4" rowsMax="6"/>
+          <h4>Tell the world about yourself</h4>
+          <div style={{backgroundColor:"#ffffff", minHeight:300}}>
+            <Editor 
+                id="info-about" 
+                text={this.state.about} 
+                onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
+                options={{ placeholder: false}}            />
+          </div>
         </Grid>
         <Grid item xs={12}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              margin="normal"
-              id="info-birthdate"
-              label="Birthdate"
-              format="dd/MM/yyyy"
-              value={this.state.birthdate}
-              onChange={this.handleChangeBirthdate}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-              />
-            </MuiPickersUtilsProvider>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={this.state.hidebirthdate}
-                  onChange={this.handleChangeHideBirthdate}
-                  value="true"
-                  color="primary"
-                  inputProps={{ 'aria-label': 'primary checkbox' }}
-                  />
-                }
-              label="Hide your birthdate"
-            />
         </Grid>
         <Grid item xs={12}>
         <FormControl >
@@ -202,11 +226,6 @@ export default class ProfileInfo extends Component {
               endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
             />
           </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-            <Button color="primary" type="submit">
-                <SaveIcon />Save
-            </Button>
         </Grid>
       </Grid>
     </form>  

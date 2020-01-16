@@ -30,6 +30,18 @@ class ProfileController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        if(Auth::check())
+        {
+            $data = new EditProfile($id);
+            return view('profile',['Data' => $data]);
+        }
+
+        abort(404);
+    }
+
+
     public function edit($id)
     {
         if(Auth::check())
@@ -51,7 +63,7 @@ class ProfileController extends Controller
         }
 
         $clpGuid = config('appsettings.clpGUID');
-        $user = User::where('guid',$clpGuid)->first();
+        $user = User::where('guid',$id)->first();
 
         switch($request->type)
         {
