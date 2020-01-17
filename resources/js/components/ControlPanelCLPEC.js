@@ -61,7 +61,7 @@ export default class ControlPanelCLPEC extends Component {
       email: this.state.email
     }
 
-    let uri = 'http://localhost/clp/1';
+    let uri = '/clp/1';
     axios.patch(uri, clp).then((response) => {
           //this.props.history.push('/display-item');
     });

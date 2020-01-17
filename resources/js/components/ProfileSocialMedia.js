@@ -92,7 +92,7 @@ export default class ProfileSocialMedia extends Component {
       tumblr: this.state.tumblr
     }
 
-    let uri = 'http://localhost/user/1';
+    let uri = '/user/1';
     axios.patch(uri, user).then((response) => {
           //this.props.history.push('/display-item');
     });

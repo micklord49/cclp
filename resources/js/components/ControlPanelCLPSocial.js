@@ -92,7 +92,7 @@ export default class ControlPanelCLPSocial extends Component {
       tumblr: this.state.tumblr
     }
 
-    let uri = 'http://localhost/clp/1';
+    let uri = '/clp/1';
     axios.patch(uri, clp).then((response) => {
           //this.props.history.push('/display-item');
     });

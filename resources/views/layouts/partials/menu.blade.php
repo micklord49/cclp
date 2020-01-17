@@ -8,14 +8,14 @@
                 @foreach($Data->menu->Menu as $menu)
                     @if(isset($menu->SubItems))
                         <li class="nav-item dropdown" >
-                            <a href="#" class="nav-link dropdown-toggle" id="menu{{$menu->jsid}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a href="#" class="nav-link dropdown-toggle" id="menu{{$menu->jsid}}" data-disabled="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ $menu->Title }}
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="menu{{$menu->jsid}}">
+                            <div id="{{$menu->jsid}}" class="dropdown-menu" aria-labelledby="menu{{$menu->jsid}}">
                             @foreach($menu->SubItems as $sub)
                                 @isset($sub->Title)
                                     @if(isset($sub->SubItems))
-                                            <a href="#" class="dropdown-item dropdown-toggle" id="menu{{$sub->jsid}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <a href="#" class="dropdown-item dropdown-toggle" id="menu{{$sub->jsid}}" data-toggle="dropdown" data-target="#menu{{$menu->jsid}}" aria-haspopup="true" aria-expanded="false">
                                                 {{ $sub->Title }}
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="menu{{$sub->jsid}}">
@@ -41,3 +41,4 @@
             </ul>
         </div>
 </nav>
+

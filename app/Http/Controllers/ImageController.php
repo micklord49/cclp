@@ -13,7 +13,7 @@ use Spatie\Permission\Models\Permission;
 use App\Image;
 
 
-class WardsController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -93,7 +93,6 @@ class WardsController extends Controller
     }
 
     public function imageUploadPost()
-
     {
 
         request()->validate([
@@ -105,12 +104,10 @@ class WardsController extends Controller
 
         $path = request()->file('image')->store('images');
 
-        Image::create(array(
-            'guid' => $newimage,
-            'owner' => $owner,
-            'path' => $path
-        ));
-
+        Image::create(array('guid' => $newimage,
+        'owner' => $owner,
+        'path' => $path));
+        
         return back()
             ->with('success','You have successfully upload image.')
            ->with('image',$imageName);
@@ -118,7 +115,7 @@ class WardsController extends Controller
 
     public function get($owner)
     {
-            
+
     }
 
 

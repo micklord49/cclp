@@ -26,25 +26,24 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $guids = array(
-            "CLP" => uniqid(),
+            "CLP" => uniqid("CLP"),
 
-            "ADMINUSER" => uniqid(),
+            "ADMINUSER" => uniqid("USR"),
 
-            "COUNCIL" => uniqid(),
-            "COUNCIL" => uniqid(),
+            "COUNCIL" => uniqid("CNC"),
 
-            "CHAIR" => uniqid(),
-            "SECRETARY" => uniqid(),
-            "TREASURER" => uniqid(),
-            "POLICY" => uniqid(),
-            "WOMENS" => uniqid(),
-            "CAMPAIGNS" => uniqid(),
-            "MEMBERSHIP" => uniqid(),
-            "DIGITAL" => uniqid(),
+            "CHAIR" => uniqid("ROL"),
+            "SECRETARY" => uniqid("ROL"),
+            "TREASURER" => uniqid("ROL"),
+            "POLICY" => uniqid("ROL"),
+            "WOMENS" => uniqid("ROL"),
+            "CAMPAIGNS" => uniqid("ROL"),
+            "MEMBERSHIP" => uniqid("ROL"),
+            "DIGITAL" => uniqid("ROL"),
 
             // TEST DATA
-            "USER1" => uniqid(),
-            "USER2" => uniqid(),
+            "USER1" => uniqid("USR"),
+            "USER2" => uniqid("USR"),
         );
 
         $this->call(UserTableSeeder::class,$guids);
@@ -244,7 +243,7 @@ class BranchTableSeeder extends Seeder {
         DB::table('branches')->delete();
 
         Branch::create(array(
-            'guid' => uniqid(),
+            'guid' => uniqid("BRC"),
             'clp' => $guids["CLP"],
             'name' => 'First Branch',
         ));

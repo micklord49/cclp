@@ -112,7 +112,7 @@ export default class ProfileInfo extends Component {
       publicemail: this.state.publicemail
     }
 
-    let uri = 'http://localhost/profile/1';
+    let uri = '/profile/1';
     axios.patch(uri, user).then((response) => {
           //this.props.history.push('/display-item');
     });
