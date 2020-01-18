@@ -25,76 +25,46 @@ import SaveIcon from '@material-ui/icons/Save';
 import MailIcon from '@material-ui/icons/Mail';
 import PhoneIcon from '@material-ui/icons/Phone';
 
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css'; 
+
+const cropper = React.createRef(null);
+
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
+import Dropzone from 'react-dropzone';
+
 
 export default class ProfileInfo extends Component {
   constructor(props) {
       super(props);
-      this.state = {email: '', name: '', about: '', birthdate: '01/01/1970', hidebirthdate: true, telephone: '', publicemail: ''};
-      this.handleChangeName = this.handleChangeName.bind(this);
-      this.handleChangeAbout = this.handleChangeAbout.bind(this);
-      this.handleChangeBirthdate = this.handleChangeBirthdate.bind(this);
-      this.handleChangeHideBirthdate = this.handleChangeHideBirthdate.bind(this);
-      this.handleChangeTelephone = this.handleChangeTelephone.bind(this);
-      this.handleChangePublicEmail = this.handleChangePublicEmail.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
+      this.state = {imagefile: "", canedit: false, canchange: true};
+      //this.handleChangeAbout = this.handleChangeAbout.bind(this);
+      //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeName(e){
-    this.setState({
-      name: e.target.value
-    })
-  }
-  
-  handleChangeBirthdate(e){
-    this.setState({
-      birthdate: e.target.value
-    })
-  }
-
-  handleChangeHideBirthdate(e){
-    this.setState({
-      hidebirthdate: e.target.checked
-    })
-  }
-
-  
-  
   handleChangeAbout(e){
     this.setState({
       about: e.target.value
     })
   }
-  handleChangeTelephone(e){
-    this.setState({
-      telephone: e.target.value
-    })
-  }
-  handleChangePublicEmail(e){
-    this.setState({
-      publicemail: e.target.value
-    })
-  }
- 
+  
   componentDidMount(){
-    axios.get("/profile/1/edit")
+    axios.get("/profile/"+this.props.guid+"/imagefile")
       .then(response => {
-        this.setState({ email: response.data.email, 
-                        name: response.data.name, 
-                        about: response.data.about, 
-                        birthdate: response.data.birthdate, 
-                        hidebirthdate: response.data.birthdate==1, 
-                        telephone: response.data.telephone, 
-                        publicemail: response.data.publicemail });
+        this.setState({ imagefile: response.data.filename, 
+                        canedit: response.data.canedit, 
+                        canchange: response.data.canchange, 
+                         });
       })
       .catch(function (error) {
         console.log(error);
       })
+
   }
 
 
@@ -118,6 +88,10 @@ export default class ProfileInfo extends Component {
     });
   }
 
+  _crop(){
+    // image in dataUrl
+    console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
+  }
 
   render() 
   {
@@ -129,11 +103,54 @@ export default class ProfileInfo extends Component {
       marginRight: "auto",
       marginTop:10,
       paddingBottom:16,
+      paddingTop:10,
+      paddingLeft:10,
+      paddingRight:20,
+      paddingBottom:20,
+      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+    };
+
+    const dandd = {
+      backgroundColor: "#E0E5EC" ,
+      borderRadius:4,
+      marginLeft: 20,
+      marginRight: "auto",
+      marginTop:10,
+      paddingBottom:16,
+      paddingTop:20,
+      paddingLeft:10,
+      paddingRight:20,
+      paddingBottom:20,
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     return (
       <div style={neu}>
+        <Grid container>
+          <Grid item xs={6}>
+            <Cropper
+                    ref={cropper}
+                    src={this.state.imagefile}
+                    style={{height: 400, width: '100%', backgroundColor: "#ffffff"}}
+                    // Cropper.js options
+                    aspectRatio={16 / 9}
+                    guides={false}
+                    crop={this._crop.bind(this)} 
+              />
+          </Grid>
+          <Grid item xs={6}>
+            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+              {({getRootProps, getInputProps}) => (
+                <section>
+                  <div {...getRootProps()} style={dandd}>
+                    <input {...getInputProps()} />
+                    <p>Drag and drop your profile here, or click to select file</p>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
+          </Grid>
+        </Grid>
       </div>);
   }
 }

@@ -34,6 +34,8 @@
         "material-components-web": "^4.0.0",
         "material-table": "^1.54.2",
         "medium-editor": "^5.23.3",
+        "react-cropper": "^1.3.0",
+        "react-dropzone": "^10.2.1",
         "react-feather": "^2.0.3",
         "react-icons": "^3.8.0",
         "react-medium-editor": "^1.8.1"

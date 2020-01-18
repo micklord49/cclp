@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" style="padding-top:80px;">
-    <div class="row justify-content-center">
+<div class="container" style="background-position: center center; background-size: cover; background-image: url('/images/login.jpg');">
+    <div class="row justify-content-center" style="padding-top:80px;">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header card-header-primary text-center">

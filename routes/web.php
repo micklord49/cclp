@@ -45,4 +45,7 @@ Route::get('councillors/dir/all', 'CouncillorController@dir');
 Route::get('councillors/{user}/adduser', 'CouncillorController@adduser');
 Route::get('councillors/{user}/removeuser', 'CouncillorController@removeuser');
 
+Route::get('profile/{user}/imagefile', 'ProfileController@imagefile');
+
+
 Route::get('logout', 'Auth\LoginController@logout');

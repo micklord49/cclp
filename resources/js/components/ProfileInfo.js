@@ -189,6 +189,30 @@ export default class ProfileInfo extends Component {
                 label="Hide your birthdate"
               />
             </Grid>
+            <Grid item xs={12}>
+              <FormControl >
+                  <InputLabel htmlFor="info-telephone">Telephone Number</InputLabel>
+                  <Input
+                    id="info-telephone"
+                    type='text'
+                    value={this.state.telephone}
+                    onChange={this.handleChangeTelephone}
+                    endAdornment={<InputAdornment position="end"><PhoneIcon /></InputAdornment>}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl >
+                  <InputLabel htmlFor="info-publicemail">Public Email</InputLabel>
+                  <Input
+                    id="info-publicemail"
+                    type='text'
+                    value={this.state.publicemail}
+                    onChange={this.handleChangePublicEmail}
+                    endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
+                  />
+                </FormControl>
+            </Grid>
           </Grid>
         </Grid>
         <Grid item xs={6}>
@@ -200,32 +224,6 @@ export default class ProfileInfo extends Component {
                 onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
                 options={{ placeholder: false}}            />
           </div>
-        </Grid>
-        <Grid item xs={12}>
-        </Grid>
-        <Grid item xs={12}>
-        <FormControl >
-            <InputLabel htmlFor="info-telephone">Telephone Number</InputLabel>
-            <Input
-              id="info-telephone"
-              type='text'
-              value={this.state.telephone}
-              onChange={this.handleChangeTelephone}
-              endAdornment={<InputAdornment position="end"><PhoneIcon /></InputAdornment>}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl >
-            <InputLabel htmlFor="info-publicemail">Public Email</InputLabel>
-            <Input
-              id="info-publicemail"
-              type='text'
-              value={this.state.publicemail}
-              onChange={this.handleChangePublicEmail}
-              endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
-            />
-          </FormControl>
         </Grid>
       </Grid>
     </form>  

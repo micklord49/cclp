@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use App\ViewModels\EditProfile;
+use App\ViewModels\ImageFile;
 use App\User;
 
 
@@ -88,5 +89,51 @@ class ProfileController extends Controller
 
 
     }
+
+    public function imagefile($id)
+    {
+        if(Auth::check())
+        {
+            $user = auth()->user();
+        }
+        else {
+            abort(404);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+        $image = new ImageFile($id);
+        if($image->filename=="")
+        {
+            $image->filename="/images/defaultuser.png";
+        }
+        else
+        {
+            $image->canedit = true;
+        }
+        $image->canchange = true;
+        return $image;
+    }
+
+    public function changeimage()
+    {
+
+        request()->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $newimage = uniqid("IMG");
+        $owner = request()->owner;
+
+        $path = request()->file('image')->store('images');
+
+        Image::create(array('guid' => $newimage,
+        'owner' => $owner,
+        'path' => $path));
+        
+        return back()
+            ->with('success','You have successfully upload image.')
+           ->with('image',$imageName);
+    }
+
 
 }
