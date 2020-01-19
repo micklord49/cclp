@@ -4,8 +4,9 @@ namespace App\ViewModels;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
-use App\Clprole;
+use App\Image;
 
 class ImageFile extends Model
 {
@@ -41,16 +42,18 @@ class ImageFile extends Model
     public function __construct($owner)
     {
         $clpGuid = config('appsettings.clpGUID');
-        $clps = DB::select('select * from images where owner=?',[$owner]);
-        if(count($clps) == 0)
+        Log::debug("Retreiving image for owner ".$owner);
+        $images = Image::where('owner',$owner)->get();
+        if(count($images) == 0)
         {
+            Log::debug("No record found ");
             $this->filename = "";
             $this->guid = "";
             return;
         }
 
-        $this->filename = $clps[0]->filename;
-    }
+        $this->filename = "/".str_replace("images","image",$images[0]->path);
+     }
 
 
 

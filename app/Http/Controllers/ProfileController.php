@@ -7,9 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+use Illuminate\Support\Facades\Log;
+
+
 use App\ViewModels\EditProfile;
 use App\ViewModels\ImageFile;
 use App\User;
+use App\Image;
 
 
 class ProfileController extends Controller
@@ -104,6 +108,7 @@ class ProfileController extends Controller
         $image = new ImageFile($id);
         if($image->filename=="")
         {
+            Log::debug("No filename returned - so using default user image");
             $image->filename="/images/defaultuser.png";
         }
         else
@@ -114,25 +119,35 @@ class ProfileController extends Controller
         return $image;
     }
 
-    public function changeimage()
+    public function changeimage(Request $request,$id)
     {
 
-        request()->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
         $newimage = uniqid("IMG");
-        $owner = request()->owner;
+        $owner = $id;
+        if($request->hasFile('image')==false)
+        {
+            abort(411,"No image in request");
+        }
 
-        $path = request()->file('image')->store('images');
+        $clpGuid = config('appsettings.clpGUID');
+        $images = Image::where('owner',[$owner])->get();
+        if(count($images) == 0)
+        {
+            $path = request()->file('image')->store('images');
+            Image::create(array('guid' => $newimage,
+            'owner' => $owner,
+            'path' => $path));
+        }
+        else
+        {
+            $i = $images[0];
+            Storage::disk('images')->delete($i->path);            
+            $path = request()->file('image')->store('images');
+            $i->path = $path;
+            $i->save();
+        }
 
-        Image::create(array('guid' => $newimage,
-        'owner' => $owner,
-        'path' => $path));
-        
-        return back()
-            ->with('success','You have successfully upload image.')
-           ->with('image',$imageName);
+        return;
     }
 
 

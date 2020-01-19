@@ -24,10 +24,16 @@ import DeleteIcon from '@material-ui/icons/Delete';
 const useStyles = theme => ({
   card: {
     maxWidth: 275,
+    minWidth: 275,
     marginBottom:10,
     marginLeft:10,
   },
   media: {
+    maxWidth: "100%",
+    height: "auto",
+  },
+  image: {
+    maxWidth: 275,
     height: 100,
   },
   bullet: {
@@ -89,9 +95,9 @@ class UserCard extends Component {
               <CardMedia
                 className={classes.media}
                 src={this.state.image}
-                title="Paella dish"
+                component="img"
+                height="100"
                 >
-                <img src={this.state.image} />
             </CardMedia>
           </Card>
         </Fade>

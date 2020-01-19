@@ -42,7 +42,7 @@ import Dropzone from 'react-dropzone';
 export default class ProfileInfo extends Component {
   constructor(props) {
       super(props);
-      this.state = {imagefile: "", canedit: false, canchange: true};
+      this.state = {imagefile: "", canedit: false, canchange: true, selectedfile: null};
       //this.handleChangeAbout = this.handleChangeAbout.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -60,6 +60,7 @@ export default class ProfileInfo extends Component {
                         canedit: response.data.canedit, 
                         canchange: response.data.canchange, 
                          });
+        console.log('Geting file:'+this.state.imagefile);
       })
       .catch(function (error) {
         console.log(error);
@@ -81,6 +82,8 @@ export default class ProfileInfo extends Component {
       telephone: this.state.telephone,
       publicemail: this.state.publicemail
     }
+    console.log("handleSubmit");
+    console.log(event);
 
     let uri = '/profile/1';
     axios.patch(uri, user).then((response) => {
@@ -90,7 +93,31 @@ export default class ProfileInfo extends Component {
 
   _crop(){
     // image in dataUrl
-    console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
+    //console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
+  }
+
+  uploadfile(event) {
+    event.preventDefault();
+    event.persist();
+
+    console.log(event);
+
+    this.setState({ selectedfile: event.target.files[0] });
+    
+    var formData = new FormData();
+    var imagefile = document.querySelector('#file');
+    formData.append("image", event.target.files[0]);
+    
+    console.log(formData);
+
+    let uri = '/profile/'+this.props.guid+"/changeimage";
+    axios.post(uri, formData,{
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }}).then((response) => {
+          //this.props.history.push('/display-item');
+    });
+
   }
 
   render() 
@@ -135,20 +162,19 @@ export default class ProfileInfo extends Component {
                     // Cropper.js options
                     aspectRatio={16 / 9}
                     guides={false}
-                    crop={this._crop.bind(this)} 
-              />
+                    crop={()=>this._crop()} 
+            />
           </Grid>
           <Grid item xs={6}>
-            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
-              {({getRootProps, getInputProps}) => (
-                <section>
-                  <div {...getRootProps()} style={dandd}>
-                    <input {...getInputProps()} />
-                    <p>Drag and drop your profile here, or click to select file</p>
-                  </div>
-                </section>
-              )}
-            </Dropzone>
+            <Grid container>
+              <Grid item xs={12}>
+              </Grid>
+              <Grid item xs={12}>
+                <form onSubmit={()=>{this.handleSubmit();}}>
+                  <input type="file" name="image" onChange={(event)=>{this.uploadfile(event);}}/>
+                </form>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </div>);

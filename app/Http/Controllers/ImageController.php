@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -54,6 +55,20 @@ class ImageController extends Controller
     public function show($request)
     {
         //
+        $filename = "images/".$request;
+        Log::debug("Getting ".$filename);
+        if(!Storage::exists($filename)) {
+            Log::debug("Unable to find file ".$request);
+            abort(404);
+        }
+    
+        $file = Storage::get($filename);
+        $type = Storage::mimeType($filename);
+    
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+    
+        return $response;
     }
 
     /**
@@ -112,12 +127,4 @@ class ImageController extends Controller
             ->with('success','You have successfully upload image.')
            ->with('image',$imageName);
     }
-
-    public function get($owner)
-    {
-
-    }
-
-
-
 }

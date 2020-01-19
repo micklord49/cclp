@@ -31,6 +31,7 @@ Route::resource('people', 'PeopleController');
 Route::resource('userdir', 'UserdirController');
 Route::resource('councils', 'CouncilsController');
 Route::resource('wards', 'WardsController');
+Route::resource('image', 'ImageController');
 
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');
 
@@ -46,6 +47,7 @@ Route::get('councillors/{user}/adduser', 'CouncillorController@adduser');
 Route::get('councillors/{user}/removeuser', 'CouncillorController@removeuser');
 
 Route::get('profile/{user}/imagefile', 'ProfileController@imagefile');
+Route::post('profile/{user}/changeimage', 'ProfileController@changeimage');
 
 
 Route::get('logout', 'Auth\LoginController@logout');

@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
 use App\ViewModels\Userdir;
+use App\ViewModels\ImageFile;
 use App\User;
 
 class UserdirController extends Controller
@@ -76,7 +77,14 @@ class UserdirController extends Controller
         $data->count = User::where("clp",$clpGuid)->count();
         foreach($data->data as $user)
         {
-            $user->image = "/images/defaultuser.png";
+            $image = new ImageFile($user->guid);
+            if($image->filename=="")
+            {
+                $user->image="/images/defaultuser.png";
+            }
+            else{
+                $user->image = $image->filename;
+            }
         }
 
         return(json_encode($data));

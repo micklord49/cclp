@@ -34,7 +34,7 @@ class Userdir extends Model
 
     public function getimageAttribute()
     {
-        return "/images/defaultuser.png";
+        return $this->image;
     }
 
     function __construct($id)
@@ -45,6 +45,16 @@ class Userdir extends Model
         $user = User::where('guid',$id)->first();
 
         $this->name = $user->name;
+
+        $image = new ImageFile($user->guid);
+        if($image->filename=="")
+        {
+            $this->image="/images/defaultuser.png";
+        }
+        else{
+            $this->image = $image->filename;
+        }
+
 
     }
 }
