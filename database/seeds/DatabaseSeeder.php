@@ -344,6 +344,28 @@ objectives for the constituency.
         ));
 
         Helptext::create(array(
+            'name' => 'profile.picture',
+            'heading' => 'Your profile picture',
+            'text' => '
+    This image is used to identify you. You should use it to express your personality.        
+            ',
+            'sortorder' => 0,
+        ));
+        Helptext::create(array(
+            'name' => 'profile.picture.full',
+            'heading' => 'Guidelines for your image',
+            'text' => '
+            <ul>
+              <li>The picture should be in a 6:9 ratio. You can use the controls to crop your image if needed.</li>
+              <li>You shoukd be the only person in the image</li>
+              <li>Try to keep the background as plain and neutral as possible.</li>
+            </ul>
+            ',
+            'sortorder' => 0,
+        ));
+
+
+        Helptext::create(array(
             'name' => 'ec.chair',
             'heading' => 'The EC Chair',
             'text' => '',

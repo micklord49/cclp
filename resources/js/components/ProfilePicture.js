@@ -6,24 +6,12 @@ import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import Fab from '@material-ui/core/Fab';
-import NavigationIcon from '@material-ui/icons/Navigation';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Switch from '@material-ui/core/Switch';
-import SaveIcon from '@material-ui/icons/Save';
-import MailIcon from '@material-ui/icons/Mail';
-import PhoneIcon from '@material-ui/icons/Phone';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import HelpText from './HelpText';
 
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css'; 
@@ -37,12 +25,24 @@ import {
 } from '@material-ui/pickers';
 
 import Dropzone from 'react-dropzone';
+import { notchedOutline } from 'material-components-web';
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export default class ProfileInfo extends Component {
   constructor(props) {
       super(props);
-      this.state = {imagefile: "", canedit: false, canchange: true, selectedfile: null};
+      this.state = {
+        imagefile: "", 
+        canedit: false, 
+        canchange: true, 
+        selectedfile: null,
+        opensuccess: false, 
+        openfail: false, 
+        failmessage: '', 
+      };
       //this.handleChangeAbout = this.handleChangeAbout.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -54,6 +54,11 @@ export default class ProfileInfo extends Component {
   }
   
   componentDidMount(){
+    this.loadImage();
+  }
+
+  loadImage()
+  {
     axios.get("/profile/"+this.props.guid+"/imagefile")
       .then(response => {
         this.setState({ imagefile: response.data.filename, 
@@ -65,7 +70,6 @@ export default class ProfileInfo extends Component {
       .catch(function (error) {
         console.log(error);
       })
-
   }
 
 
@@ -112,16 +116,38 @@ export default class ProfileInfo extends Component {
 
     let uri = '/profile/'+this.props.guid+"/changeimage";
     axios.post(uri, formData,{
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }}).then((response) => {
-          //this.props.history.push('/display-item');
-    });
-
+      headers: 
+        {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(() => {
+        this.setState({ opensuccess: true })
+        this.loadImage();
+        console.log('Geting file:'+this.state.imagefile);
+      })
+      .catch((error) => {
+        this.setState({ failmessage: error, openfail: true })
+        this.loadImage();
+        console.log(error);
+      });
   }
+
+  handleClose(event, reason) 
+  {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ opensuccess: false });
+  };
+
 
   render() 
   {
+
+    const inp = {
+      display: 'none'
+    }
 
     const neu = {
       backgroundColor: "#E0E5EC" ,
@@ -137,6 +163,18 @@ export default class ProfileInfo extends Component {
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
+    const neuhelp = {
+      backgroundColor: "#E0E5EC" ,
+      borderRadius:4,
+      marginLeft: "auto",
+      marginRight: "auto",
+      marginTop:10,
+      paddingBottom:16,
+      paddingRight:20,
+      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+    };
+
+
     const dandd = {
       backgroundColor: "#E0E5EC" ,
       borderRadius:4,
@@ -149,6 +187,15 @@ export default class ProfileInfo extends Component {
       paddingRight:20,
       paddingBottom:20,
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+    };
+
+    const upstyle = {
+      marginLeft: 20,
+      marginRight: 20,
+      marginTop:20,
+      paddingTop:20,
+      paddingLeft:10,
+      paddingRight:20,
     };
 
     return (
@@ -169,14 +216,42 @@ export default class ProfileInfo extends Component {
             <Grid container>
               <Grid item xs={12}>
               </Grid>
-              <Grid item xs={12}>
-                <form onSubmit={()=>{this.handleSubmit();}}>
-                  <input type="file" name="image" onChange={(event)=>{this.uploadfile(event);}}/>
-                </form>
+              <Grid item xs={12} style={upstyle}>
+                <input
+                  accept="image/*"
+                  id="outlined-button-file"
+                  type="file"
+                  style={inp}
+                  onChange={(event)=>{this.uploadfile(event);}}
+                />
+                <label htmlFor="outlined-button-file">                
+                  <Button
+                    variant="outlined"
+                    component="span"
+                    color="secondary"
+                    startIcon={<CloudUploadIcon />}
+                    >
+                    Upload Profile Image
+                  </Button>
+                </label>                
+              </Grid>
+              <Grid item xs={12} style={upstyle}>
+                <HelpText name='profile.picture' style="neuhelp"/>      
               </Grid>
             </Grid>
           </Grid>
         </Grid>
+        <Snackbar open={this.state.opensuccess} autoHideDuration={6000} onClose={()=>{this.handleClose();}}>
+          <Alert onClose={()=>{this.handleClose();}} severity="success">
+            Your image has been uploaded.
+          </Alert>
+        </Snackbar>
+        <Snackbar open={this.state.openfail} autoHideDuration={6000} onClose={()=>{this.handleClose()}}>
+          <Alert onClose={()=>{this.handleClose();}} severity="error">
+            {this.state.failmessage}
+          </Alert>
+        </Snackbar>
+
       </div>);
   }
 }
