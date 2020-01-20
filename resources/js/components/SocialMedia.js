@@ -19,9 +19,8 @@ import { IoLogoYoutube } from 'react-icons/io';
 import { IoLogoTumblr } from 'react-icons/io';
 //
 //  CCLP Components
-import ControlPanelCLPECRole from './ControlPanelCLPECRole';
 
-export default class ControlPanelCLPEC extends Component {
+export default class SocialMedia extends Component {
   constructor(props) {
       super(props);
       this.state = {roles: new Array(), selectedrole: ''};
@@ -138,7 +137,6 @@ export default class ControlPanelCLPEC extends Component {
           </List>
         </Grid>
         <Grid item xs={9}>
-          <ControlPanelCLPECRole role={this.state.selectedrole} onChange={() => this.rolechanged()} />
         </Grid>
     </Grid>
     );

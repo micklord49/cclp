@@ -45,11 +45,6 @@ class User extends Authenticatable
         'gender' => 0,
         'birthdate' => '1900-01-01',
         'hidebirthdate' => 1,
-        'facebook' => '',
-        'youtube' => '',
-        'twitter' => '',
-        'instagram' => '',
-        'tumblr' => '',
         'publicemail' => '',
      ];
  

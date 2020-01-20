@@ -31,6 +31,8 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
+import HelpText from './HelpText';
+
 require('medium-editor/dist/css/medium-editor.css');
 require('medium-editor/dist/css/themes/default.css');
 
@@ -42,34 +44,28 @@ import Editor from 'react-medium-editor';
 export default class CouncillorInfo extends Component {
   constructor(props) {
       super(props);
-      this.state = {email: '', name: '', about: '', birthdate: '01/01/1970', hidebirthdate: true, telephone: '', publicemail: ''};
-      this.handleChangeName = this.handleChangeName.bind(this);
-      this.handleChangeBirthdate = this.handleChangeBirthdate.bind(this);
-      this.handleChangeHideBirthdate = this.handleChangeHideBirthdate.bind(this);
-      this.handleChangeTelephone = this.handleChangeTelephone.bind(this);
-      this.handleChangePublicEmail = this.handleChangePublicEmail.bind(this);
+      this.state = {dn: '', active: false, campaign: false };
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeName(e){
+  handleChangeDn(e){
     this.setState({
-      name: e.target.value
+      dn: e.target.value
     })
   }
   
-  handleChangeBirthdate(e){
+  handleChangeActive(e){
     this.setState({
-      birthdate: e.target.value
+      active: e.target.checked
     })
   }
 
-  handleChangeHideBirthdate(e){
+  handleChangeCampaign(e){
     this.setState({
-      hidebirthdate: e.target.checked
+      campaign: e.target.checked
     })
   }
 
-  
   
   handleChangeAbout(text,medium){
     this.setState({
@@ -140,6 +136,25 @@ export default class CouncillorInfo extends Component {
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
+    const neuhelp = {
+      backgroundColor: "#E0E5EC" ,
+      borderRadius:4,
+      marginLeft: "auto",
+      marginRight: "auto",
+      marginTop:10,
+      paddingBottom:16,
+      paddingRight:20,
+      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+    };
+
+    const upstyle = {
+      marginLeft: 20,
+      marginRight: 20,
+      paddingLeft:10,
+      paddingRight:20,
+    };
+
+
     return (
       <div style={neu}>
     <form noValidate autoComplete="off" onSubmit={this.handleSubmit} >
@@ -152,78 +167,55 @@ export default class CouncillorInfo extends Component {
         <Grid item xs={6}>
           <Grid container>
             <Grid item xs={12}>
-                <TextField id="info-user" value={this.state.email} label="User Login (you cannot change this)" 
-                InputProps={{
-                    readOnly: true,
-                }} onChange={this.handleChangeName} helperText="This is the email address you created your account with"/>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField id="info-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is your full name as you wish it to appear to other users."/>
-            </Grid>
-            <Grid item xs={12}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  margin="normal"
-                  id="info-birthdate"
-                  label="Birthdate"
-                  format="dd/MM/yyyy"
-                  value={this.state.birthdate}
-                  onChange={this.handleChangeBirthdate}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                />
-              </MuiPickersUtilsProvider>
+                <TextField id="info-dn" value={this.state.dn} label="Domain Name" 
+                onChange={(e)=>{this.handleChangeDn(e);}} 
+                helperText="This is your personal domain name."/>
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
                 control={
                   <Switch
-                    checked={this.state.hidebirthdate}
-                    onChange={this.handleChangeHideBirthdate}
+                    checked={this.state.active}
+                    onChange={(e)=>{this.handleChangeActive(e);}}
                     value="true"
                     color="primary"
                     inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                   }
-                label="Hide your birthdate"
+                label="Activate my councillor page"
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControl >
-                  <InputLabel htmlFor="info-telephone">Telephone Number</InputLabel>
-                  <Input
-                    id="info-telephone"
-                    type='text'
-                    value={this.state.telephone}
-                    onChange={this.handleChangeTelephone}
-                    endAdornment={<InputAdornment position="end"><PhoneIcon /></InputAdornment>}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl >
-                  <InputLabel htmlFor="info-publicemail">Public Email</InputLabel>
-                  <Input
-                    id="info-publicemail"
-                    type='text'
-                    value={this.state.publicemail}
-                    onChange={this.handleChangePublicEmail}
-                    endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
-                  />
-                </FormControl>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.campaign}
+                    onChange={(e)=>{this.handleChangeCampaign(e);}}
+                    value="true"
+                    color="primary"
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                    />
+                  }
+                label="Campaign Mode"
+              />
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={6}>
-          <h4>Tell the world about yourself</h4>
-          <div style={{backgroundColor:"#ffffff", minHeight:300}}>
-            <Editor 
-                id="info-about" 
-                text={this.state.about} 
-                onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
-                options={{ placeholder: false}}            />
-          </div>
+          <Grid container>
+            <Grid item xs={12} style={upstyle}>
+                <HelpText name='councillor.text' style="neuhelp"/>      
+              </Grid>
+            <Grid item xs={12} style={upstyle}>
+              <div style={{backgroundColor:"#ffffff", minHeight:500}}>
+                <Editor 
+                    id="info-about" 
+                    text={this.state.about} 
+                    onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
+                    options={{ placeholder: false}}            />
+              </div>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </form>  

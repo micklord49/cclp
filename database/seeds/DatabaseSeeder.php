@@ -357,10 +357,33 @@ objectives for the constituency.
             'text' => '
             <ul>
               <li>The picture should be in a 6:9 ratio. You can use the controls to crop your image if needed.</li>
-              <li>You shoukd be the only person in the image</li>
+              <li>You should be the only person in the image</li>
               <li>Try to keep the background as plain and neutral as possible.</li>
             </ul>
             ',
+            'sortorder' => 0,
+        ));
+
+        Helptext::create(array(
+            'name' => 'councillor.text',
+            'heading' => 'Your bio',
+            'text' => '
+    Use this block of text to describe yourself as a councillor.        
+            ',
+            'sortorder' => 0,
+        ));
+        Helptext::create(array(
+            'name' => 'councillor.text.full',
+            'heading' => 'Guidelines for your bio',
+            'text' => "
+            Use this bio to give people a sense of your personality and your passions. 
+            Suggestions of information you could include:
+            <ul>
+              <li>List campaigns you have been involved in.</li>
+              <li>List the committes you've sat on</li>
+              <li>tell people about your passions.</li>
+            </ul>
+            ",
             'sortorder' => 0,
         ));
 

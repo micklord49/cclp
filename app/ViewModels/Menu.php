@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+use App\Councilor;
 
 class Menu
 {
@@ -51,7 +52,7 @@ class Menu
                 $menu->AddSubMenu(new MenuItem("Edit CLP","/clp",true));
                 $menu->AddSubMenu(new MenuItem("Edit the people of the CLP","/people",true));
             }
-
+            $this->CouncilorMenu($menu);
             $menu->AddSubMenu(new MenuItem("Logout","/logout",true));
         }
         else
@@ -63,6 +64,19 @@ class Menu
             $menu->AddSubMenu(new MenuItem("Register","/register",true));
         }
         return $menu;
+    }
+
+    private function CouncilorMenu($menu)
+    {
+        if(!Auth::check())          return;     //  Only available for logged in user
+        $user = auth()->user();
+        $councillor = Councilor::where('owner',$user->guid)->get();
+        if(count($councillor)==0)
+        {
+            return;
+        }
+        $menu->AddSubMenu(new MenuItem("My info as a Councilor","/councillor",true));
+
     }
 
     private function ECMenu($clpGuid)

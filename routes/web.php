@@ -30,6 +30,7 @@ Route::resource('ec', 'ECController');
 Route::resource('people', 'PeopleController');
 Route::resource('userdir', 'UserdirController');
 Route::resource('councils', 'CouncilsController');
+Route::resource('councillor', 'CouncillorController');
 Route::resource('wards', 'WardsController');
 Route::resource('image', 'ImageController');
 

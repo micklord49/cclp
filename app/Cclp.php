@@ -8,11 +8,6 @@ class Cclp extends Model
 {
     //
     protected $attributes = [
-        'facebook' => '',
-        'youtube' => '',
-        'twitter' => '',
-        'instagram' => '',
-        'tumblr' => '',
      ];
 
 }

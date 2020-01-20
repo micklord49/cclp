@@ -24,12 +24,6 @@ class CreateCclpsTable extends Migration
 
             $table->boolean('groupCouncilorsByWard');
 
-            $table->string('facebook');
-            $table->string('youtube');
-            $table->string('twitter');
-            $table->string('instagram');
-            $table->string('tumblr');
-
             $table->timestamps();
         });
     }

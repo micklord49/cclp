@@ -10,6 +10,9 @@ use Spatie\Permission\Models\Permission;
 use App\Councilor;
 use Illuminate\Http\Request;
 
+use App\ViewModels\EditCouncillor;
+
+
 class CouncillorController extends Controller
 {
     /**
@@ -19,7 +22,17 @@ class CouncillorController extends Controller
      */
     public function index()
     {
-        //
+        $clpGuid = config('appsettings.clpGUID');
+
+        if(!Auth::check())
+        {
+            abort(404);
+        }
+        $user = auth()->user();
+        $data = new EditCouncillor($user->guid);
+        if($data->guid=="") about(404);
+        return view("editcouncillor",['Data' => $data]);
+    //
     }
 
     /**
@@ -96,12 +109,12 @@ class CouncillorController extends Controller
 
         app('debugbar')->disable();
 
-        $councillors = Councilor::select('user')->where("clp",$clpGuid)->get();
+        $councillors = Councilor::select('owner')->where("clp",$clpGuid)->get();
         $u = array();
         foreach($councillors as $c)
         {
             $new = new \stdClass();
-            $new->guid = $c->user;
+            $new->guid = $c->owner;
 
             array_push($u,$new);
         }
@@ -123,7 +136,7 @@ class CouncillorController extends Controller
 
         $clpGuid = config('appsettings.clpGUID');
 
-        Councilor::where('user',$user)->delete();
+        Councilor::where('owner',$user)->delete();
         Log::info('Removing user '.$user.' as a councillor');
     }
 
@@ -146,7 +159,7 @@ class CouncillorController extends Controller
             'clp' => $clpGuid,
             'guid' => uniqid(),
             'ward' => '',
-            'user' => $user
+            'owner' => $user
         ));
 
         Log::info('Adding user '.$user.' as a councillor');
