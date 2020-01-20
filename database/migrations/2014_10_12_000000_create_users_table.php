@@ -26,11 +26,6 @@ class CreateUsersTable extends Migration
             $table->date('birthdate');
             $table->integer('hidebirthdate');
             $table->integer('gender');
-            $table->string('facebook');
-            $table->string('youtube');
-            $table->string('twitter');
-            $table->string('instagram');
-            $table->string('tumblr');
             $table->string('publicemail');
             $table->rememberToken();
             $table->timestamps();
