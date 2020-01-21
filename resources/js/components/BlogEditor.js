@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import MaterialTable from 'material-table';
+
 import DateFnsUtils from '@date-io/date-fns';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
@@ -39,63 +41,27 @@ import Editor from 'react-medium-editor';
 
 
 
-export default class ProfileInfo extends Component {
+export default class BlogEditor extends Component {
   constructor(props) {
       super(props);
-      this.state = {dn: '', name: '', about: '', birthdate: '01/01/1970', hidebirthdate: true, telephone: '', publicemail: ''};
+      this.state = {title: "", body: ""};
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeName(e){
+  handleChangeTitle(e){
     this.setState({
-      name: e.target.value
+      title: e.target.value
     })
   }
   
-  handleChangeBirthdate(e){
+  handleChangeBody(text,medium){
     this.setState({
-      birthdate: e.target.value
+      body: text
     })
   }
-
-  handleChangeHideBirthdate(e){
-    this.setState({
-      hidebirthdate: e.target.checked
-    })
-  }
-
   
-  
-  handleChangeAbout(text,medium){
-    this.setState({
-      about: text
-    })
-  }
-  handleChangeTelephone(e){
-    this.setState({
-      telephone: e.target.value
-    })
-  }
-  handleChangePublicEmail(e){
-    this.setState({
-      publicemail: e.target.value
-    })
-  }
- 
   componentDidMount(){
-    axios.get("/profile/"+this.props.guid+"/edit")
-      .then(response => {
-        this.setState({ email: response.data.email, 
-                        name: response.data.name, 
-                        about: response.data.about, 
-                        birthdate: response.data.birthdate, 
-                        hidebirthdate: response.data.birthdate==1, 
-                        telephone: response.data.telephone, 
-                        publicemail: response.data.publicemail });
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+    console.log("Editing blog for owner:"+this.props.guid)
   }
 
 
@@ -145,18 +111,58 @@ export default class ProfileInfo extends Component {
             </Button>
         </Grid>
         <Grid item xs={6}>
-          <Grid container>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField 
+                  id="blog-title" value={this.state.email} 
+                  label="Title" 
+                  onChange={(e)=>{this.handleChangeName(e);}} 
+                  helperText="(Describe the subject of your post)"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <div style={{backgroundColor:"#ffffff", minHeight:300}}>
+                <Editor 
+                    id="info-about" 
+                    text={this.state.about} 
+                    onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
+                    options={{ placeholder: false}}            />
+              </div>
+            </Grid>
           </Grid>
         </Grid>
         <Grid item xs={6}>
-          <h4>Tell the world about yourself</h4>
-          <div style={{backgroundColor:"#ffffff", minHeight:300}}>
-            <Editor 
-                id="info-about" 
-                text={this.state.about} 
-                onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
-                options={{ placeholder: false}}            />
-          </div>
+          <h5>Your posts as a councillor</h5>
+          <MaterialTable
+            columns={[
+              {
+                field: 'edit',
+                Title: 'Edit',
+                render: rowData => 
+                          <IconButton color="primary" onClick={() => {this.addUser(rowData.guid)}}>
+                            <AddIcon />
+                          </IconButton>
+              },
+              { title: 'Title', field: 'title' },
+              { title: 'Published On', field: 'publishedOn' },
+            ]}
+            data={query =>
+              new Promise((resolve, reject) => {
+                let url = '/blog/' + query.pageSize + "/" + (query.page + 1) + "/" + this.props.guid + "/ownersearch" 
+                fetch(url)
+                  .then(response => response.json())
+                  .then(result => {
+                    resolve({
+                      data: result.data,
+                      page: result.page - 1,
+                      totalCount: result.count,
+                    })
+                  })
+              })
+    
+                  }
+            title="Blog Posts" 
+          />
         </Grid>
       </Grid>
     </form>  

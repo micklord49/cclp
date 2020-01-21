@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Permission;
 
 
 use App\Cclp;
+use App\DnAlias;
 use App\Clprole;
 use App\ClpRoleuser;
 use App\User;
@@ -70,7 +71,6 @@ class ClpTableSeeder extends Seeder
     public function run($guids)
     {
         DB::table('cclps')->delete();
-
         Cclp::create(array(
             'guid' => $guids["CLP"],
             'name' => 'My New CLP',
@@ -79,6 +79,13 @@ class ClpTableSeeder extends Seeder
             'email' => 'admin@localhost',
             'phone' => '',
             'groupCouncilorsByWard' => false
+        ));
+
+
+        DB::table('dn_aliases')->delete();
+        DnAlias::create(array(
+            'clp' => $guids["CLP"],
+            'dn' => '87.81.186.254'
         ));
     }
 

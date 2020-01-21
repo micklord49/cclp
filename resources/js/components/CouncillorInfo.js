@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
@@ -10,7 +11,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
@@ -39,33 +40,54 @@ require('medium-editor/dist/css/themes/default.css');
 // ES module
 import Editor from 'react-medium-editor';
 
+const styles = theme => ({
+  root: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+  },
+
+  promptarea: {
+    paddingTop: 20,
+    paddingBottom: 10,
+    fontSize: "80%",
+    color: "#808080",
+  },
+});
+
+const useStyles = makeStyles({
+  // style rule
+  foo: props => ({
+    backgroundColor: props.backgroundColor,
+  }),
+  bar: {
+    // CSS property
+    color: props => props.color,
+  },
+});
 
 
-export default class CouncillorInfo extends Component {
+class CouncillorInfo extends Component {
   constructor(props) {
       super(props);
       this.state = {dn: '', active: false, campaign: false };
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeDn(e){
-    this.setState({
-      dn: e.target.value
-    })
-  }
+
+  handleChange(e){
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
   
-  handleChangeActive(e){
     this.setState({
-      active: e.target.checked
-    })
+      [name]: value
+    });
   }
-
-  handleChangeCampaign(e){
-    this.setState({
-      campaign: e.target.checked
-    })
-  }
-
   
   handleChangeAbout(text,medium){
     this.setState({
@@ -123,6 +145,7 @@ export default class CouncillorInfo extends Component {
 
   render() 
   {
+    const { classes } = this.props;
 
     const neu = {
       backgroundColor: "#E0E5EC" ,
@@ -164,19 +187,28 @@ export default class CouncillorInfo extends Component {
                 <SaveIcon />Save
             </Button>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item md={6} xs={12}>
           <Grid container>
             <Grid item xs={12}>
-                <TextField id="info-dn" value={this.state.dn} label="Domain Name" 
-                onChange={(e)=>{this.handleChangeDn(e);}} 
+                <TextField id="info-dn" 
+                value={this.state.dn} 
+                label="Domain Name" 
+                name="dn"
+                onChange={(e)=>{this.handleChange(e);}} 
+                fullWidth
                 helperText="This is your personal domain name."/>
             </Grid>
+            <Grid item xs={12} className={classes.promptarea}>
+              <p>Before your page as a councillor will be visible to anyone, you must activate it.<br/>
+              This is so you can take time to work on it before anyone sees it.</p>
+            </Grid>
             <Grid item xs={12}>
-              <FormControlLabel
+              <FormControlLabel 
                 control={
                   <Switch
                     checked={this.state.active}
-                    onChange={(e)=>{this.handleChangeActive(e);}}
+                    name="active"
+                    onChange={(e)=>{this.handleChange(e);}}
                     value="true"
                     color="primary"
                     inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -185,12 +217,16 @@ export default class CouncillorInfo extends Component {
                 label="Activate my councillor page"
               />
             </Grid>
+            <Grid item xs={12} className={classes.promptarea}>
+              <p>Campaign mode should only be used during the run up to a local government election.</p>
+            </Grid>
             <Grid item xs={12}>
               <FormControlLabel
                 control={
                   <Switch
                     checked={this.state.campaign}
-                    onChange={(e)=>{this.handleChangeCampaign(e);}}
+                    name="campaign"
+                    onChange={(e)=>{this.handleChange(e);}}
                     value="true"
                     color="primary"
                     inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -201,7 +237,7 @@ export default class CouncillorInfo extends Component {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item md={6} xs={12}>
           <Grid container>
             <Grid item xs={12} style={upstyle}>
                 <HelpText name='councillor.text' style="neuhelp"/>      
@@ -222,3 +258,5 @@ export default class CouncillorInfo extends Component {
     </div>    );
   }
 }
+
+export default withStyles(styles)(CouncillorInfo)

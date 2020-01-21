@@ -70,7 +70,7 @@ export default class UserSearch extends Component {
           columns={[
             {
               field: 'url',
-              Title: 'Avatar',
+              Title: 'Add User',
               render: rowData => 
                         <IconButton color="primary" onClick={() => {this.addUser(rowData.guid)}}>
                           <AddIcon />

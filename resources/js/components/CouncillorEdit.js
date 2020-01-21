@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -22,78 +22,76 @@ import CouncillorInfo from './CouncillorInfo';
 import BlogEditor from './BlogEditor';
 import SocialMedia from './SocialMedia';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
 
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
+    backgroundColor: "#E0E5EC" ,
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
   },
-}));
 
-export default function SimpleTabs(props) {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  tabpage: {
+    marginTop: 20,
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  }
+
+
+});
+
+
+class CouncillorEdit extends Component {
+
+  constructor(props) {
+      super(props);
+      this.state = { selectedtab: 0};
+  }
+
+  componentDidMount(){
+    console.log("Editing Councillor:"+this.props.guid)
+  }
+
+
+  handleChange(event, value) {
+    console.log("Selected Tab:"+value);
+    this.setState({ selectedtab: value });
   };
 
-  const tabStyle = {
-    backgroundColor: "#A0A5AC" 
-  };
+  render() 
+  {
+    const { classes } = this.props;
 
-  const tabpageStyle = {
-    backgroundColor: "#E0E5EC" 
-  };
-
-
-  return (
+    const tabStyle = {
+      backgroundColor: "#A0A5AC" 
+    };
+  
+    return(
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs style={tabStyle} value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Blog" icon={<FaceIcon />}  {...a11yProps(0)} />
-          <Tab label="Councillor Information" icon={<CameraIcon />}  {...a11yProps(0)} />
-          <Tab label="Social Media" icon={<MembershipIcon />} {...a11yProps(1)} />
+        <Tabs 
+          style={tabStyle} 
+          value={this.state.selectedtab} 
+          aria-label="simple tabs example" 
+          onChange={(e,v) => { this.handleChange(e,v); }}>
+          <Tab label="Blog" icon={<FaceIcon />}  />
+          <Tab label="Councillor Information" icon={<CameraIcon />}  />
+          <Tab label="Social Media" icon={<MembershipIcon />} />
         </Tabs>
       </AppBar>
-      <TabPanel style={tabpageStyle} value={value} index={0}>
-        <BlogEditor guid={props.guid}/>
-      </TabPanel>
-      <TabPanel style={tabpageStyle} value={value} index={1}>
-        <CouncillorInfo guid={props.guid}/>
-      </TabPanel>
-      <TabPanel style={tabpageStyle} value={value} index={2}>
-        <SocialMedia guid={props.guid}/>
-      </TabPanel>
+      <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 0}>
+        <BlogEditor guid={this.props.guid}/>
+      </div>
+      <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 1}>
+        <CouncillorInfo guid={this.props.guid}/>
+      </div>
+      <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 2}>
+        <SocialMedia guid={this.props.guid}/>
+      </div>
     </div>
-  );
+    );
+  }
 }
+
+export default withStyles(styles)(CouncillorEdit);
+

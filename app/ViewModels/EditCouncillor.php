@@ -18,17 +18,21 @@ class EditCouncillor extends Model
     public $campaign;
     public $menu;
 
+    public function getguidAttribute()
+    {
+        return $this->guid;
+    }
+    public function getdnAttribute()
+    {
+        return $this->dn;
+    }
+
 
     public function __construct($id)
     {
         $clpGuid = config('appsettings.clpGUID');
-        $councillor = Councilor::where('owner',$id)->first();
+        $councillor = Councilor::where('owner',$id)->firstOrFail();
 
-        if($councillor == null)
-        {
-            $this->guid = "";
-            return;
-        }
         $this->guid = $councillor->guid;
         $this->menu = new Menu($clpGuid);
     }

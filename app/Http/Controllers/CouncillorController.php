@@ -30,6 +30,8 @@ class CouncillorController extends Controller
         }
         $user = auth()->user();
         $data = new EditCouncillor($user->guid);
+        Log::info('Editing Councillor '.$user->guid);
+
         if($data->guid=="") about(404);
         return view("editcouncillor",['Data' => $data]);
     //

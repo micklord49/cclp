@@ -6,7 +6,7 @@ import CouncillorEdit from './CouncillorEdit'
 export default class Main extends Component {
   render() {
       return (
-        <CouncillorEdit />
+        <CouncillorEdit guid={this.props.guid}/>
       );
   }
 }
@@ -15,6 +15,7 @@ if (document.getElementById('root')) {
   if (document.getElementById('datapipe')) {
     const element = document.getElementById('datapipe')
     const props = Object.assign({}, element.dataset)
+    console.log(props);
     ReactDOM.render(<Main {...props}/>, document.getElementById('root'));
   }
   else {
