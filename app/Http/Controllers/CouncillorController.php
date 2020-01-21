@@ -157,7 +157,7 @@ class CouncillorController extends Controller
 
         Councilor::create(array(
             'clp' => $clpGuid,
-            'guid' => uniqid(),
+            'guid' => uniqid("CNR"),
             'ward' => '',
             'owner' => $user
         ));

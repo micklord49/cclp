@@ -15,6 +15,7 @@ use App\ViewModels\EditProfile;
 use App\ViewModels\ImageFile;
 use App\User;
 use App\Image;
+use App\Social;
 
 
 class ProfileController extends Controller
@@ -151,5 +152,48 @@ class ProfileController extends Controller
         return;
     }
 
+    public function getsocial($owner)
+    {
+        Social::where('owner',$id)->firstOrFail();
+    }
+
+    public function savesocial($owner)
+    {
+        if(Auth::check())
+        {
+            if(!auth()->user()->can('Edit CLP'))
+            {
+                abort(403);
+            }
+        }
+        else {
+            abort(403);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+        $social = Social::where('owner',$id)->firstOrFail();
+
+        try 
+        {
+            switch($request->type)
+            {
+                case 'FACEBOOK':
+                    $social->facebook = $request->facebook ?? '';
+                    break;
+                case 'INSTAGRAM':
+                    $social->instagram = $request->instagram ?? '';
+                    break;
+            }
+            }
+        catch(Exception $e)
+        {
+            report($e);
+        }
+
+        $social->save();
+
+
+
+    }
 
 }

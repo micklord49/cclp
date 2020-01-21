@@ -387,6 +387,32 @@ objectives for the constituency.
             'sortorder' => 0,
         ));
 
+        Helptext::create(array(
+            'name' => 'facebook.api',
+            'heading' => 'Linking to Facebook',
+            'text' => '
+    You can use the following fields to link your account to your Facebook Page so we can post updates directly to your newsfeed.        
+            ',
+            'sortorder' => 0,
+        ));
+        Helptext::create(array(
+            'name' => 'facebook.api.full',
+            'heading' => 'Guide',
+            'text' => "
+            <p>
+                It can seem quite daunting to link to facebook, but it is actually quite straight forward. You can try following these steps:
+            </p>
+            <ul>
+              <li>List campaigns you have been involved in.</li>
+              <li>List the committes you've sat on</li>
+              <li>tell people about your passions.</li>
+            </ul>
+            <p>
+                It you still need help, try these links:
+            </p>
+            ",
+            'sortorder' => 0,
+        ));
 
         Helptext::create(array(
             'name' => 'ec.chair',

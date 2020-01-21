@@ -142,91 +142,92 @@ export default class ProfileInfo extends Component {
 
     return (
       <div style={neu}>
-    <form noValidate autoComplete="off" onSubmit={this.handleSubmit} >
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-            <Button color="primary" type="submit">
-                <SaveIcon />Save
-            </Button>
-        </Grid>
-        <Grid item xs={6}>
-          <Grid container>
+        <form noValidate autoComplete="off" onSubmit={this.handleSubmit} >
+          <Grid container spacing={2}>
             <Grid item xs={12}>
-                <TextField id="info-user" value={this.state.email} label="User Login (you cannot change this)" 
-                InputProps={{
-                    readOnly: true,
-                }} onChange={this.handleChangeName} helperText="This is the email address you created your account with"/>
+                <Button color="primary" type="submit">
+                    <SaveIcon />Save
+                </Button>
             </Grid>
-            <Grid item xs={12}>
-              <TextField id="info-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is your full name as you wish it to appear to other users."/>
-            </Grid>
-            <Grid item xs={12}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  margin="normal"
-                  id="info-birthdate"
-                  label="Birthdate"
-                  format="dd/MM/yyyy"
-                  value={this.state.birthdate}
-                  onChange={this.handleChangeBirthdate}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                />
-              </MuiPickersUtilsProvider>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={this.state.hidebirthdate}
-                    onChange={this.handleChangeHideBirthdate}
-                    value="true"
-                    color="primary"
-                    inputProps={{ 'aria-label': 'primary checkbox' }}
+            <Grid item xs={6}>
+              <Grid container>
+                <Grid item xs={12}>
+                    <TextField id="info-user" value={this.state.email} label="User Login (you cannot change this)" 
+                    InputProps={{
+                        readOnly: true,
+                    }} onChange={this.handleChangeName} helperText="This is the email address you created your account with"/>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField id="info-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is your full name as you wish it to appear to other users."/>
+                </Grid>
+                <Grid item xs={12}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      margin="normal"
+                      id="info-birthdate"
+                      label="Birthdate"
+                      format="dd/MM/yyyy"
+                      value={this.state.birthdate}
+                      onChange={this.handleChangeBirthdate}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
                     />
-                  }
-                label="Hide your birthdate"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl >
-                  <InputLabel htmlFor="info-telephone">Telephone Number</InputLabel>
-                  <Input
-                    id="info-telephone"
-                    type='text'
-                    value={this.state.telephone}
-                    onChange={this.handleChangeTelephone}
-                    endAdornment={<InputAdornment position="end"><PhoneIcon /></InputAdornment>}
+                  </MuiPickersUtilsProvider>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.hidebirthdate}
+                        onChange={this.handleChangeHideBirthdate}
+                        value="true"
+                        color="primary"
+                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                        />
+                      }
+                    label="Hide your birthdate"
                   />
-                </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl >
+                      <InputLabel htmlFor="info-telephone">Telephone Number</InputLabel>
+                      <Input
+                        id="info-telephone"
+                        type='text'
+                        value={this.state.telephone}
+                        onChange={this.handleChangeTelephone}
+                        endAdornment={<InputAdornment position="end"><PhoneIcon /></InputAdornment>}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl >
+                      <InputLabel htmlFor="info-publicemail">Public Email</InputLabel>
+                      <Input
+                        id="info-publicemail"
+                        type='text'
+                        value={this.state.publicemail}
+                        onChange={this.handleChangePublicEmail}
+                        endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
+                      />
+                    </FormControl>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <FormControl >
-                  <InputLabel htmlFor="info-publicemail">Public Email</InputLabel>
-                  <Input
-                    id="info-publicemail"
-                    type='text'
-                    value={this.state.publicemail}
-                    onChange={this.handleChangePublicEmail}
-                    endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
-                  />
-                </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <h4>Tell the world about yourself</h4>
+              <div style={{backgroundColor:"#ffffff", minHeight:300}}>
+                <Editor 
+                    id="info-about" 
+                    text={this.state.about} 
+                    onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
+                    options={{ placeholder: false}}            />
+              </div>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={6}>
-          <h4>Tell the world about yourself</h4>
-          <div style={{backgroundColor:"#ffffff", minHeight:300}}>
-            <Editor 
-                id="info-about" 
-                text={this.state.about} 
-                onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
-                options={{ placeholder: false}}            />
-          </div>
-        </Grid>
-      </Grid>
-    </form>  
-    </div>    );
+        </form>  
+      </div>    
+    );
   }
 }

@@ -17,13 +17,15 @@ import { IoLogoInstagram } from 'react-icons/io';
 import { IoLogoTwitter } from 'react-icons/io';
 import { IoLogoYoutube } from 'react-icons/io';
 import { IoLogoTumblr } from 'react-icons/io';
+
+import SMFacebook from './SMFacebook';
 //
 //  CCLP Components
 
 export default class SocialMedia extends Component {
   constructor(props) {
       super(props);
-      this.state = {roles: new Array(), selectedrole: ''};
+      this.state = { fb: true, instagram: false, twitter: false, youtube: false, tumblr: false };
       //this.selectRole = this.selectRole.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -47,6 +49,29 @@ export default class SocialMedia extends Component {
     .catch(function (error) {
       console.log(error);
     })
+  }
+
+  selectForm(id)
+  {
+    this.setState({ fb: false, instagram: false, twitter: false, youtube: false, tumblr: false });
+    switch(id)
+    {
+        case 'fb':
+            this.setState({ fb: true });
+            break;
+        case 'instagram':
+            this.setState({ instagram: true });
+            break;
+        case 'twitter':
+            this.setState({ twitter: true });
+            break;
+        case 'youtube':
+            this.setState({ youtube: true });
+            break;
+        case 'tumblr':
+            this.setState({ tumblr: true });
+            break;
+    }
   }
 
   handleSubmit(event) 
@@ -84,19 +109,6 @@ export default class SocialMedia extends Component {
 
   render() 
   {
-    let listitems = "";
-    if(this.state.roles != null)
-    {
-      listitems = this.state.roles.map((item,key) =>
-            <ListItem key={item.guid} button onClick={() => this.selectRole(item.guid)}>
-              <ListItemIcon>
-              {item.mandatory == 1 ? <StarIcon /> : <StarOutlineIcon />}
-              </ListItemIcon>
-              <ListItemText primary={item.description} />
-            </ListItem>
-      );
-    }
-    
     const neu = {
       backgroundColor: "#E0E5EC" ,
       borderRadius:4,
@@ -110,33 +122,30 @@ export default class SocialMedia extends Component {
       <Grid container spacing={3}>
         <Grid item xs={3}>
           <List component="nav" style={neu} aria-label="EC">
-            <ListItem button onClick={() => this.selectRole(item.guid)}>
+            <ListItem button onClick={() => this.selectForm("fb")}>
                 <ListItemIcon><IoLogoFacebook /></ListItemIcon>
-                <ListItemText primary={Facebook} />
+                <ListItemText primary="Facebook" />
             </ListItem>
-            <ListItem button onClick={() => this.selectRole(item.guid)}>
-                <ListItemIcon><IoLogoTwitter /></ListItemIcon>
-                <ListItemText primary={Twitter} />
-            </ListItem>
-            <ListItem button onClick={() => this.selectRole(item.guid)}>
-                <ListItemIcon><IoLogoTwitter /></ListItemIcon>
-                <ListItemText primary={Twitter} />
-            </ListItem>
-            <ListItem button onClick={() => this.selectRole(item.guid)}>
+            <ListItem button onClick={() => this.selectForm("instagram")}>
                 <ListItemIcon><IoLogoInstagram /></ListItemIcon>
-                <ListItemText primary={Instagram} />
+                <ListItemText primary="Instagram" />
             </ListItem>
-            <ListItem button onClick={() => this.selectRole(item.guid)}>
+            <ListItem button onClick={() => this.selectForm("twitter")}>
+                <ListItemIcon><IoLogoTwitter /></ListItemIcon>
+                <ListItemText primary="Twitter" />
+            </ListItem>
+            <ListItem button onClick={() => this.selectForm("youtube")}>
                 <ListItemIcon><IoLogoYoutube /></ListItemIcon>
-                <ListItemText primary={YouTube} />
+                <ListItemText primary="YouTube" />
             </ListItem>
-            <ListItem button onClick={() => this.selectRole(item.guid)}>
+            <ListItem button onClick={() => this.selectForm("tumblr")}>
                 <ListItemIcon><IoLogoTumblr /></ListItemIcon>
-                <ListItemText primary={Tumblr} />
+                <ListItemText primary="Tumblr" />
             </ListItem>
           </List>
         </Grid>
         <Grid item xs={9}>
+            <SMFacebook guid={this.props.guid} id="FacebookSheet"/>
         </Grid>
     </Grid>
     );
