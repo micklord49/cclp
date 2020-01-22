@@ -30,25 +30,15 @@ export default class SocialMedia extends Component {
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  selectRole(r){
-    for(let i=0;i<this.state.roles.length;i++)
-    {
-      if(this.state.roles[i].guid == r)  
-      {
-        this.setState({ selectedrole: this.state.roles[i] });
-      }
-    }
-  }
-
   componentDidMount(){
-    axios.get("/ec/1/edit")
-    .then(response => {
-      this.setState({  roles: response.data.roles });
-      this.setState({  selectedrole: response.data.roles[0] });
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+    //axios.get("/ec/1/edit")
+    //.then(response => {
+    //  this.setState({  roles: response.data.roles });
+    //  this.setState({  selectedrole: response.data.roles[0] });
+    //})
+    //.catch(function (error) {
+    //  console.log(error);
+    //})
   }
 
   selectForm(id)
@@ -91,20 +81,6 @@ export default class SocialMedia extends Component {
     axios.patch(uri, clp).then((response) => {
           //this.props.history.push('/display-item');
     });
-  }
-
-
-  rolechanged()
-  {
-    console.log("ControlPanelEC - role changes");
-    axios.get("/ec/1/edit")
-    .then(response => {
-      this.setState({  roles: response.data.roles });
-      this.selectRole(this.state.selectedrole.guid);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
   }
 
   render() 

@@ -32,10 +32,13 @@ Route::resource('userdir', 'UserdirController');
 Route::resource('councils', 'CouncilsController');
 Route::resource('councillor', 'CouncillorController');
 Route::resource('wards', 'WardsController');
+Route::resource('blog', 'BlogController');
 Route::resource('image', 'ImageController');
 
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');
+
 Route::get('blog/{perpage}/{page}/{owner}/ownersearch', 'BlogController@ownersearch');
+Route::patch('blog/', 'BlogController@store');
 
 Route::get('ec/{role}/{user}/adduser', 'ECController@addroleuser');
 Route::get('ec/{role}/{user}/removeuser', 'ECController@removeroleuser');

@@ -89,22 +89,6 @@ class CouncillorInfo extends Component {
     });
   }
   
-  handleChangeAbout(text,medium){
-    this.setState({
-      about: text
-    })
-  }
-  handleChangeTelephone(e){
-    this.setState({
-      telephone: e.target.value
-    })
-  }
-  handleChangePublicEmail(e){
-    this.setState({
-      publicemail: e.target.value
-    })
-  }
- 
   componentDidMount(){
     axios.get("/profile/"+this.props.guid+"/edit")
       .then(response => {

@@ -19,9 +19,9 @@ class CreateBlogsTable extends Migration
             $table->string('owner',36);
             $table->string('title');
             $table->string('body');
-            $table->datetime('publishedOn');
-            $table->datetime('publishFrom');
-            $table->datetime('unpublishFrom');
+            $table->datetime('publishedOn')->nullable();
+            $table->datetime('publishFrom')->nullable();
+            $table->datetime('unpublishFrom')->nullable();
             $table->timestamps();
         });
     }

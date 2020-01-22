@@ -154,7 +154,7 @@ class ProfileController extends Controller
 
     public function getsocial($owner)
     {
-        Social::where('owner',$id)->firstOrFail();
+        Social::where('owner',$owner)->firstOrFail();
     }
 
     public function savesocial($owner)

@@ -37,6 +37,21 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         //
+        if($request->guid!="")
+        {
+            //  Create blog post
+            $blog = Blog::where('guid',$request->guid)->firstOrFail();    
+        }
+        else
+        {
+            //  Create blog post
+            $blog = new Blog;
+            $blog->guid = uniqid("BLG");
+            $blog->owner=$request->owner;
+        }
+        $blog->title=$request->title;
+        $blog->body=$request->body;
+        $blog->save();
     }
 
     /**
@@ -45,9 +60,11 @@ class BlogController extends Controller
      * @param  \App\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function show($branch)
+    public function show($guid)
     {
         //
+        $post = Blog::where('guid',$guid)->firstOrFail();
+        return $post->toJson();
     }
 
     /**
@@ -56,9 +73,8 @@ class BlogController extends Controller
      * @param  \App\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function edit($branch)
+    public function edit($guid)
     {
-        //
     }
 
     /**
@@ -68,7 +84,7 @@ class BlogController extends Controller
      * @param  \App\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Branch $branch)
+    public function update(Request $request, $branch)
     {
         //
     }
@@ -79,7 +95,7 @@ class BlogController extends Controller
      * @param  \App\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Branch $branch)
+    public function destroy($branch)
     {
         //
     }

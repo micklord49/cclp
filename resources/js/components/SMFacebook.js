@@ -68,6 +68,12 @@ export default class SMFacebook extends Component {
             });
       })
       .catch(function (error) {
+        this.setState({  
+          facebook: "",
+          facebookKey: "", 
+          facebookSecret: "", 
+        });
+
         console.log(error);
       })
   }
