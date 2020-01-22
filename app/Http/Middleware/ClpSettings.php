@@ -45,6 +45,7 @@ class ClpSettings
         }
         else
         {
+            $clps = DB::select('select * from cclps');
             $clpGuid = $clps[0]->guid;
             $siteType = "CLP";
         }
