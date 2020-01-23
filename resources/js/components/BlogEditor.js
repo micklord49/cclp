@@ -13,6 +13,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Slide from '@material-ui/core/Slide';
 
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
 import DateFnsUtils from '@date-io/date-fns';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
@@ -41,6 +45,12 @@ import {
 require('medium-editor/dist/css/medium-editor.css');
 require('medium-editor/dist/css/themes/default.css');
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+
+
 // ES module
 import Editor from 'react-medium-editor';
 
@@ -57,7 +67,12 @@ export default class BlogEditor extends Component {
         postguid: "", 
         edittitle: "", 
         openedit: false, 
-        owner: props.owner 
+        owner: props.owner ,
+
+        opensuccess: false, 
+        openfail: false, 
+        failmessage: '',         
+
       };
       this._child = React.createRef();
       this.tableRef = React.createRef();
@@ -109,9 +124,21 @@ export default class BlogEditor extends Component {
   onSave()
   {
     console.log("OnSave()");
-    this._child.current.save()
+    this.saveAndRefresh();
+  }
+
+  async saveAndRefresh()
+  {
     this.setState({ openedit: false});
-    this.tableRef.current.onQueryChange();
+    this._child.current.save()
+      .then(()=>{
+        this.setState({ opensuccess: true })
+        this.tableRef.current.onQueryChange();
+      })
+      .catch((error) => {
+        this.setState({ failmessage: error, openfail: true })
+        console.log(error);
+      });
   }
 
   onCancel()
@@ -119,6 +146,15 @@ export default class BlogEditor extends Component {
     console.log("OnCancel()");
     this.setState({ openedit: false});
   }
+
+  handleClose(event, reason) 
+  {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ opensuccess: false });
+  };
+
 
   render() 
   {
@@ -202,6 +238,18 @@ export default class BlogEditor extends Component {
         </AppBar>
         <BlogPost ref={this._child} owner={this.state.owner} guid={this.state.postguid} />
       </Dialog>
+      <Snackbar open={this.state.opensuccess} autoHideDuration={6000} onClose={()=>{this.handleClose();}}>
+            <Alert onClose={()=>{this.handleClose();}} severity="success">
+              Your blog has been saved.
+            </Alert>
+            </Snackbar>
+            <Snackbar open={this.state.openfail} autoHideDuration={6000} onClose={()=>{this.handleClose()}}>
+              <Alert onClose={()=>{this.handleClose();}} severity="error">
+                Blog Save Failed: {this.state.failmessage}
+              </Alert>
+            </Snackbar>
+        
+
     </div>    );
   }
 }

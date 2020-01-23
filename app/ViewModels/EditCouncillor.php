@@ -5,7 +5,7 @@ namespace App\ViewModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Councilor;
+use App\Councillor;
 
 class EditCouncillor extends Model
 {
@@ -31,7 +31,7 @@ class EditCouncillor extends Model
     public function __construct($id)
     {
         $clpGuid = config('appsettings.clpGUID');
-        $councillor = Councilor::where('owner',$id)->firstOrFail();
+        $councillor = Councillor::where('owner',$id)->firstOrFail();
 
         $this->guid = $councillor->guid;
         $this->menu = new Menu($clpGuid);

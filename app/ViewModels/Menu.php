@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-use App\Councilor;
+use App\Councillor;
 
 class Menu
 {
@@ -30,7 +30,7 @@ class Menu
             case "CLP":
                 //$peopleMenu = new MenuItem("People","/people",true);
                 //$peopleMenu->AddSubMenu($this->ECMenu($clpGuid));
-                //$peopleMenu->AddSubMenu($this->CouncilorsMenu($clpGuid));
+                //$peopleMenu->AddSubMenu($this->CouncillorsMenu($clpGuid));
                 //array_push($this->Menu , $peopleMenu);
                 array_push($this->Menu , new MenuItem("Contact","/contact",true));
                 array_push($this->Menu , $this->AccountMenu());
@@ -52,7 +52,7 @@ class Menu
                 $menu->AddSubMenu(new MenuItem("Edit CLP","/clp",true));
                 $menu->AddSubMenu(new MenuItem("Edit the people of the CLP","/people",true));
             }
-            $this->CouncilorMenu($menu);
+            $this->CouncillorMenu($menu);
             $menu->AddSubMenu(new MenuItem("Logout","/logout",true));
         }
         else
@@ -66,16 +66,16 @@ class Menu
         return $menu;
     }
 
-    private function CouncilorMenu($menu)
+    private function CouncillorMenu($menu)
     {
         if(!Auth::check())          return;     //  Only available for logged in user
         $user = auth()->user();
-        $councillor = Councilor::where('owner',$user->guid)->get();
+        $councillor = Councillor::where('owner',$user->guid)->get();
         if(count($councillor)==0)
         {
             return;
         }
-        $menu->AddSubMenu(new MenuItem("My info as a Councilor","/councillor",true));
+        $menu->AddSubMenu(new MenuItem("My info as a Councillor","/councillor",true));
 
     }
 
@@ -91,43 +91,43 @@ class Menu
         return $menu;
     }
 
-    private function CouncilorsMenu($clpGuid)
+    private function CouncillorsMenu($clpGuid)
     {
-        $menu = new MenuItem("Councilors","/people/councilors",true);
+        $menu = new MenuItem("Councillors","/people/councillors",true);
 
         $clps = DB::select('select * from cclps where guid=?',[$clpGuid]);
         if(count($clps) == 0)   return $menu;
-        if($clps[0]->groupCouncilorsByWard)
+        if($clps[0]->groupCouncillorsByWard)
         {
-            $wards = DB::select('select distinct ward from councilors where clp=? ORDER BY ward',[$clpGuid]);
+            $wards = DB::select('select distinct ward from councillors where clp=? ORDER BY ward',[$clpGuid]);
             foreach($wards as $ward)
             {
-                $councilors = DB::select('select councilors.guid,users.name,brandAsClp,dn from councilors,users where councilors.user=users.guid AND councilors.clp=? and ward=? ORDER BY users.name',[$clpGuid,$ward->ward]);
-                foreach($councilors as $councilor)
+                $councillors = DB::select('select councillors.guid,users.name,brandAsClp,dn from councillors,users where councillors.user=users.guid AND councillors.clp=? and ward=? ORDER BY users.name',[$clpGuid,$ward->ward]);
+                foreach($councillors as $councillor)
                 {
-                    if($councilor->brandAsClp)
+                    if($councillor->brandAsClp)
                     {
-                        $menu->AddSubItem($councilor->name,"/people/councilor/" . $councilor->guid,true);
+                        $menu->AddSubItem($councillor->name,"/people/councillor/" . $councillor->guid,true);
                     }
                     else
                     {
-                        $menu->AddSubItem($councilor->name,$councilor->dn . "/",true);
+                        $menu->AddSubItem($councillor->name,$councillor->dn . "/",true);
                     }
                 }
             }
         }
         else
         {
-            $councilors = DB::select('select councilors.guid,users.name,brandAsClp,dn from councilors,users where councilors.user=users.guid AND councilors.clp=? ORDER BY users.name',[$clpGuid]);
-            foreach($councilors as $councilor)
+            $councillors = DB::select('select councillors.guid,users.name,brandAsClp,dn from councillors,users where councillors.user=users.guid AND councillors.clp=? ORDER BY users.name',[$clpGuid]);
+            foreach($councillors as $councillor)
             {
-                if($councilor->brandAsClp)
+                if($councillor->brandAsClp)
                 {
-                    $menu->AddSubItem($councilor->name,"/people/councilor/" . $councilor->guid,true);
+                    $menu->AddSubItem($councillor->name,"/people/councillor/" . $councillor->guid,true);
                 }
                 else
                 {
-                    $menu->AddSubItem($councilor->name,$councilor->dn . "/",true);
+                    $menu->AddSubItem($councillor->name,$councillor->dn . "/",true);
                 }
             }
         }

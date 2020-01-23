@@ -34,11 +34,12 @@ import {
 
 import HelpText from './HelpText';
 
-require('medium-editor/dist/css/medium-editor.css');
-require('medium-editor/dist/css/themes/default.css');
+import { convertFromHTML, EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-// ES module
-import Editor from 'react-medium-editor';
+
+
 
 const styles = theme => ({
   root: {
@@ -74,7 +75,24 @@ const useStyles = makeStyles({
 class CouncillorInfo extends Component {
   constructor(props) {
       super(props);
-      this.state = {dn: '', active: false, campaign: false };
+      this.state = {
+        dn: '', 
+        active: false, 
+        campaign: false, 
+        editorState: EditorState.createEmpty() 
+      };
+      this.onChange = editorState => {
+        this.setState({editorState});
+        console.log("Editor Changed");
+      };
+      this.setEditor = (editor) => {
+        this.editor = editor;
+      };
+      this.focusEditor = () => {
+        if (this.editor) {
+          this.editor.focus();
+        }
+      };
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -88,21 +106,28 @@ class CouncillorInfo extends Component {
       [name]: value
     });
   }
+
+  handleChangeAbout(text,medium){
+    this.setState({
+      about: text
+    })
+  }
+
   
   componentDidMount(){
-    axios.get("/profile/"+this.props.guid+"/edit")
+    axios.get("/councillor/"+this.props.guid+"/edit")
       .then(response => {
-        this.setState({ email: response.data.email, 
-                        name: response.data.name, 
+        this.setState({ dn: response.data.dn, 
                         about: response.data.about, 
-                        birthdate: response.data.birthdate, 
-                        hidebirthdate: response.data.birthdate==1, 
-                        telephone: response.data.telephone, 
-                        publicemail: response.data.publicemail });
+                        active: response.data.active==1, 
+                        campaign: response.data.campaign==1, 
+                        editorState: EditorState.createWithContent(response.data.about)
+                      });
+                      
       })
       .catch(function (error) {
         console.log(error);
-      })
+      });
   }
 
 
@@ -112,15 +137,13 @@ class CouncillorInfo extends Component {
 
     const user = {
       type: 'INFO',
-      name: this.state.name,
-      about: this.state.about,
-      birthdate: this.state.birthdate,
-      hidebirthdate: this.state.hidebirthdate?1:0,
-      telephone: this.state.telephone,
-      publicemail: this.state.publicemail
+      dn: this.state.dn,
+      about: this.state.editorState.currentContent,
+      active: this.state.active,
+      campaign: this.state.campaign,
     }
 
-    let uri = '/profile/'+this.props.guid;
+    let uri = '/councillor/'+this.props.guid;
     axios.patch(uri, user).then((response) => {
           //this.props.history.push('/display-item');
     });
@@ -160,6 +183,16 @@ class CouncillorInfo extends Component {
       paddingLeft:10,
       paddingRight:20,
     };
+
+    const editstyle = {
+      border: '1px solid gray',
+      minHeight: 400,
+      backgroundColor: '#ffffff',
+      marginLeft: 0,
+      marginRight: 0,
+      paddingLeft:0,
+      paddingRight:0,
+    }
 
 
     return (
@@ -227,12 +260,14 @@ class CouncillorInfo extends Component {
                 <HelpText name='councillor.text' style="neuhelp"/>      
               </Grid>
             <Grid item xs={12} style={upstyle}>
-              <div style={{backgroundColor:"#ffffff", minHeight:500}}>
-                <Editor 
-                    id="info-about" 
-                    text={this.state.about} 
-                    onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
-                    options={{ placeholder: false}}            />
+              <div style={editstyle}>
+                <Editor
+                  editorState={this.state.editorState}
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                  onEditorStateChange={(state)=>{this.onChange(state);}}
+                />
               </div>
             </Grid>
           </Grid>

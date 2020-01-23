@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCouncilorsTable extends Migration
+class CreateCouncillorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateCouncilorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('councilors', function (Blueprint $table) {
+        Schema::create('councillors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('guid',36);
             $table->string('clp',36);
             $table->string('ward',36);
             $table->string('owner',36);
             $table->string('dn',128);
+            $table->string('about');
             $table->boolean('brandAsClp');
             $table->boolean('active');
             $table->boolean('campaign');
@@ -34,6 +35,6 @@ class CreateCouncilorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('councilors');
+        Schema::dropIfExists('councillors');
     }
 }

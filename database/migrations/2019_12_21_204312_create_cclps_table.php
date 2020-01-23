@@ -22,7 +22,7 @@ class CreateCclpsTable extends Migration
             $table->string('email');
             $table->string('phone');
 
-            $table->boolean('groupCouncilorsByWard');
+            $table->boolean('groupCouncillorsByWard');
 
             $table->timestamps();
         });

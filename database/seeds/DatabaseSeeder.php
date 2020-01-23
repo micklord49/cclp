@@ -78,7 +78,7 @@ class ClpTableSeeder extends Seeder
             'dn' => 'localhost',
             'email' => 'admin@localhost',
             'phone' => '',
-            'groupCouncilorsByWard' => false
+            'groupCouncillorsByWard' => false
         ));
 
 

@@ -52,6 +52,7 @@ class BlogController extends Controller
         $blog->title=$request->title;
         $blog->body=$request->body;
         $blog->save();
+        
     }
 
     /**
@@ -84,9 +85,10 @@ class BlogController extends Controller
      * @param  \App\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $branch)
+    public function update(Request $request, $blog)
     {
         //
+        $this->store($request);
     }
 
     /**

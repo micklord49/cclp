@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-use App\Councilor;
+use App\Councillor;
 use Illuminate\Http\Request;
 
 use App\ViewModels\EditCouncillor;
@@ -61,10 +61,10 @@ class CouncillorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Councilor  $councilor
+     * @param  \App\Councillor  $councillor
      * @return \Illuminate\Http\Response
      */
-    public function show(Councilor $councilor)
+    public function show(Councillor $councillor)
     {
         //
     }
@@ -72,33 +72,64 @@ class CouncillorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Councilor  $councilor
+     * @param  \App\Councillor  $councillor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Councilor $councilor)
+    public function edit($councillor)
     {
         //
+        $ret = Councillor::where('guid',$councillor)->firstOrFail();
+        return $ret;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Councilor  $councilor
+     * @param  \App\Councillor  $councillor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Councilor $councilor)
+    public function update(Request $request, $councillor)
     {
         //
+        if(Auth::check())
+        {
+            $user = auth()->user();
+        }
+        else {
+            abort(404);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+        $user = Councillor::where('guid',$councillor)->firstOrFail();
+
+        switch($request->type)
+        {
+            case 'INFO':
+                if(isset($request->dn)) $user->dn = $request->dn;
+                if(isset($request->about)) $user->about = $request->about;
+                if(isset($request->active)) $user->active = $request->active;
+                if(isset($request->campaign)) $user->campaign = $request->campaign;
+                break;
+            case 'SOCIAL':
+                $user->facebook = $request->facebook ?? '';
+                $user->instagram = $request->instagram ?? '';
+                $user->twitter = $request->twitter ?? '';
+                $user->youtube = $request->youtube ?? '';
+                $user->tumblr = $request->tumblr ?? '';
+                break;
+        }
+
+        $user->save();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Councilor  $councilor
+     * @param  \App\Councillor  $councillor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Councilor $councilor)
+    public function destroy(Councillor $councillor)
     {
         //
     }
@@ -111,7 +142,7 @@ class CouncillorController extends Controller
 
         app('debugbar')->disable();
 
-        $councillors = Councilor::select('owner')->where("clp",$clpGuid)->get();
+        $councillors = Councillor::select('owner')->where("clp",$clpGuid)->get();
         $u = array();
         foreach($councillors as $c)
         {
@@ -138,7 +169,7 @@ class CouncillorController extends Controller
 
         $clpGuid = config('appsettings.clpGUID');
 
-        Councilor::where('owner',$user)->delete();
+        Councillor::where('owner',$user)->delete();
         Log::info('Removing user '.$user.' as a councillor');
     }
 
@@ -157,7 +188,7 @@ class CouncillorController extends Controller
 
         $clpGuid = config('appsettings.clpGUID');
 
-        Councilor::create(array(
+        Councillor::create(array(
             'clp' => $clpGuid,
             'guid' => uniqid("CNR"),
             'ward' => '',

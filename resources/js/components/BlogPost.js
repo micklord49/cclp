@@ -23,6 +23,10 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Switch from '@material-ui/core/Switch';
+
+
+
+
 import SaveIcon from '@material-ui/icons/Save';
 import MailIcon from '@material-ui/icons/Mail';
 import PhoneIcon from '@material-ui/icons/Phone';
@@ -40,7 +44,6 @@ require('medium-editor/dist/css/themes/default.css');
 import Editor from 'react-medium-editor';
 
 
-
 export default class BlogPost extends Component {
   constructor(props) {
       super(props);
@@ -48,7 +51,8 @@ export default class BlogPost extends Component {
         guid: props.guid, 
         owner: props.owner, 
         title: "", 
-        body: ""
+        body: "",
+
       };
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -91,7 +95,7 @@ export default class BlogPost extends Component {
   }
 
 
-  save() 
+  async save() 
   {
     const post = {
       guid: this.state.guid,
@@ -101,13 +105,13 @@ export default class BlogPost extends Component {
     }
 
     let uri = '/blog/'+this.props.guid;
-    axios.patch(uri, post).then((response) => {
-          //this.props.history.push('/display-item');
-    });
+    await axios.patch(uri, post)
+      .then((response) => {
+      })
     console.log("Saving post");
   }
 
-
+  
   render() 
   {
 
@@ -158,7 +162,6 @@ export default class BlogPost extends Component {
                     </div>
                 </Grid>
             </Grid>
-        
       </div>
     );
   }
