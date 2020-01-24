@@ -112,6 +112,11 @@ export default class ControlPanelCLPHome extends Component {
         <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
           <Grid style={{paddingLeft: 10}} container spacing={3}>
             <Grid item xs={12}>
+              <Button color="primary" type="submit">
+                <SaveIcon />Save
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
               <TextField id="clp-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is normally the name of your constituency"/>
             </Grid>
             <Grid item xs={12}>
@@ -143,11 +148,6 @@ export default class ControlPanelCLPHome extends Component {
                   endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
                 />
               </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Button color="primary" type="submit">
-                <SaveIcon />Save
-              </Button>
             </Grid>
 
           </Grid>

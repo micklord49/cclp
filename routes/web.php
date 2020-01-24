@@ -54,7 +54,7 @@ Route::get('councillors/{user}/removeuser', 'CouncillorController@removeuser');
 Route::get('profile/{user}/imagefile', 'ProfileController@imagefile');
 Route::post('profile/{user}/changeimage', 'ProfileController@changeimage');
 Route::get('profile/{owner}/getsocial', 'ProfileController@getsocial');
-Route::patch('profile/{owner}/savesocial', 'ProfileController@savesocial');
+Route::post('social/save/councillor', 'ProfileController@savesocial');
 
 
 Route::get('logout', 'Auth\LoginController@logout');

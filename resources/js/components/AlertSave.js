@@ -8,7 +8,6 @@ export default class ProfileInfo extends Component {
       this.state = {
         opensuccess: this.props.opensuccess, 
         openfail: this.props.openfail,
-        failmessage: this.props.failmessage
     };
   }
 
@@ -38,12 +37,12 @@ export default class ProfileInfo extends Component {
         <div>
             <Snackbar open={this.state.opensuccess} autoHideDuration={6000} onClose={()=>{this.handleCloseSuccess();}}>
                 <Alert onClose={()=>{this.handleCloseSuccess();}} severity="success">
-                Your information has been saved.
+                Your {this.props.datatype} has been saved.
                 </Alert>
             </Snackbar>
             <Snackbar open={this.state.openfail} autoHideDuration={6000} onClose={()=>{this.handleCloseFail()}}>
                 <Alert onClose={()=>{this.handleCloseFail();}} severity="error">
-                {this.state.failmessage}
+                {this.props.failmessage}
                 </Alert>
             </Snackbar>
         </div>

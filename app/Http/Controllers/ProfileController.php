@@ -154,10 +154,10 @@ class ProfileController extends Controller
 
     public function getsocial($owner)
     {
-        Social::where('owner',$owner)->firstOrFail();
+        return Social::firstOrNew([ 'owner' => $owner]);
     }
 
-    public function savesocial($owner)
+    public function savesocial(Request $request)
     {
         if(Auth::check())
         {
@@ -171,7 +171,13 @@ class ProfileController extends Controller
         }
 
         $clpGuid = config('appsettings.clpGUID');
-        $social = Social::where('owner',$id)->firstOrFail();
+        $social = Social::firstOrNew([ 'owner' => $request->owner]);
+
+        if($social->guid=="")
+        {
+            $social->guid=uniqid("SOC");
+            $social->owner=$request->owner;
+        }
 
         try 
         {

@@ -80,7 +80,7 @@ class CouncillorEdit extends Component {
         </Tabs>
       </AppBar>
       <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 0}>
-        <BlogEditor owner={this.props.guid}/>
+        <BlogEditor owner={this.props.guid} description="Your posts as a councillor"/>
       </div>
       <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 1}>
         <CouncillorInfo guid={this.props.guid}/>

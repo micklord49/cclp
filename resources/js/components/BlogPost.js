@@ -37,11 +37,8 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-require('medium-editor/dist/css/medium-editor.css');
-require('medium-editor/dist/css/themes/default.css');
-
-// ES module
-import Editor from 'react-medium-editor';
+import ReactQuill from 'react-quill'; // ES6
+import 'react-quill/dist/quill.snow.css'; // ES6
 
 
 export default class BlogPost extends Component {
@@ -67,7 +64,7 @@ export default class BlogPost extends Component {
     });
   }
 
-  handleChangeBody(text,medium){
+  handleChangeBody(text){
     this.setState({
       body: text
     })
@@ -153,12 +150,8 @@ export default class BlogPost extends Component {
                 </Grid>
                 <Grid item xs={12}>
                     <div style={{backgroundColor:"#ffffff", minHeight:300}}>
-                        <Editor 
-                            id="blog-body" 
-                            text={this.state.body} 
-                            onChange={(text,medium)=>{this.handleChangeBody(text,medium)}} 
-                            options={{ placeholder: false}}            
-                        />
+                    <ReactQuill value={this.state.body}
+                                onChange={(e)=>{this.handleChangeBody(e);}} />
                     </div>
                 </Grid>
             </Grid>

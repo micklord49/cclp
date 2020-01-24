@@ -26,6 +26,9 @@ import SaveIcon from '@material-ui/icons/Save';
 import MailIcon from '@material-ui/icons/Mail';
 import PhoneIcon from '@material-ui/icons/Phone';
 
+import AlertSave from './AlertSave';
+
+
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -34,11 +37,8 @@ import {
 
 import HelpText from './HelpText';
 
-import { convertFromHTML, EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-
-
+import ReactQuill from 'react-quill'; // ES6
+import 'react-quill/dist/quill.snow.css'; // ES6
 
 
 const styles = theme => ({
@@ -77,21 +77,14 @@ class CouncillorInfo extends Component {
       super(props);
       this.state = {
         dn: '', 
+        about: '', 
         active: false, 
         campaign: false, 
-        editorState: EditorState.createEmpty() 
-      };
-      this.onChange = editorState => {
-        this.setState({editorState});
-        console.log("Editor Changed");
-      };
-      this.setEditor = (editor) => {
-        this.editor = editor;
-      };
-      this.focusEditor = () => {
-        if (this.editor) {
-          this.editor.focus();
-        }
+
+        opensuccess: false, 
+        openfail: false, 
+        failmessage: '',         
+
       };
       this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -107,23 +100,20 @@ class CouncillorInfo extends Component {
     });
   }
 
-  handleChangeAbout(text,medium){
-    this.setState({
-      about: text
-    })
+  handleChangeAbout(value) {
+    this.setState({ about: value })
   }
 
   
   componentDidMount(){
+    console.log("Retrieving councillor");
     axios.get("/councillor/"+this.props.guid+"/edit")
       .then(response => {
         this.setState({ dn: response.data.dn, 
                         about: response.data.about, 
                         active: response.data.active==1, 
                         campaign: response.data.campaign==1, 
-                        editorState: EditorState.createWithContent(response.data.about)
                       });
-                      
       })
       .catch(function (error) {
         console.log(error);
@@ -138,15 +128,20 @@ class CouncillorInfo extends Component {
     const user = {
       type: 'INFO',
       dn: this.state.dn,
-      about: this.state.editorState.currentContent,
+      about: this.state.about,
       active: this.state.active,
       campaign: this.state.campaign,
     }
 
     let uri = '/councillor/'+this.props.guid;
     axios.patch(uri, user).then((response) => {
-          //this.props.history.push('/display-item');
-    });
+      this.setState({ opensuccess: true })
+    })
+    .catch(function (error) {
+      this.setState({ failmessage: error, openfail: true })
+      console.log(error);
+      });
+
   }
 
 
@@ -261,20 +256,16 @@ class CouncillorInfo extends Component {
               </Grid>
             <Grid item xs={12} style={upstyle}>
               <div style={editstyle}>
-                <Editor
-                  editorState={this.state.editorState}
-                  toolbarClassName="toolbarClassName"
-                  wrapperClassName="wrapperClassName"
-                  editorClassName="editorClassName"
-                  onEditorStateChange={(state)=>{this.onChange(state);}}
-                />
+              <ReactQuill value={this.state.about}
+                  onChange={(e)=>{this.handleChangeAbout(e);}} />
               </div>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
     </form>  
-    </div>    );
+    <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="details"/>
+     </div>    );
   }
 }
 

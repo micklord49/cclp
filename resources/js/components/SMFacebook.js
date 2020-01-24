@@ -2,28 +2,18 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
-import PropTypes from 'prop-types';
-
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Fab from '@material-ui/core/Fab';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import SaveIcon from '@material-ui/icons/Save';
-import HomeIcon from '@material-ui/icons/Home';
 
 import { IconContext } from "react-icons";
-
 import { IoLogoFacebook } from 'react-icons/io';
+import SaveIcon from '@material-ui/icons/Save';
 import VpnKey from '@material-ui/icons/VpnKey';
-
 
 import HelpText from './HelpText';
 import AlertSave from './AlertSave';
+
 
 
 export default class SMFacebook extends Component {
@@ -33,6 +23,7 @@ export default class SMFacebook extends Component {
           facebook: '', 
           facebookKey: '', 
           facebookSecret: '',
+
           opensuccess: false, 
           openfail: false, 
           failmessage: '', 
@@ -40,31 +31,23 @@ export default class SMFacebook extends Component {
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeFacebook(e){
+  handleChange(e){
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+  
     this.setState({
-      facebook: e.target.value
-    })
+      [name]: value
+    });
   }
-  handleChangeFacebookKey(e){
-    this.setState({
-        facebookKey: e.target.value
-    })
-  }
-
-    handleChangeFacebookSecret(e){
-        this.setState({
-            facebookSecret: e.target.value
-        })
-    }
-    
  
   componentDidMount(){
+    console.log("Retreiving facebook")
     axios.get("/profile/"+this.props.guid+"/getsocial")
       .then(response => {
+        console.log(response);
         this.setState({  
             facebook: response.data.facebook,
-            facebookKey: response.data.facebookKey, 
-            facebookSecret: response.data.facebookSecret, 
             });
       })
       .catch(function (error) {
@@ -85,18 +68,21 @@ export default class SMFacebook extends Component {
 
     const sm = {
         type: 'FACEBOOK',
+        owner: this.props.guid,
         facebook: this.state.facebook,
         facebookKey: this.state.facebookKey,
         facebookSecret: this.state.facebookSecret,
     }
 
-    let uri = '/profile/'+this.props.guid+'/savesocial';
-    axios.patch(uri, sm)
+    let uri = '/social/save/councillor';
+    axios.post(uri, sm)
     .then((response) => {
           //this.props.history.push('/display-item');
-    })
+          this.setState({ opensuccess: true })
+        })
     .catch(function (error) {
-        console.log(error);
+      this.setState({ failmessage: error, openfail: true })
+      console.log(error);
       })
 
   }
@@ -142,11 +128,18 @@ export default class SMFacebook extends Component {
       <IconContext.Provider value={{ color: "skyblue", size: "3rem", style: { paddingRight: "1em", verticalAlign: 'middle' }, className: "global-class-name" }}>
       <Grid style={{paddingLeft: 10}} container spacing={2}>          
         <Grid item xs={12}>
+          <Button color="primary" type="submit">
+            <SaveIcon />Save
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
             <IoLogoFacebook />
             <TextField 
                 id="info-facebook" 
+                fullWidth
+                name="facebook"
                 value={this.state.facebook} 
-                onChange={(e)=>{this.handleChangeFacebook(e);}} 
+                onChange={(e)=>{this.handleChange(e);}} 
                 label="Facebook" 
             />
         </Grid>
@@ -157,8 +150,9 @@ export default class SMFacebook extends Component {
             <VpnKey />
             <TextField 
                 id="info-facebookKey" 
+                name="facebookKey"
                 value={this.state.facebookKey} 
-                onChange={(e)=>{this.handleChangeFacebookKey(e);}} 
+                onChange={(e)=>{this.handleChange(e);}} 
                 label="Facebook Key" 
             />
         </Grid>
@@ -166,14 +160,15 @@ export default class SMFacebook extends Component {
             <IoLogoFacebook />
             <TextField 
                 id="info-facebookSecret" 
+                name="facebookSecret"
                 value={this.state.facebookSecret} 
-                onChange={(e)=>{this.handleChangeFacebookSecret(e);}} 
+                onChange={(e)=>{this.handleChange(e);}} 
                 label="Facebook Secret" 
             />
         </Grid>
       </Grid>
       </IconContext.Provider>
-      <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} />
+      <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="facebook details"/>
     </form>  
     );
   }

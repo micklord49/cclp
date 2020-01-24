@@ -13,22 +13,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Slide from '@material-ui/core/Slide';
 
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
-
-
-import DateFnsUtils from '@date-io/date-fns';
-import Fab from '@material-ui/core/Fab';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Switch from '@material-ui/core/Switch';
-
+import AlertSave from './AlertSave';
 
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import CloseIcon from '@material-ui/icons/Close';
@@ -36,23 +21,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-
-require('medium-editor/dist/css/medium-editor.css');
-require('medium-editor/dist/css/themes/default.css');
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
-
-
-// ES module
-import Editor from 'react-medium-editor';
 
 import BlogPost from './BlogPost';
 
@@ -147,15 +115,6 @@ export default class BlogEditor extends Component {
     this.setState({ openedit: false});
   }
 
-  handleClose(event, reason) 
-  {
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.setState({ opensuccess: false });
-  };
-
-
   render() 
   {
 
@@ -185,7 +144,7 @@ export default class BlogEditor extends Component {
             </Button>
         </Grid>
         <Grid item xs={12}>
-          <h5>Your posts as a councillor</h5>
+            <h5>{this.props.description}</h5>
           <MaterialTable
             tableRef={this.tableRef}
             columns={[
@@ -238,18 +197,7 @@ export default class BlogEditor extends Component {
         </AppBar>
         <BlogPost ref={this._child} owner={this.state.owner} guid={this.state.postguid} />
       </Dialog>
-      <Snackbar open={this.state.opensuccess} autoHideDuration={6000} onClose={()=>{this.handleClose();}}>
-            <Alert onClose={()=>{this.handleClose();}} severity="success">
-              Your blog has been saved.
-            </Alert>
-            </Snackbar>
-            <Snackbar open={this.state.openfail} autoHideDuration={6000} onClose={()=>{this.handleClose()}}>
-              <Alert onClose={()=>{this.handleClose();}} severity="error">
-                Blog Save Failed: {this.state.failmessage}
-              </Alert>
-            </Snackbar>
-        
-
+      <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="blog"/>
     </div>    );
   }
 }

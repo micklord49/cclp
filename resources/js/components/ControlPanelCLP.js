@@ -18,6 +18,8 @@ import MembershipIcon from '@material-ui/icons/CardMembership';
 import ControlPanelCLPHome from './ControlPanelCLPHome';
 import ControlPanelCLPSocial from './ControlPanelCLPSocial';
 import ControlPanelCLPCouncils from './ControlPanelCLPCouncils';
+import BlogEditor from './BlogEditor';
+import SocialMedia from './SocialMedia';
 
 
 
@@ -58,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SimpleTabs() {
+export default function SimpleTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -78,22 +80,26 @@ export default function SimpleTabs() {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs style={tabStyle} value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Basic Information" icon={<HomeIcon />}  {...a11yProps(0)} />
-          <Tab label="Social Media" icon={<MembershipIcon />} {...a11yProps(1)} />
-          <Tab label="Councils" icon={<AccountBalanceIcon />} {...a11yProps(1)} />
-          <Tab label="Branches"  icon={<AccountTreeIcon />} {...a11yProps(2)} />
+          <Tab label="News" icon={<HomeIcon />}  {...a11yProps(0)} />
+          <Tab label="Basic Information" icon={<HomeIcon />}  {...a11yProps(1)} />
+          <Tab label="Social Media" icon={<MembershipIcon />} {...a11yProps(2)} />
+          <Tab label="Councils" icon={<AccountBalanceIcon />} {...a11yProps(3)} />
+          <Tab label="Branches"  icon={<AccountTreeIcon />} {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel style={tabpageStyle} value={value} index={0}>
-        <ControlPanelCLPHome />
+        <BlogEditor owner={props.guid} description="Your posts as the CLP"/>
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={1}>
-        <ControlPanelCLPSocial />
+        <ControlPanelCLPHome />
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={2}>
+        <SocialMedia  guid={props.guid}/>
+      </TabPanel>
+      <TabPanel style={tabpageStyle} value={value} index={3}>
         <ControlPanelCLPCouncils />
       </TabPanel>
-      <TabPanel value={value} index={3}>
+      <TabPanel style={tabpageStyle} value={value} index={4}>
         Branches
       </TabPanel>
     </div>
