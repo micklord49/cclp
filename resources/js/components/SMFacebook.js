@@ -43,7 +43,7 @@ export default class SMFacebook extends Component {
  
   componentDidMount(){
     console.log("Retreiving facebook")
-    axios.get("/profile/"+this.props.guid+"/getsocial")
+    axios.get("/social/load/"+this.props.owner)
       .then(response => {
         console.log(response);
         this.setState({  
@@ -68,13 +68,13 @@ export default class SMFacebook extends Component {
 
     const sm = {
         type: 'FACEBOOK',
-        owner: this.props.guid,
+        owner: this.props.owner,
         facebook: this.state.facebook,
         facebookKey: this.state.facebookKey,
         facebookSecret: this.state.facebookSecret,
     }
 
-    let uri = '/social/save/councillor';
+    let uri = '/social/save';
     axios.post(uri, sm)
     .then((response) => {
           //this.props.history.push('/display-item');
@@ -94,9 +94,10 @@ export default class SMFacebook extends Component {
       backgroundColor: "#E0E5EC" ,
       borderRadius:4,
       marginLeft: "auto",
-      marginRight: "auto",
+      marginRight: 20,
       marginTop:10,
       marginBottom:30,
+      paddingRight:10,
       paddingBottom:30,
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
@@ -151,6 +152,7 @@ export default class SMFacebook extends Component {
             <TextField 
                 id="info-facebookKey" 
                 name="facebookKey"
+                fullWidth
                 value={this.state.facebookKey} 
                 onChange={(e)=>{this.handleChange(e);}} 
                 label="Facebook Key" 
@@ -160,6 +162,7 @@ export default class SMFacebook extends Component {
             <IoLogoFacebook />
             <TextField 
                 id="info-facebookSecret" 
+                fullWidth
                 name="facebookSecret"
                 value={this.state.facebookSecret} 
                 onChange={(e)=>{this.handleChange(e);}} 

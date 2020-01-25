@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import MaterialTable from 'material-table';
 
 import DateFnsUtils from '@date-io/date-fns';
 import Fab from '@material-ui/core/Fab';
@@ -23,8 +22,6 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Switch from '@material-ui/core/Switch';
-
-
 
 
 import SaveIcon from '@material-ui/icons/Save';

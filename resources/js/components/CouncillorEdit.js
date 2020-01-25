@@ -21,6 +21,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import CouncillorInfo from './CouncillorInfo';
 import BlogEditor from './BlogEditor';
 import SocialMedia from './SocialMedia';
+import UploadPicture from './UploadPicture'
 
 
 const styles = theme => ({
@@ -76,6 +77,7 @@ class CouncillorEdit extends Component {
           onChange={(e,v) => { this.handleChange(e,v); }}>
           <Tab label="Blog" icon={<FaceIcon />}  />
           <Tab label="Councillor Information" icon={<CameraIcon />}  />
+          <Tab label="Profile Image" icon={<CameraIcon />}  />
           <Tab label="Social Media" icon={<MembershipIcon />} />
         </Tabs>
       </AppBar>
@@ -86,7 +88,10 @@ class CouncillorEdit extends Component {
         <CouncillorInfo guid={this.props.guid}/>
       </div>
       <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 2}>
-        <SocialMedia guid={this.props.guid}/>
+        <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={this.props.guid} />
+      </div>
+      <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 3}>
+        <SocialMedia owner={this.props.guid}/>
       </div>
     </div>
     );

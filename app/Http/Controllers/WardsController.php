@@ -59,7 +59,7 @@ class WardsController extends Controller
 
         Ward::create(array(
             'clp' => $clpGuid,
-            'guid' => uniqid(),
+            'guid' => uniqid("WRD"),
             'council' => $request->council,
             'name' => $request->name,
             'description' => '',

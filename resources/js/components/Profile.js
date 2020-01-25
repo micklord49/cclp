@@ -19,8 +19,8 @@ import CameraIcon from '@material-ui/icons/Camera';
 import PersonIcon from '@material-ui/icons/Person';
 
 import ProfileInfo from './ProfileInfo';
-import ProfilePicture from './ProfilePicture';
-import ProfileSocialMedia from './ProfileSocialMedia';
+import UploadPicture from './UploadPicture'
+import SocialMedia from './SocialMedia';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -90,10 +90,10 @@ export default function SimpleTabs(props) {
         <ProfileInfo guid={props.guid}/>
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={1}>
-        <ProfilePicture guid={props.guid}/>
+        <UploadPicture title="Upload profile picture" helptext="profile.picture" owner={props.guid} />
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={2}>
-        <ProfileSocialMedia guid={props.guid}/>
+        <SocialMedia owner={props.guid}/>
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={3}>
         Membership

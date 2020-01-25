@@ -22,6 +22,10 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Switch from '@material-ui/core/Switch';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
+
 import SaveIcon from '@material-ui/icons/Save';
 import MailIcon from '@material-ui/icons/Mail';
 import PhoneIcon from '@material-ui/icons/Phone';
@@ -76,10 +80,13 @@ class CouncillorInfo extends Component {
   constructor(props) {
       super(props);
       this.state = {
+        ward: '', 
         dn: '', 
         about: '', 
         active: false, 
         campaign: false, 
+
+        wards: [{value: '', display: '(Select your ward)'}],
 
         opensuccess: false, 
         openfail: false, 
@@ -90,14 +97,18 @@ class CouncillorInfo extends Component {
   }
 
 
-  handleChange(e){
+  handleChange(event){
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
+
+    console.log(event);
   
     this.setState({
       [name]: value
     });
+    console.log(this.state);
+
   }
 
   handleChangeAbout(value) {
@@ -113,11 +124,28 @@ class CouncillorInfo extends Component {
                         about: response.data.about, 
                         active: response.data.active==1, 
                         campaign: response.data.campaign==1, 
+                        ward: response.data.ward,
                       });
       })
       .catch(function (error) {
         console.log(error);
       });
+
+      axios.get("/clpapi/wards")
+      .then(response => {
+        console.log(response);
+        console.log("Loading wards...");
+        let clpwards = response.data.map(ward => {
+          return {value: ward.guid, display: ward.name}
+        });
+        console.log(clpwards);
+        this.setState({
+          wards: [{value: '', display: '(Select your ward)'}].concat(clpwards)
+        });
+      }).catch(error => {
+        console.log(error);
+      });
+  
   }
 
 
@@ -127,6 +155,7 @@ class CouncillorInfo extends Component {
 
     const user = {
       type: 'INFO',
+      ward: this.state.ward,
       dn: this.state.dn,
       about: this.state.about,
       active: this.state.active,
@@ -202,6 +231,21 @@ class CouncillorInfo extends Component {
         <Grid item md={6} xs={12}>
           <Grid container>
             <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="ward-select-label">Ward</InputLabel>
+                <Select
+                  labelId="ward-select-label"
+                  id="ward-select"
+                  value={this.state.ward}
+                  name="ward"
+                  autoWidth
+                  onChange={(e)=>{this.handleChange(e);}}
+                >
+                  {this.state.wards.map((ward) => <MenuItem value={ward.value}>{ward.display}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
                 <TextField id="info-dn" 
                 value={this.state.dn} 
                 label="Domain Name" 
@@ -265,7 +309,7 @@ class CouncillorInfo extends Component {
       </Grid>
     </form>  
     <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="details"/>
-     </div>    );
+  </div>    );
   }
 }
 

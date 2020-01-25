@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Permission;
 
 use App\ViewModels\EditClp;
 use App\Cclp;
+use App\Ward;
 
 
 class ClpController extends Controller
@@ -154,4 +155,11 @@ class ClpController extends Controller
     {
         //
     }
+
+    public function warddir()
+    {
+        $clpGuid = config('appsettings.clpGUID');
+        return Ward::where('clp',$clpGuid)->get();
+    }
+
 }

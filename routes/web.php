@@ -35,6 +35,8 @@ Route::resource('wards', 'WardsController');
 Route::resource('blog', 'BlogController');
 Route::resource('image', 'ImageController');
 
+Route::get('clpapi/wards', 'ClpController@warddir');
+
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');
 
 Route::get('blog/{perpage}/{page}/{owner}/ownersearch', 'BlogController@ownersearch');
@@ -51,10 +53,12 @@ Route::get('councillors/dir/all', 'CouncillorController@dir');
 Route::get('councillors/{user}/adduser', 'CouncillorController@adduser');
 Route::get('councillors/{user}/removeuser', 'CouncillorController@removeuser');
 
-Route::get('profile/{user}/imagefile', 'ProfileController@imagefile');
-Route::post('profile/{user}/changeimage', 'ProfileController@changeimage');
-Route::get('profile/{owner}/getsocial', 'ProfileController@getsocial');
-Route::post('social/save/councillor', 'ProfileController@savesocial');
+Route::post('image/{user}/changeimage', 'ImageController@changeimage');
+Route::get('image/{user}/imagefile', 'ImageController@imagefile');
+
+
+Route::get('social/load/{owner}', 'SocialController@load');
+Route::post('social/save', 'SocialController@save');
 
 
 Route::get('logout', 'Auth\LoginController@logout');

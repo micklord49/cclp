@@ -106,17 +106,11 @@ class CouncillorController extends Controller
         switch($request->type)
         {
             case 'INFO':
+                if(isset($request->ward)) $user->ward = $request->ward;
                 if(isset($request->dn)) $user->dn = $request->dn;
                 if(isset($request->about)) $user->about = $request->about;
                 if(isset($request->active)) $user->active = $request->active;
                 if(isset($request->campaign)) $user->campaign = $request->campaign;
-                break;
-            case 'SOCIAL':
-                $user->facebook = $request->facebook ?? '';
-                $user->instagram = $request->instagram ?? '';
-                $user->twitter = $request->twitter ?? '';
-                $user->youtube = $request->youtube ?? '';
-                $user->tumblr = $request->tumblr ?? '';
                 break;
         }
 

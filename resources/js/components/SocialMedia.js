@@ -25,20 +25,16 @@ import SMFacebook from './SMFacebook';
 export default class SocialMedia extends Component {
   constructor(props) {
       super(props);
-      this.state = { fb: true, instagram: false, twitter: false, youtube: false, tumblr: false };
-      //this.selectRole = this.selectRole.bind(this);
-      //this.handleSubmit = this.handleSubmit.bind(this);
+      this.state = { 
+        fb: true, 
+        instagram: false, 
+        twitter: false, 
+        youtube: false, 
+        tumblr: false 
+      };
   }
 
   componentDidMount(){
-    //axios.get("/ec/1/edit")
-    //.then(response => {
-    //  this.setState({  roles: response.data.roles });
-    //  this.setState({  selectedrole: response.data.roles[0] });
-    //})
-    //.catch(function (error) {
-    //  console.log(error);
-    //})
   }
 
   selectForm(id)
@@ -64,24 +60,6 @@ export default class SocialMedia extends Component {
     }
   }
 
-  handleSubmit(event) 
-  {
-    event.preventDefault();
-
-    const clp = {
-      type: 'INFO',
-      name: this.state.name,
-      description: this.state.description,
-      dn: this.state.dn,
-      phone: this.state.phone,
-      email: this.state.email
-    }
-
-    let uri = '/clp/1';
-    axios.patch(uri, clp).then((response) => {
-          //this.props.history.push('/display-item');
-    });
-  }
 
   render() 
   {
@@ -121,7 +99,7 @@ export default class SocialMedia extends Component {
           </List>
         </Grid>
         <Grid item xs={9}>
-            <SMFacebook guid={this.props.guid} id="FacebookSheet"/>
+            <SMFacebook owner={this.props.owner} id="FacebookSheet"/>
         </Grid>
     </Grid>
     );

@@ -20,9 +20,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
+import CameraIcon from '@material-ui/icons/CameraAlt';
 
 
 import BlogPost from './BlogPost';
+import UploadPicture from './UploadPicture';
 
 
 export default class BlogEditor extends Component {
@@ -34,15 +36,18 @@ export default class BlogEditor extends Component {
       this.state = {
         postguid: "", 
         edittitle: "", 
-        openedit: false, 
         owner: props.owner ,
+
+        openedit: false, 
+        openpicture: false,
 
         opensuccess: false, 
         openfail: false, 
         failmessage: '',         
 
       };
-      this._child = React.createRef();
+      this._childBlog = React.createRef();
+      this._childPicture = React.createRef();
       this.tableRef = React.createRef();
     }
 
@@ -89,6 +94,15 @@ export default class BlogEditor extends Component {
     console.log("Opened blog editor");
   }
 
+  editImage(guid)
+  {
+    console.log("OnNew()");
+    this.setState({ edittitle: "Post Image"});
+    this.setState({ postguid: guid});
+    this.setState({ openpicture: true});
+    console.log("Opened blog editor");
+  }
+
   onSave()
   {
     console.log("OnSave()");
@@ -113,6 +127,12 @@ export default class BlogEditor extends Component {
   {
     console.log("OnCancel()");
     this.setState({ openedit: false});
+  }
+
+  onCancelPicture()
+  {
+    console.log("OnCancel()");
+    this.setState({ openpicture: false});
   }
 
   render() 
@@ -151,13 +171,23 @@ export default class BlogEditor extends Component {
               {
                 field: 'edit',
                 Title: 'Edit',
+                sorting: false,
                 render: rowData => 
                           <IconButton color="primary" onClick={() => {this.editPost(rowData.guid)}}>
                             <EditIcon />
                           </IconButton>
               },
+              {
+                field: 'edit',
+                Title: 'Edit',
+                sorting: false,
+                render: rowData => 
+                          <IconButton color="primary" onClick={() => {this.editImage(rowData.guid)}}>
+                            <CameraIcon />
+                          </IconButton>
+              },
               { title: 'Title', field: 'title' },
-              { title: 'Published On', field: 'publishedOn' },
+              { title: 'Published On', field: 'publishedOn', type:"datetime" },
             ]}
             data={query =>
               new Promise((resolve, reject) => {
@@ -195,7 +225,23 @@ export default class BlogEditor extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <BlogPost ref={this._child} owner={this.state.owner} guid={this.state.postguid} />
+        <BlogPost ref={this._childBlog} owner={this.state.owner} guid={this.state.postguid} />
+      </Dialog>
+      <Dialog fullScreen open={this.state.openpicture} onClose={()=>{this.onCancelPicture();}} >
+        <AppBar style={{position: 'relative'}}>
+          <Toolbar>
+            <IconButton edge="start" color="inherit" onClick={()=>{this.onCancelPicture();}} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+            <div style={{flex: 1}}>
+              {this.state.edittitle}
+            </div>
+            <Button startIcon={<CancelIcon />} autoFocus color="inherit" onClick={()=>{this.onCancelPicture();}}>
+              Done
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <UploadPicture ref={this._childPicture} title="Upload blog picture" helptext="profile.picture" owner={this.state.postguid} />
       </Dialog>
       <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="blog"/>
     </div>    );

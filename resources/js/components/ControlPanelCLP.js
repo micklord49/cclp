@@ -19,6 +19,7 @@ import ControlPanelCLPHome from './ControlPanelCLPHome';
 import ControlPanelCLPSocial from './ControlPanelCLPSocial';
 import ControlPanelCLPCouncils from './ControlPanelCLPCouncils';
 import BlogEditor from './BlogEditor';
+import UploadPicture from './UploadPicture'
 import SocialMedia from './SocialMedia';
 
 
@@ -82,9 +83,10 @@ export default function SimpleTabs(props) {
         <Tabs style={tabStyle} value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="News" icon={<HomeIcon />}  {...a11yProps(0)} />
           <Tab label="Basic Information" icon={<HomeIcon />}  {...a11yProps(1)} />
-          <Tab label="Social Media" icon={<MembershipIcon />} {...a11yProps(2)} />
-          <Tab label="Councils" icon={<AccountBalanceIcon />} {...a11yProps(3)} />
-          <Tab label="Branches"  icon={<AccountTreeIcon />} {...a11yProps(4)} />
+          <Tab label="Home Page Image" icon={<MembershipIcon />} {...a11yProps(2)} />
+          <Tab label="Social Media" icon={<MembershipIcon />} {...a11yProps(3)} />
+          <Tab label="Councils" icon={<AccountBalanceIcon />} {...a11yProps(4)} />
+          <Tab label="Branches"  icon={<AccountTreeIcon />} {...a11yProps(5)} />
         </Tabs>
       </AppBar>
       <TabPanel style={tabpageStyle} value={value} index={0}>
@@ -94,12 +96,15 @@ export default function SimpleTabs(props) {
         <ControlPanelCLPHome />
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={2}>
-        <SocialMedia  guid={props.guid}/>
+        <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={props.guid} />
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={3}>
-        <ControlPanelCLPCouncils />
+        <SocialMedia  owner={props.guid}/>
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={4}>
+        <ControlPanelCLPCouncils />
+      </TabPanel>
+      <TabPanel style={tabpageStyle} value={value} index={5}>
         Branches
       </TabPanel>
     </div>

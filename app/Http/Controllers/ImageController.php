@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+use App\ViewModels\ImageFile;
 use App\Image;
 
 
@@ -127,4 +128,75 @@ class ImageController extends Controller
             ->with('success','You have successfully upload image.')
            ->with('image',$imageName);
     }
+
+    public function imagefile($id)
+    {
+        if(Auth::check())
+        {
+            $user = auth()->user();
+        }
+        else {
+            abort(404);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+        $image = new ImageFile($id);
+
+        if($image->filename=="")
+        {
+            Log::debug("No filename returned - so using default user image");
+            switch(substr($id,0,3))
+            {
+                case "USR":
+                    $image->filename="/images/defaultuser.png";
+                    break;
+                case "CLR":
+                    $image->filename="/images/defaultuser.png";
+                    break;
+                default:
+                    $image->filename="/images/defaultuser.png";
+                    break;
+            }
+        }
+        else
+        {
+            $image->canedit = true;
+        }
+        $image->canchange = true;
+        return $image;
+    }
+
+
+
+    public function changeimage(Request $request,$id)
+    {
+
+        $newimage = uniqid("IMG");
+        $owner = $id;
+        if($request->hasFile('image')==false)
+        {
+            abort(411,"No image in request");
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+        $images = Image::where('owner',[$owner])->get();
+        if(count($images) == 0)
+        {
+            $path = request()->file('image')->store('images');
+            Image::create(array('guid' => $newimage,
+            'owner' => $owner,
+            'path' => $path));
+        }
+        else
+        {
+            $i = $images[0];
+            Storage::disk('images')->delete($i->path);            
+            $path = request()->file('image')->store('images');
+            $i->path = $path;
+            $i->save();
+        }
+
+        return;
+    }
+
 }
