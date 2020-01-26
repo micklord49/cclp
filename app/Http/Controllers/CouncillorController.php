@@ -108,6 +108,7 @@ class CouncillorController extends Controller
             case 'INFO':
                 if(isset($request->ward)) $user->ward = $request->ward;
                 if(isset($request->dn)) $user->dn = $request->dn;
+                if(isset($request->intro)) $user->intro = $request->intro;
                 if(isset($request->about)) $user->about = $request->about;
                 if(isset($request->active)) $user->active = $request->active;
                 if(isset($request->campaign)) $user->campaign = $request->campaign;

@@ -45,6 +45,7 @@ export default class BlogPost extends Component {
         guid: props.guid, 
         owner: props.owner, 
         title: "", 
+        subtitle: "",
         body: "",
 
       };
@@ -82,6 +83,7 @@ export default class BlogPost extends Component {
             guid: response.data.guid, 
             owner: response.data.owner, 
             title: response.data.title, 
+            subtitle: response.data.subtitle, 
             body: response.data.body
           });
         });
@@ -95,6 +97,7 @@ export default class BlogPost extends Component {
       guid: this.state.guid,
       owner: this.state.owner,
       title: this.state.title,
+      subtitle: this.state.subtitle,
       body: this.state.body,
     }
 
@@ -139,7 +142,17 @@ export default class BlogPost extends Component {
                         name="title"
                         fullWidth
                         onChange={(e)=>{this.handleChange(e);}} 
-                        helperText="(Describe the subject of your post)"
+                        helperText="(Describe the subject of your post - keep it short)"
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField 
+                        id="blog-subtitle" value={this.state.subtitle} 
+                        label="Subtitle" 
+                        name="subtitle"
+                        fullWidth
+                        onChange={(e)=>{this.handleChange(e);}} 
+                        helperText="(Subtitle for your post - expand on the subject)"
                     />
                 </Grid>
                 <Grid item xs={12}>

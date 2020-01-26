@@ -76,6 +76,7 @@ class ProfileController extends Controller
         {
             case 'INFO':
                 if(isset($request->name)) $user->name = $request->name;
+                $user->intro = $request->intro ?? '';
                 $user->about = $request->about ?? '';
                 $user->birthdate = $request->birthdate;
                 $user->hidebirthdate = $request->hidebirthdate;

@@ -82,6 +82,7 @@ class CouncillorInfo extends Component {
       this.state = {
         ward: '', 
         dn: '', 
+        intro: '', 
         about: '', 
         active: false, 
         campaign: false, 
@@ -121,6 +122,7 @@ class CouncillorInfo extends Component {
     axios.get("/councillor/"+this.props.guid+"/edit")
       .then(response => {
         this.setState({ dn: response.data.dn, 
+                        intro: response.data.intro, 
                         about: response.data.about, 
                         active: response.data.active==1, 
                         campaign: response.data.campaign==1, 
@@ -157,6 +159,7 @@ class CouncillorInfo extends Component {
       type: 'INFO',
       ward: this.state.ward,
       dn: this.state.dn,
+      intro: this.state.intro,
       about: this.state.about,
       active: this.state.active,
       campaign: this.state.campaign,
@@ -244,6 +247,20 @@ class CouncillorInfo extends Component {
                   {this.state.wards.map((ward) => <MenuItem value={ward.value}>{ward.display}</MenuItem>)}
                 </Select>
               </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+                <TextField id="info-intro" 
+                value={this.state.intro} 
+                label="Introduce Yourself" 
+                name="intro"
+                onChange={(e)=>{this.handleChange(e);}} 
+                fullWidth
+                multiline
+                placeholder="Introduce Yourself"
+                helperText="This is a short introduction to be shown on your card."/>
+            </Grid>
+            <Grid item xs={12}>
+              <p>You can also point your own internet domain name to this site it you like.</p>
             </Grid>
             <Grid item xs={12}>
                 <TextField id="info-dn" 

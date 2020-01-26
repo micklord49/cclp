@@ -50,9 +50,9 @@ class BlogController extends Controller
             $blog->owner=$request->owner;
         }
         $blog->title=$request->title;
+        $blog->subtitle=$request->subtitle;
         $blog->body=$request->body;
-        $blog->save();
-        
+        $blog->save();        
     }
 
     /**

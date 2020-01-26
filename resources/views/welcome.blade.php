@@ -67,7 +67,7 @@
           <div class="row">
             <div class="col-md-4">
               <div class="team-player">
-                <div class="card card-plain">
+                <div class="card card-plain" style="cursor:pointer" onclick="document.location='/councillors';return false;">
                   <div class="col-md-6 ml-auto mr-auto">
                     <img src="/images/block-people.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
                   </div>
@@ -88,26 +88,7 @@
               <div class="team-player">
                 <div class="card card-plain">
                   <div class="col-md-6 ml-auto mr-auto">
-                    <img src="/images/block-people.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
-                  </div>
-                  <h4 class="card-title">The EC
-                    <br>
-                    <small class="card-description text-muted">(Executive Committee)</small>
-                  </h4>
-                  <div class="card-body">
-                    <p class="card-description">It sounds fancy, but they are the people that do the boring work of the CLP leaving the members
-                      free to work on our local campaigns and formulate policies that can make everyone's life better.</p>
-                  </div>
-                  <div class="card-footer justify-content-center">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="team-player">
-                <div class="card card-plain">
-                  <div class="col-md-6 ml-auto mr-auto">
-                    <img src="/images/block-people.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                    <img src="/images/block-candidate.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
                   </div>
                   <h4 class="card-title">Parliamentary Candidate
                     <br>
@@ -124,9 +105,45 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-4">
+              <div class="team-player">
+                <div class="card card-plain" style="cursor:pointer" onclick="document.location='/committee';return false;">
+                  <div class="col-md-6 ml-auto mr-auto">
+                    <img src="/images/block-council.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                  </div>
+                  <h4 class="card-title">The EC
+                    <br>
+                    <small class="card-description text-muted">(Executive Committee)</small>
+                  </h4>
+                  <div class="card-body">
+                    <p class="card-description">It sounds fancy, but they are the people that do the boring work of the CLP leaving the members
+                      free to work on our local campaigns and formulate policies that can make everyone's life better.</p>
+                  </div>
+                  <div class="card-footer justify-content-center">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>
+
+      <div class="row" text-center>
+            <div class="col-md-8 ml-auto mr-auto text-center">
+                <h2 class="title">Latest news</h2>
+                <h5 class="description">Here is the latest news from our CLP.</h5>
+            </div>
+        </div>
+
+      <div class="row">
+            <div class="col-md-8 ml-auto mr-auto">
+
+            @include('layouts.partials.news')
+
+            </div>
+        </div>
+
 
 
       <div class="section section-contacts">

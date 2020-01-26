@@ -153,6 +153,9 @@ class ImageController extends Controller
                 case "CLR":
                     $image->filename="/images/defaultuser.png";
                     break;
+                case "BLG":
+                    $image->filename="/images/defaultpost.png";
+                    break;
                 default:
                     $image->filename="/images/defaultuser.png";
                     break;
@@ -164,6 +167,37 @@ class ImageController extends Controller
         }
         $image->canchange = true;
         return $image;
+    }
+
+
+    public function image($id)
+    {
+
+        $clpGuid = config('appsettings.clpGUID');
+        $image = new ImageFile($id);        
+
+        if($image->filename=="")
+        {
+            Log::debug("No filename returned - so using default user image");
+            switch(substr($id,0,3))
+            {
+                case "USR":
+                    $image->filename="/images/defaultuser.png";
+                    break;
+                case "CLR":
+                    $image->filename="/images/defaultuser.png";
+                    break;
+                default:
+                    $image->filename="/images/defaultuser.png";
+                break;
+            }
+        }
+        return response()->download(
+            storage_path($image->filename), 
+            '$image->filename',
+            ['Content-Type' => 'image/jpg']
+        );
+    
     }
 
 

@@ -111,8 +111,9 @@ export default class BlogEditor extends Component {
 
   async saveAndRefresh()
   {
+    console.log("saveAndRefresh()");
     this.setState({ openedit: false});
-    this._child.current.save()
+    this._childBlog.current.save()
       .then(()=>{
         this.setState({ opensuccess: true })
         this.tableRef.current.onQueryChange();

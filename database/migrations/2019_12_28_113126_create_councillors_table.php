@@ -20,6 +20,7 @@ class CreateCouncillorsTable extends Migration
             $table->string('ward',36);
             $table->string('owner',36);
             $table->string('dn',128);
+            $table->string('intro');
             $table->string('about');
             $table->boolean('brandAsClp');
             $table->boolean('active');

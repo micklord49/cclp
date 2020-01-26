@@ -1,6 +1,8 @@
 <?php
 
 use App\ViewModels\Home;
+use App\ViewModels\Councillors;
+use App\ViewModels\Ec;
 
 
 
@@ -18,6 +20,14 @@ use App\ViewModels\Home;
 Route::get('/', function () {
     $home = new Home();
     return view('welcome',['Data' => $home]);
+});
+Route::get('/councillors', function () {
+    $home = new Councillors();
+    return view('councillors',['Data' => $home]);
+});
+Route::get('/committee', function () {
+    $home = new Ec();
+    return view('committee',['Data' => $home]);
 });
 
 Auth::routes();
@@ -55,6 +65,7 @@ Route::get('councillors/{user}/removeuser', 'CouncillorController@removeuser');
 
 Route::post('image/{user}/changeimage', 'ImageController@changeimage');
 Route::get('image/{user}/imagefile', 'ImageController@imagefile');
+Route::get('image/{user}/image', 'ImageController@image');
 
 
 Route::get('social/load/{owner}', 'SocialController@load');

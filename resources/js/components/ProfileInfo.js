@@ -42,20 +42,30 @@ import Editor from 'react-medium-editor';
 export default class ProfileInfo extends Component {
   constructor(props) {
       super(props);
-      this.state = {email: '', name: '', about: '', birthdate: '01/01/1970', hidebirthdate: true, telephone: '', publicemail: ''};
-      this.handleChangeName = this.handleChangeName.bind(this);
+      this.state = {email: '', name: '', intro: '', about: '', birthdate: '01/01/1970', hidebirthdate: true, telephone: '', publicemail: ''};
       this.handleChangeBirthdate = this.handleChangeBirthdate.bind(this);
-      this.handleChangeHideBirthdate = this.handleChangeHideBirthdate.bind(this);
-      this.handleChangeTelephone = this.handleChangeTelephone.bind(this);
-      this.handleChangePublicEmail = this.handleChangePublicEmail.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeName(e){
+  handleChange(event){
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    console.log(event);
+  
     this.setState({
-      name: e.target.value
-    })
+      [name]: value
+    });
+    console.log(this.state);
+
   }
+
+  handleChangeAbout(value) {
+    this.setState({ about: value })
+  }
+
+
   
   handleChangeBirthdate(e){
     this.setState({
@@ -63,35 +73,12 @@ export default class ProfileInfo extends Component {
     })
   }
 
-  handleChangeHideBirthdate(e){
-    this.setState({
-      hidebirthdate: e.target.checked
-    })
-  }
-
-  
-  
-  handleChangeAbout(text,medium){
-    this.setState({
-      about: text
-    })
-  }
-  handleChangeTelephone(e){
-    this.setState({
-      telephone: e.target.value
-    })
-  }
-  handleChangePublicEmail(e){
-    this.setState({
-      publicemail: e.target.value
-    })
-  }
- 
   componentDidMount(){
     axios.get("/profile/"+this.props.guid+"/edit")
       .then(response => {
         this.setState({ email: response.data.email, 
                         name: response.data.name, 
+                        intro: response.data.intro, 
                         about: response.data.about, 
                         birthdate: response.data.birthdate, 
                         hidebirthdate: response.data.birthdate==1, 
@@ -111,6 +98,7 @@ export default class ProfileInfo extends Component {
     const user = {
       type: 'INFO',
       name: this.state.name,
+      intro: this.state.intro,
       about: this.state.about,
       birthdate: this.state.birthdate,
       hidebirthdate: this.state.hidebirthdate?1:0,
@@ -152,13 +140,23 @@ export default class ProfileInfo extends Component {
             <Grid item xs={6}>
               <Grid container>
                 <Grid item xs={12}>
-                    <TextField id="info-user" value={this.state.email} label="User Login (you cannot change this)" 
-                    InputProps={{
-                        readOnly: true,
-                    }} onChange={this.handleChangeName} helperText="This is the email address you created your account with"/>
+                    <TextField id="info-user" 
+                              value={this.state.email} 
+                              label="User Login (you cannot change this)" 
+                              InputProps={{
+                                  readOnly: true,
+                              }} 
+                              name="email"
+                              onChange={(e)=>{this.handleChange(e);}} 
+                              helperText="This is the email address you created your account with"/>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField id="info-name" value={this.state.name} label="Name" onChange={this.handleChangeName} helperText="This is your full name as you wish it to appear to other users."/>
+                  <TextField  id="info-name" 
+                              value={this.state.name} 
+                              name="name" 
+                              label="Name" 
+                              onChange={(e)=>{this.handleChange(e);}} 
+                              helperText="This is your full name as you wish it to appear to other users."/>
                 </Grid>
                 <Grid item xs={12}>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -180,7 +178,8 @@ export default class ProfileInfo extends Component {
                     control={
                       <Switch
                         checked={this.state.hidebirthdate}
-                        onChange={this.handleChangeHideBirthdate}
+                        name="hidebirthdate"
+                        onChange={(e)=>{this.handleChange(e);}}
                         value="true"
                         color="primary"
                         inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -196,7 +195,8 @@ export default class ProfileInfo extends Component {
                         id="info-telephone"
                         type='text'
                         value={this.state.telephone}
-                        onChange={this.handleChangeTelephone}
+                        name="telephone"
+                        onChange={(e)=>{this.handleChange(e);}}
                         endAdornment={<InputAdornment position="end"><PhoneIcon /></InputAdornment>}
                       />
                     </FormControl>
@@ -208,7 +208,8 @@ export default class ProfileInfo extends Component {
                         id="info-publicemail"
                         type='text'
                         value={this.state.publicemail}
-                        onChange={this.handleChangePublicEmail}
+                        name="publicemail"
+                        onChange={(e)=>{this.handleChange(e);}}
                         endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
                       />
                     </FormControl>
@@ -216,14 +217,30 @@ export default class ProfileInfo extends Component {
               </Grid>
             </Grid>
             <Grid item xs={6}>
-              <h4>Tell the world about yourself</h4>
-              <div style={{backgroundColor:"#ffffff", minHeight:300}}>
-                <Editor 
-                    id="info-about" 
-                    text={this.state.about} 
-                    onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
-                    options={{ placeholder: false}}            />
-              </div>
+              <Grid container>
+                <Grid xs={12}>
+                  <TextField id="info-intro" 
+                  value={this.state.intro} 
+                  label="Introduce Yourself" 
+                  name="intro"
+                  onChange={(e)=>{this.handleChange(e);}} 
+                  fullWidth
+                  multiline
+                  placeholder="Introduce Yourself"
+                  helperText="This is a short introduction to be shown on your card."/>
+
+                </Grid>
+                <Grid xs={12}>
+                  <h4>Tell the world about yourself</h4>
+                  <div style={{backgroundColor:"#ffffff", minHeight:300}}>
+                    <Editor 
+                        id="info-about" 
+                        text={this.state.about} 
+                        onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
+                        options={{ placeholder: false}}            />
+                  </div>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </form>  

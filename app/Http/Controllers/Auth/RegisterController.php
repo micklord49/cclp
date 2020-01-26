@@ -66,9 +66,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $clpGuid = config('appsettings.clpGUID');
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'guid' => uniqid("USR"),
+            'clp' => $clpGuid,
             'password' => Hash::make($data['password']),
         ]);
     }
