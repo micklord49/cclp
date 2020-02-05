@@ -18,7 +18,9 @@ import MembershipIcon from '@material-ui/icons/CardMembership';
 import ControlPanelCLPHome from './ControlPanelCLPHome';
 import ControlPanelCLPSocial from './ControlPanelCLPSocial';
 import ControlPanelCLPCouncils from './ControlPanelCLPCouncils';
+import ControlPanelCLPBranches from './ControlPanelCLPBranches';
 import BlogEditor from './BlogEditor';
+import Campaign from './Campaign';
 import UploadPicture from './UploadPicture'
 import SocialMedia from './SocialMedia';
 
@@ -87,6 +89,7 @@ export default function SimpleTabs(props) {
           <Tab label="Social Media" icon={<MembershipIcon />} {...a11yProps(3)} />
           <Tab label="Councils" icon={<AccountBalanceIcon />} {...a11yProps(4)} />
           <Tab label="Branches"  icon={<AccountTreeIcon />} {...a11yProps(5)} />
+          <Tab label="My Campaigns"  icon={<AccountTreeIcon />} {...a11yProps(5)} />
         </Tabs>
       </AppBar>
       <TabPanel style={tabpageStyle} value={value} index={0}>
@@ -105,7 +108,10 @@ export default function SimpleTabs(props) {
         <ControlPanelCLPCouncils />
       </TabPanel>
       <TabPanel style={tabpageStyle} value={value} index={5}>
-        Branches
+        <ControlPanelCLPBranches owner={props.guid} />
+      </TabPanel>
+      <TabPanel style={tabpageStyle} value={value} index={6}>
+        <Campaign owner={props.guid} />
       </TabPanel>
     </div>
   );

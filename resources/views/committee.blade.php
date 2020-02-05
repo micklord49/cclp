@@ -19,6 +19,7 @@
   <div class="main main-raised">
     <div class="container">
       <div class="section text-center">
+
         <div class="row">
           <div class="col-md-8 ml-auto mr-auto">
             <h2 class="title">What we do</h2>
@@ -31,38 +32,18 @@
         </div>
 
         <div class="section text-center">
-            <h2 class="title">Your Executive Committee</h2>
+          <h2 class="title">Your Executive Committee</h2>
             <div class="team">
+              <div class="row">
 
-            @foreach ($Data->ec as $ec)
-            <div class="col-md-4">
-              <div class="team-player">
-                <div class="card card-plain">
-                  <div class="col-md-6 ml-auto mr-auto"  style="cursor:pointer" onclick="document.location='/user/{{ $ec->guid }}';return false;">
-                    <img src="{{ $ec->image }}" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
-                  </div>
-                  <h4 class="card-title">{{ $ec->name }}
-                    <br>
-                    <small class="card-description text-muted">{{ $ec->subtitle }} </small>
-                  </h4>
-                  <div class="card-body">
-                    <p class="card-description">{{ $ec->intro }}</p>
-                  </div>
-                  <div class="card-footer justify-content-center">
-                        @isset($ec->facebook)
-                            <i class="fa fa-facebook-square" style="cursor:pointer" onclick="document.location='{{ $ec->facebook }}';return false;"></i>
-                        @endisset
-                  </div>
-                </div>
-              </div>
-            </div>
-            @endforeach
-            
+                @each('layouts.partials.eccard',$Data->ec,'ec')
+
+              </div>        
           </div>
-      </div>
+        </div>
 
 
-      <div class="row">
+        <div class="row">
             <div class="col-md-8 ml-auto mr-auto">
                 <h2 class="title">Latest news</h2>
                 <h5 class="description">Here is the latest news from the Executive Committee.</h5>

@@ -18,6 +18,8 @@ class CreateBranchesTable extends Migration
             $table->string('guid',36);
             $table->string('clp',36);
             $table->string('name');
+            $table->string('intro');
+            $table->longText('about');
             $table->string('ecofficer',36);
             $table->string('email');
             $table->timestamps();

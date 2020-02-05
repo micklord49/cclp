@@ -19,9 +19,9 @@ class CreateCouncillorsTable extends Migration
             $table->string('clp',36);
             $table->string('ward',36);
             $table->string('owner',36);
-            $table->string('dn',128);
-            $table->string('intro');
-            $table->string('about');
+            $table->string('dn');
+            $table->text('intro');
+            $table->longText('about');
             $table->boolean('brandAsClp');
             $table->boolean('active');
             $table->boolean('campaign');

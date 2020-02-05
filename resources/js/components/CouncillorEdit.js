@@ -22,6 +22,7 @@ import CouncillorInfo from './CouncillorInfo';
 import BlogEditor from './BlogEditor';
 import SocialMedia from './SocialMedia';
 import UploadPicture from './UploadPicture'
+import Campaign from './Campaign'
 
 
 const styles = theme => ({
@@ -79,6 +80,7 @@ class CouncillorEdit extends Component {
           <Tab label="Councillor Information" icon={<CameraIcon />}  />
           <Tab label="Profile Image" icon={<CameraIcon />}  />
           <Tab label="Social Media" icon={<MembershipIcon />} />
+          <Tab label="My Campaigns" icon={<MembershipIcon />} />
         </Tabs>
       </AppBar>
       <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 0}>
@@ -92,6 +94,9 @@ class CouncillorEdit extends Component {
       </div>
       <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 3}>
         <SocialMedia owner={this.props.guid}/>
+      </div>
+      <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 3}>
+        <Campaign owner={this.props.guid}/>
       </div>
     </div>
     );

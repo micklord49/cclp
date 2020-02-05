@@ -72,7 +72,7 @@ class Councillors extends Model
             array_push($this->councillors,$c);
         }
 
-        $this->news = new Blogs($clpGuid,6,false);
+        $this->news = new Blogs($clpGuid,6,false,true,"CNR");
 
         $this->menu = new Menu($clpGuid);
 

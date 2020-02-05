@@ -36,7 +36,7 @@
               <div class="team-player">
                 <div class="card card-plain">
                   <div class="col-md-6 ml-auto mr-auto"  style="cursor:pointer" onclick="document.location='/councillor/{{ $councillor->guid }}';return false;">
-                    <img src="{{ $councillor->image }}" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                    <img src="{{ $councillor->image }}" alt="Thumbnail Image" class="img-raised rounded img-fluid">
                   </div>
                   <h4 class="card-title">{{ $councillor->name }}
                     <br>

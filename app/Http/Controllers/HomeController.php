@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\ViewModels\Home;
+use App\ViewModels\HomeBranches;
+use App\ViewModels\HomeWards;
 
 class HomeController extends Controller
 {
@@ -28,4 +30,17 @@ class HomeController extends Controller
         $data = new Home();
         return view('home',['Data' => $data]);
     }
+
+    public function branches()
+    {
+        $data = new HomeBranches();
+        return view('home',['Data' => $data]);
+    }
+
+    public function wards()
+    {
+        $data = new HomeWards();
+        return view('home',['Data' => $data]);
+    }
+
 }

@@ -11,6 +11,7 @@ use App\Councillor;
 use Illuminate\Http\Request;
 
 use App\ViewModels\EditCouncillor;
+use App\ViewModels\HomeCouncillor;
 
 
 class CouncillorController extends Controller
@@ -64,9 +65,16 @@ class CouncillorController extends Controller
      * @param  \App\Councillor  $councillor
      * @return \Illuminate\Http\Response
      */
-    public function show(Councillor $councillor)
+    public function show($councillor)
     {
         //
+        $clpGuid = config('appsettings.clpGUID');
+
+
+        $data = new HomeCouncillor($councillor);
+        if($data->guid=="") abort(404);
+        return view("councillor",['Data' => $data]);
+
     }
 
     /**

@@ -11,16 +11,6 @@ try {
     $ = window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-    require('bootstrap-material-design');
-    require ('./plugins/nouislider.min.js');
-    require ('./material-kit.min.js?v=2.0.6');
-
-    $(".filter-dropdown").on("click", ".dropdown-toggle", function(e) { 
-        e.preventDefault();
-        $(this).parent().addClass("show");
-        $(this).attr("aria-expanded", "true");
-        $(this).next().addClass("show"); 
-      });
 
     
 } catch (e) {}

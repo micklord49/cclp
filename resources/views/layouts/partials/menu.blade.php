@@ -1,17 +1,18 @@
-<nav class="navbar navbar-expand-lg {{$Data->menu->Class}} fixed-top" {{$Data->menu->Extra}} style="padding-right: 100px;">
-        <a class="navbar-brand" href="#"><img src="/images/cclp.png"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<nav class="navbar navbar-expand-lg {{$Data->menu->Class}} fixed-top" {{$Data->menu->Extra}} style="padding-right: 100px; z-index:4000;">
+    <div class="container">
+        <div class="navba-translate">
+            <a class="navbar-brand" href="#"><img src="/images/cclp.png"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ml=auto">
                 @foreach($Data->menu->Menu as $menu)
                     @if(isset($menu->SubItems))
-                        <li class="nav-item dropdown" >
-                            <a href="#" class="nav-link dropdown-toggle" id="menu{{$menu->jsid}}" data-disabled="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ $menu->Title }}
-                            </a>
-                            <div id="{{$menu->jsid}}" class="dropdown-menu" aria-labelledby="menu{{$menu->jsid}}">
+                        <li class="dropdown nav-item" >
+                            <a href="#" class="nav-link dropdown-toggle" id="menu{{$menu->jsid}}" data-toggle="dropdown" aria-expanded="false">{{ $menu->Title }}</a>
+                            <div class="dropdown-menu">
                             @foreach($menu->SubItems as $sub)
                                 @isset($sub->Title)
                                     @if(isset($sub->SubItems))
@@ -40,5 +41,6 @@
                 @endforeach
             </ul>
         </div>
+    </div>
 </nav>
 

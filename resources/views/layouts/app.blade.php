@@ -27,10 +27,12 @@
     <link rel="stylesheet" href="/css/appthememod.css">
 
 </head>
-<body>
+<body class="landing-page">
+<div id="app">
 @include('layouts.partials.menu')
-<main>
+<main class="py-4">
     @yield('content')
 </main>
+</div>
 </body>
 </html>
