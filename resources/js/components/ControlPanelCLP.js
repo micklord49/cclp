@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 import PropTypes from 'prop-types';
 
-
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import TabPanel from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import HomeIcon from '@material-ui/icons/Home';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import MembershipIcon from '@material-ui/icons/CardMembership';
+import GavelIcon from '@material-ui/icons/Gavel';
+import FaceIcon from '@material-ui/icons/Face';
+import InfoIcon from '@material-ui/icons/Info';
+import CameraIcon from '@material-ui/icons/Camera';
+import AnnouncementIcon from '@material-ui/icons/Announcement';
+import ShareIcon from '@material-ui/icons/Share';
+import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
+
+import { push as Menu } from 'react-burger-menu'
+
 
 import ControlPanelCLPHome from './ControlPanelCLPHome';
-import ControlPanelCLPSocial from './ControlPanelCLPSocial';
 import ControlPanelCLPCouncils from './ControlPanelCLPCouncils';
 import ControlPanelCLPBranches from './ControlPanelCLPBranches';
 import BlogEditor from './BlogEditor';
@@ -25,94 +33,162 @@ import UploadPicture from './UploadPicture'
 import SocialMedia from './SocialMedia';
 
 
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
+    backgroundColor: "#E0E5EC" ,
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+
   },
-}));
 
-export default function SimpleTabs(props) {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  tabpage: {
+    marginTop: 20,
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  },
+
+  '.MuiTabs-fixed': {
+      width: 50,
+  }
+
+});
+
+
+class ControlPanelCLP extends Component {
+
+  constructor(props) {
+      super(props);
+      this.state = { selectedtab: 0, selectedmaintab: 0};
+  }
+
+  componentDidMount(){
+    console.log("Editing Councillor:"+this.props.guid)
+  }
+
+
+  handleChange(event, value) {
+    console.log("Selected Tab:"+value);
+    this.setState({ selectedtab: value });
   };
 
-  const tabStyle = {
-    backgroundColor: "#A0A5AC" 
+  handleMainChange(event, value) {
+    console.log("Selected Tab:"+value);
+    this.setState({ selectedmaintab: value });
   };
 
-  const tabpageStyle = {
+
+  render() 
+  {
+    const { classes } = this.props;
+
+    const containerStyle = {
+        paddingTop: 46 
+      };
+
+    const tabMainStyle = {
+      backgroundColor: "#212121",
+      color: "#ffffff" ,
+      width: 50,
+    };
+
+    const tabStyle = {
+        backgroundColor: "#A0A5AC" 
+    };
+
+    const tabpageStyle = {
     backgroundColor: "#E0E5EC" 
-  };
+    };
+    
+    const styles = {
+        bmMenuWrap: {
+          position: 'fixed',
+          height: '100%'
+        },
+        bmMenu: {
+          background: '#212121',
+          padding: '0 0 0',
+          fontSize: '0.8em',
+          textAlign: 'center'
+        },
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs style={tabStyle} value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="News" icon={<HomeIcon />}  {...a11yProps(0)} />
-          <Tab label="Basic Information" icon={<HomeIcon />}  {...a11yProps(1)} />
-          <Tab label="Home Page Image" icon={<MembershipIcon />} {...a11yProps(2)} />
-          <Tab label="Social Media" icon={<MembershipIcon />} {...a11yProps(3)} />
-          <Tab label="Councils" icon={<AccountBalanceIcon />} {...a11yProps(4)} />
-          <Tab label="Branches"  icon={<AccountTreeIcon />} {...a11yProps(5)} />
-          <Tab label="My Campaigns"  icon={<AccountTreeIcon />} {...a11yProps(5)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel style={tabpageStyle} value={value} index={0}>
-        <BlogEditor owner={props.guid} description="Your posts as the CLP"/>
-      </TabPanel>
-      <TabPanel style={tabpageStyle} value={value} index={1}>
-        <ControlPanelCLPHome />
-      </TabPanel>
-      <TabPanel style={tabpageStyle} value={value} index={2}>
-        <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={props.guid} />
-      </TabPanel>
-      <TabPanel style={tabpageStyle} value={value} index={3}>
-        <SocialMedia  owner={props.guid}/>
-      </TabPanel>
-      <TabPanel style={tabpageStyle} value={value} index={4}>
-        <ControlPanelCLPCouncils />
-      </TabPanel>
-      <TabPanel style={tabpageStyle} value={value} index={5}>
-        <ControlPanelCLPBranches owner={props.guid} />
-      </TabPanel>
-      <TabPanel style={tabpageStyle} value={value} index={6}>
-        <Campaign owner={props.guid} />
-      </TabPanel>
+        bmItemList: {
+          color: '#eeeeee',
+          padding: '0.2em 0 0 0'
+        },
+
+      }
+      
+      
+    return(
+    <div id="outer-container" className={classes.root} style={containerStyle}>
+        <Menu isOpen={ true } styles={ styles }
+                outerContainerId={ "outer-container" }
+                pageWrapId={ "page-wrap" }
+                disableCloseOnEsc
+                noTransition
+                noOverlay
+                disableOverlayClick
+                customBurgerIcon={ false } 
+                customCrossIcon={ false } 
+                width={80}>
+            <a onClick={()=>{this.setState({selectedmaintab:0}); }} id="home" className="menu-item">{<AnnouncementIcon />}<br/>News</a>
+            <a onClick={()=>{this.setState({selectedmaintab:1}); }} id="about" className="menu-item">{<InfoIcon />}<br/>About</a>
+            <a onClick={()=>{this.setState({selectedmaintab:2}); }} id="contact" className="menu-item">{<CameraIcon />}<br/>Images</a>
+            <a onClick={()=>{this.setState({selectedmaintab:3}); }} className="menu-item">{<ShareIcon />}<br/>Social</a>
+            <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
+        </Menu>
+        <main id="page-wrap">
+        
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
+                <h4>News</h4>
+                <BlogEditor owner={this.props.guid} description="Your posts as the CLP"/>
+            </div>
+
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 1}>
+                <h4>Info</h4>
+                    <Tabs 
+                    style={tabStyle} 
+                    value={this.state.selectedtab} 
+                    aria-label="simple tabs example" 
+                    onChange={(e,v) => { this.handleChange(e,v); }}>
+                    <Tab label="Basic Information" icon={<HomeIcon />} />
+                    <Tab label="Councils" icon={<HomeIcon />} />
+                    <Tab label="Branches"  icon={<HomeIcon />} />
+                    </Tabs>
+                <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 0}>
+                    <ControlPanelCLPHome />
+                </div>
+                <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 1}>
+                    <ControlPanelCLPCouncils />
+                </div>
+                <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 2}>
+                    <ControlPanelCLPBranches owner={this.props.guid} />
+                </div>
+
+            </div>
+
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
+            <h4>Images</h4>
+                <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={this.props.guid} />
+            </div>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
+            <h4>Social Media</h4>
+                <SocialMedia  owner={this.props.guid}/>
+            </div>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
+            <h4>Campaigns</h4>
+                <Campaign owner={this.props.guid} />
+            </div>
+
+                
+        </main>
+
     </div>
-  );
+    );
+  }
 }
+
+export default withStyles(styles)(ControlPanelCLP);
+
