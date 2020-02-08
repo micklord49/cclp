@@ -141,7 +141,7 @@ class Branch extends Component {
         <main id="page-wrap">
         
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
-              <h4>Your News Posts</h4>
+              <h4>News Posts from the branch</h4>
               <BlogEditor owner={this.props.guid} description="Your posts as the CLP"/>
           </div>
 
@@ -164,19 +164,19 @@ class Branch extends Component {
           </div>
 
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
-                <h4>Images</h4>
+                <h4>Branch Images</h4>
                 <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
-                <h4>Social Media</h4>
+                <h4>Social Media links for the branch</h4>
                 <SocialMedia  owner={this.props.guid}/>
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
-                <h4>Campaigns</h4>
+                <h4>Campaigns run by the branch</h4>
                 <Campaign owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
-                <h4>Events</h4>
+                <h4>Events organised by the branch</h4>
                 <Event owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>

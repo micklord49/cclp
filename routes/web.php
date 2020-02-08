@@ -60,7 +60,9 @@ Route::patch('blog/', 'BlogController@store');
 Route::get('ec/{role}/{user}/adduser', 'ECController@addroleuser');
 Route::get('ec/{role}/{user}/removeuser', 'ECController@removeroleuser');
 
-Route::get('campaign/{campaign}/dir', 'CampaignController@dir');
+Route::get('campaign/{owner}/dir', 'CampaignController@dir');
+
+Route::get('event/{owner}/dir', 'EventController@dir');
 
 Route::get('councils/dir/all', 'CouncilsController@dir');
 Route::get('councils/{council}/wards', 'CouncilsController@wards');

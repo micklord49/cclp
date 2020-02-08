@@ -52,7 +52,6 @@ class Menu
             if(auth()->user()->can('Edit CLP'))
             {
                 $menu->AddSubMenu(new MenuItem("Edit CLP","/clp",true));
-                $menu->AddSubMenu(new MenuItem("Edit the people of the CLP","/people",true));
             }
             $this->CouncillorMenu($menu);
             $this->BranchesMenu($menu);

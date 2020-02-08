@@ -123,27 +123,27 @@ class ControlPanelCLP extends Component {
         <main id="page-wrap">
         
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
-                <h4>Your News Posts</h4>
+                <h4>My News Posts as a councillor</h4>
                 <BlogEditor owner={this.props.guid} description="Your posts as the CLP"/>
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 1}>
-                <h4>Councillor Information</h4>
+                <h4>My Councillor Information</h4>
                 <CouncillorInfo guid={this.props.guid}/>
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
-                <h4>Images</h4>
+                <h4>Images of me as a councillor</h4>
                 <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
-                <h4>Social Media</h4>
+                <h4>My Social Media links as a councillor</h4>
                 <SocialMedia  owner={this.props.guid}/>
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
-                <h4>Campaigns</h4>
+                <h4>The campaigns I run as a councillor</h4>
                 <Campaign owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
-                <h4>Campaigns</h4>
+                <h4>The events I organise as a councillor</h4>
                 <Event owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>

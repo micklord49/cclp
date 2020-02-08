@@ -15,7 +15,10 @@ import Box from '@material-ui/core/Box';
 import HomeIcon from '@material-ui/icons/Home';
 import GavelIcon from '@material-ui/icons/Gavel';
 import LocalFloristIcon from '@material-ui/icons/LocalFlorist';
+import PeopleIcon from '@material-ui/icons/People';
+import PersonIcon from '@material-ui/icons/Person';
 import InfoIcon from '@material-ui/icons/Info';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import CameraIcon from '@material-ui/icons/Camera';
 import EventIcon from '@material-ui/icons/Event';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
@@ -29,6 +32,8 @@ import { push as Menu } from 'react-burger-menu'
 import ControlPanelCLPHome from './ControlPanelCLPHome';
 import ControlPanelCLPCouncils from './ControlPanelCLPCouncils';
 import ControlPanelCLPBranches from './ControlPanelCLPBranches';
+import ControlPanelCLPEC from './ControlPanelCLPEC';
+import ControlPanelCLPCouncillors from './ControlPanelCLPCouncillors';
 import BlogEditor from './BlogEditor';
 import Campaign from './Campaign';
 import Event from './Event';
@@ -137,14 +142,15 @@ class ControlPanelCLP extends Component {
             <a onClick={()=>{this.setState({selectedmaintab:1}); }} id="about" className="menu-item">{<InfoIcon />}<br/>About</a>
             <a onClick={()=>{this.setState({selectedmaintab:2}); }} id="contact" className="menu-item">{<CameraIcon />}<br/>Images</a>
             <a onClick={()=>{this.setState({selectedmaintab:3}); }} className="menu-item">{<ShareIcon />}<br/>Social</a>
-            <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
-            <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
-            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
+            <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<SupervisorAccountIcon />}<br/>People</a>
+            <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
+            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
+            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
         </Menu>
         <main id="page-wrap">
         
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
-              <h4>Your News Posts</h4>
+              <h4>News Posts from the CLP</h4>
               <BlogEditor owner={this.props.guid} description="Your posts as the CLP"/>
           </div>
 
@@ -171,22 +177,45 @@ class ControlPanelCLP extends Component {
           </div>
 
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
-                <h4>Images</h4>
+                <h4>Images of the CLP</h4>
                 <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
-                <h4>Social Media</h4>
+                <h4>Social Media links for the CLP</h4>
                 <SocialMedia  owner={this.props.guid}/>
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
-                <h4>Campaigns</h4>
-                <Campaign owner={this.props.guid} />
+                <h4>The People of the CLP</h4>
+
+                <Tabs 
+                  style={tabStyle} 
+                  value={this.state.selectedtab} 
+                  aria-label="simple tabs example" 
+                  onChange={(e,v) => { this.handleChange(e,v); }}>
+                  <Tab label="Executive Comittee" icon={<GavelIcon />} />
+                  <Tab label="Counsellors" icon={<PeopleIcon />} />
+                  <Tab label="Candidate"  icon={<PersonIcon />} />
+              </Tabs>
+              <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 0}>
+                <ControlPanelCLPEC />
+              </div>
+              <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 1}>
+                <ControlPanelCLPCouncillors />
+              </div>
+              <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 2}>
+                  Candidate Details
+              </div>
+
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
-                <h4>Events</h4>
-                <Event owner={this.props.guid} />
+                <h4>Campaigns run by the CLP</h4>
+                <Campaign owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>
+                <h4>Events organised by the CLP</h4>
+                <Event owner={this.props.guid} />
+            </div>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 7}>
                 <h4>Help</h4>
             </div>
 
