@@ -8,9 +8,12 @@ window._ = require('lodash');
 
 try {
     window.Popper = require('popper.js').default;
+    console.log("Initializing jquery");
     $ = window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
+
+
 
     
 } catch (e) {}

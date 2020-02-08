@@ -112,11 +112,23 @@ class CampaignInfo extends Component {
     this.setState({ about: value })
   }
 
+  componentDidUpdate(prevProps) 
+  {
+    if(typeof(this.props.guid) == "undefined")   return;
+    if(prevProps.guid == this.props.guid)     return;
+    this.refresh();
+  }
   
   componentDidMount(){
+    this.refresh();
+  }
+
+  refresh()
+  {
     console.log("Retrieving campaign");
     axios.get("/campaign/"+this.props.guid+"/edit")
       .then(response => {
+        console.log(response);
         this.setState({ dn: response.data.dn, 
                         title: response.data.title, 
                         subtitle: response.data.subtitle, 
@@ -211,7 +223,7 @@ class CampaignInfo extends Component {
           <Grid container>
             <Grid item xs={12}>
                 <TextField id="info-title" 
-                value={this.state.intro} 
+                value={this.state.title} 
                 label="Title" 
                 name="title"
                 onChange={(e)=>{this.handleChange(e);}} 
@@ -222,7 +234,7 @@ class CampaignInfo extends Component {
             </Grid>
             <Grid item xs={12}>
                 <TextField id="info-subtitle" 
-                value={this.state.intro} 
+                value={this.state.subtitle} 
                 label="Title" 
                 name="subtitle"
                 onChange={(e)=>{this.handleChange(e);}} 

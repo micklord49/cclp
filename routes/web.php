@@ -45,6 +45,7 @@ Route::resource('councillor', 'CouncillorController');
 Route::resource('wards', 'WardsController');
 Route::resource('campaign', 'CampaignController');
 Route::resource('blog', 'BlogController');
+Route::resource('event', 'EventController');
 Route::resource('image', 'ImageController');
 
 Route::get('clpapi/wards', 'ClpController@warddir');

@@ -52,21 +52,14 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         //
-        if(Auth::check())
+        if(!Auth::check())
         {
-            if(!auth()->user()->can('Edit CLP'))
-            {
-                abort(403);
-            }
-        }
-        else {
             abort(403);
         }
 
         $clpGuid = config('appsettings.clpGUID');
 
         Campaign::create(array(
-            'clp' => $clpGuid,
             'guid' => uniqid("CMP"),
             'title' => $request->title,
             'owner' => $request->owner,
@@ -122,7 +115,7 @@ class CampaignController extends Controller
     {
         //
         $ret = Campaign::where('guid',$campaign)->firstOrFail();        
-        $users = CampaignUser::where('branch',$branch)->get();
+        $users = CampaignUser::where('campaign',$campaign)->get();
         $adminusers = array();
         foreach($users as $user)
         {

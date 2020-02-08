@@ -244,7 +244,7 @@ class CouncillorInfo extends Component {
                   autoWidth
                   onChange={(e)=>{this.handleChange(e);}}
                 >
-                  {this.state.wards.map((ward) => <MenuItem value={ward.value}>{ward.display}</MenuItem>)}
+                  {this.state.wards.map((ward) => <MenuItem key={ward.value} value={ward.value}>{ward.display}</MenuItem>)}
                 </Select>
               </FormControl>
             </Grid>

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg {{$Data->menu->Class}} fixed-top" {{$Data->menu->Extra}} style="padding-right: 100px; z-index:4000;">
     <div class="container">
-        <div class="navba-translate">
+        <div class="navbar-translate">
             <a class="navbar-brand" href="#"><img src="/images/cclp.png"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

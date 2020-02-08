@@ -31,7 +31,7 @@ export default class Campaign extends Component {
       super(props);
       this.state = {
           campaigns: new Array(), 
-          selectedcampaign: '',
+          selectedcampaign: { guid:'' },
         
           open: false, 
           newname: ''
@@ -42,10 +42,14 @@ export default class Campaign extends Component {
   }
 
   selectCampaign(r){
+    if(r=='') return;
+    console.log("Calling select campaign..."+r);
+    console.log(this.state.campaigns);
     for(let i=0;i<this.state.campaigns.length;i++)
     {
       if(this.state.campaigns[i].guid == r)  
       {
+        console.log("Setting campaign..."+this.state.campaigns[i]);
         this.setState({ selectedcampaign: this.state.campaigns[i] });
       }
     }
@@ -101,44 +105,27 @@ export default class Campaign extends Component {
 
   refresh()
   {
+    console.log("Reloading campaign...")
     axios.get("/campaign/" + this.props.owner + "/dir")
     .then(response => {
         console.log(response);
         this.setState({  campaigns: response.data });
-      this.setState({  selectedcampaign: response.data[0] });
+        if(response.data.length>0) this.setState({  selectedcampaign: response.data[0] });
     })
     .catch(function (error) {
       console.log(error);
     })
   }
 
-  handleSubmit(event) 
-  {
-    event.preventDefault();
-
-    const clp = {
-      type: 'INFO',
-        guid: this.state.guid,
-        title: this.state.title,
-        subtitle: this.state.subtitle,
-        body: this.state.subtitle,
-        dn: this.state.dn,
-    }
-
-    let uri = '/campaign/' + this.state.guid;
-    axios.patch(uri, clp).then((response) => {
-          //this.props.history.push('/display-item');
-    });
-  }
-
-
   campaignchanged()
   {
+    if(this.props.owner=='')   return;
+    if(this.state.selectedcampaign==undefined)  return;
     console.log("ControlPanelEC - campaign changes");
-    axios.get("/campaign/"+this.props.guid+"/edit")
+    axios.get("/campaign/"+this.props.owner+"/edit")
     .then(response => {
       this.setState({  campaigns: response.data.campaigns });
-      this.selectRole(this.state.selectedcampaign.guid);
+      if(response.data.campaigns.length > 0)  this.selectCampaign(this.state.selectedcampaign.guid);
     })
     .catch(function (error) {
       console.log(error);
@@ -176,7 +163,7 @@ export default class Campaign extends Component {
                     </List>
                 </Grid>
                 <Grid item xs={9}>
-                    <CampaignInfo guid={this.state.selectedcampaign} onChange={() => this.campaignchanged()} />
+                    <CampaignInfo guid={this.state.selectedcampaign.guid} onChange={() => this.campaignchanged()} />
                 </Grid>
             </Grid>
 
@@ -184,7 +171,7 @@ export default class Campaign extends Component {
                 <DialogTitle id="form-dialog-title">Add new Campaign</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Add a new branch to your CLP.
+                        Add a new campaign.
                     </DialogContentText>
                     <TextField
                         autoFocus

@@ -23,7 +23,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" href="/css/material-kit.css">
     <link rel="stylesheet" href="/css/appthememod.css">
-
     <style>
     body {
         backgroundColor: "#E0E5EC"         
@@ -42,4 +41,6 @@
 
     </div>
 </body>
+<script src="/js/material-kit.min.js?v=2.0.6" type="text/javascript"></script>
+
 </html>
