@@ -25,9 +25,5 @@
             </div>
         </div>
     @endisset
-    @if ($loop->even  && !$loop->last)
-        </div>
-        <div class="row"
-    @endif
 @endforeach
 </div>

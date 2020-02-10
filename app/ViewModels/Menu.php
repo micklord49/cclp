@@ -8,6 +8,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use App\Councillor;
+use App\Branch;
+use App\BranchAdministrator;
 
 class Menu
 {
@@ -50,9 +52,9 @@ class Menu
             if(auth()->user()->can('Edit CLP'))
             {
                 $menu->AddSubMenu(new MenuItem("Edit CLP","/clp",true));
-                $menu->AddSubMenu(new MenuItem("Edit the people of the CLP","/people",true));
             }
             $this->CouncillorMenu($menu);
+            $this->BranchesMenu($menu);
             $menu->AddSubMenu(new MenuItem("Logout","/logout",true));
         }
         else
@@ -66,6 +68,19 @@ class Menu
         return $menu;
     }
 
+    private function BranchesMenu($menu)
+    {
+        if(!Auth::check())          return;     //  Only available for logged in user
+        $user = auth()->user();
+        $branches = BranchAdministrator::where('user',$user->guid)->get();
+        foreach($branches as $branch)
+        {
+            $branchinfo = Branch::where('guid',$branch->branch)->first();
+            $menu->AddSubMenu(new MenuItem("Edit " . $branchinfo->name . " branch.","/cpl/branch/" . $branch->branch,true));
+        }
+    }
+
+
     private function CouncillorMenu($menu)
     {
         if(!Auth::check())          return;     //  Only available for logged in user
@@ -76,7 +91,6 @@ class Menu
             return;
         }
         $menu->AddSubMenu(new MenuItem("My info as a Councillor","/councillor",true));
-
     }
 
     private function ECMenu($clpGuid)

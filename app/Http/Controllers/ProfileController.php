@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 
 use App\ViewModels\EditProfile;
+use App\ViewModels\HomeProfile;
 use App\ViewModels\ImageFile;
 use App\User;
 use App\Image;
@@ -48,6 +49,13 @@ class ProfileController extends Controller
         abort(404);
     }
 
+    public function view($id)
+    {
+        $data = new HomeProfile($id);
+        return view('viewprofile',['Data' => $data]);
+
+        abort(404);
+    }
 
     public function edit($id)
     {

@@ -2,6 +2,7 @@
 
 namespace App\ViewModels;
 
+use App\Branch;
 use App\Councillor;
 use App\Cclp;
 use App\User;
@@ -25,7 +26,7 @@ class Blogs extends Model
 
     public $items = array();
 
-    public function __construct($owner,$max,$includeowner=true,$excludechildren=false)
+    public function __construct($owner,$max,$includeowner=true,$excludechildren=false,$guidfilter="")
     {
         $clpGuid = config('appsettings.clpGUID');
         $clps = DB::select('select * from cclps where guid=?',[$clpGuid]);
@@ -43,8 +44,13 @@ class Blogs extends Model
 
         switch(substr($owner,0,3))
         {
-            case "CLR":
-                $councillors = Councillor::where('guid',$owner)->firstOrFail();
+            case "BRC":
+                $branch = Branch::where('guid',$owner)->firstOrFail();
+                $this->title = "News from branch ".$branch->name;
+                array_push($owners,$owner);
+                break;
+            case "CNR":
+                $councillor = Councillor::where('guid',$owner)->firstOrFail();
                 $usr = User::where('guid',$councillor->owner)->first();
                 $this->title = "News from councillor ".$usr->name;
                 array_push($owners,$owner);
@@ -59,11 +65,23 @@ class Blogs extends Model
                     {
                         array_push($owners,$councillor->guid);
                     }
+                    $branches = Branch::where('clp',$owner)->get();
+                    foreach($branches as $branch)
+                    {
+                        array_push($owners,$branch->guid);
+                    }
                 }
                 break;
         }
 
-        $blogs = Blog::whereIn('owner',$owners)->orderBy('created_at', 'DESC')->limit($max)->get();
+        if($guidfilter != "")
+        {
+            $blogs = Blog::whereIn('owner',$owners)->where('owner', 'like', $guidfilter . '%')->orderBy('created_at', 'DESC')->limit($max)->get();
+        }
+        else
+        {
+            $blogs = Blog::whereIn('owner',$owners)->orderBy('created_at', 'DESC')->limit($max)->get();
+        }
         foreach($blogs as $blog)
         {
             $b = new class {};
