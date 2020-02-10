@@ -456,7 +456,36 @@ objectives for the constituency.
             'sortorder' => 0,
         ));
 
+        Helptext::create(array(
+            'name' => 'event.location',
+            'heading' => 'Location',
+            'text' => 'Please give clear directions to the event.',
+            'sortorder' => 0,
+        ));
 
+        Helptext::create(array(
+            'name' => 'campaign.text',
+            'heading' => 'Campaign Description',
+            'text' => 'Please give clear description of your campaign.',
+            'sortorder' => 0,
+        ));
+
+        Helptext::create(array(
+            'name' => 'campaign.text.full',
+            'heading' => 'What to write?',
+            'text' => '
+                <p>
+                    It can seem quite daunting to write a good description. You can try writing a paragraph for each of these:
+                </p>
+                <ul>
+                <li>What is going to happen</li>
+                <li>Why is this bad</li>
+                <li>What do you want to change about the situation</li>
+                <li>How are you going to achieve this</li>
+                </ul>
+            ',
+            'sortorder' => 0,
+        ));
     }
 }
 

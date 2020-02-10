@@ -25,6 +25,7 @@ import CameraIcon from '@material-ui/icons/CameraAlt';
 
 import BlogPost from './BlogPost';
 import UploadPicture from './UploadPicture';
+import zIndex from '@material-ui/core/styles/zIndex';
 
 
 export default class BlogEditor extends Component {
@@ -209,7 +210,7 @@ export default class BlogEditor extends Component {
           />
         </Grid>
       </Grid>
-      <Dialog fullScreen open={this.state.openedit} onClose={()=>{this.onCancel();}} >
+      <Dialog fullScreen open={this.state.openedit} style={{zIndex:'4100'}} onClose={()=>{this.onCancel();}} >
         <AppBar style={{position: 'relative'}}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={()=>{this.onCancel();}} aria-label="close">
@@ -228,7 +229,7 @@ export default class BlogEditor extends Component {
         </AppBar>
         <BlogPost ref={this._childBlog} owner={this.state.owner} guid={this.state.postguid} />
       </Dialog>
-      <Dialog fullScreen open={this.state.openpicture} onClose={()=>{this.onCancelPicture();}} >
+      <Dialog fullScreen  style={{zIndex:'4100'}} open={this.state.openpicture} onClose={()=>{this.onCancelPicture();}} >
         <AppBar style={{position: 'relative'}}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={()=>{this.onCancelPicture();}} aria-label="close">

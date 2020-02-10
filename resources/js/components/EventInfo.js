@@ -36,7 +36,7 @@ import AlertSave from './AlertSave';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
-  KeyboardDatePicker,
+  KeyboardDateTimePicker,
 } from '@material-ui/pickers';
 
 import HelpText from './HelpText';
@@ -109,6 +109,13 @@ class EventInfo extends Component {
 
   }
 
+  handleDateChange(name,value)
+  {
+    this.setState({
+      [name]: value
+    });
+  }
+
   handleChangeBody(value) {
     this.setState({ about: value })
   }
@@ -126,6 +133,9 @@ class EventInfo extends Component {
 
   refresh()
   {
+    if(typeof(this.props.guid) == "undefined") return;
+    if(this.props.guid=='') return;
+
     console.log("Retrieving event");
     axios.get("/event/"+this.props.guid+"/edit")
       .then(response => {
@@ -133,8 +143,8 @@ class EventInfo extends Component {
         this.setState({ location: response.data.location, 
                         title: response.data.title, 
                         subtitle: response.data.subtitle, 
-                        start: response.data.start,
-                        end: response.data.end,
+                        start: response.data.starttime,
+                        end: response.data.endtime,
                       });
       })
       .catch(function (error) {
@@ -238,41 +248,52 @@ class EventInfo extends Component {
             <Grid item xs={12}>
                 <TextField id="info-subtitle" 
                 value={this.state.subtitle} 
-                label="Title" 
+                label="Subtitle" 
                 name="subtitle"
                 onChange={(e)=>{this.handleChange(e);}} 
                 fullWidth
                 multiline
-                placeholder="Subtitle of your campaign"
-                helperText="One sentence that expands on yoour title"/>
+                placeholder="Subtitle of your event"
+                helperText="One sentence that expands on your title"/>
             </Grid>
             <Grid item xs={12}>
-              <p>You can also point your own internet domain name to this site it you like.</p>
+
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDateTimePicker
+                        margin="normal"
+                        id="info-start"
+                        label="Event Start"
+                        format="dd/MMM/yyyy hh:mm"
+                        value={this.state.start}
+                        onChange={(e)=>{this.handleDateChange('start',e);}}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                </MuiPickersUtilsProvider>
+
             </Grid>
             <Grid item xs={12}>
-                <TextField id="info-start" 
-                value={this.state.start} 
-                label="Start Time" 
-                name="start"
-                onChange={(e)=>{this.handleChange(e);}} 
-                fullWidth
-                helperText="This is your personal domain name."/>
-            </Grid>
-            <Grid item xs={12}>
-                <TextField id="info-end" 
-                value={this.state.end} 
-                label="End Time" 
-                name="end"
-                onChange={(e)=>{this.handleChange(e);}} 
-                fullWidth
-                helperText="This is your personal domain name."/>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDateTimePicker
+                        margin="normal"
+                        id="info-end"
+                        label="Event Start"
+                        format="dd/MMM/yyyy hh:mm"
+                        value={this.state.end}
+                        onChange={(e)=>{this.handleDateChange('end',e);}}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                </MuiPickersUtilsProvider>
             </Grid>
           </Grid>
         </Grid>
         <Grid item md={6} xs={12}>
           <Grid container>
             <Grid item xs={12} style={upstyle}>
-                <HelpText name='councillor.text' style="neuhelp"/>      
+                <HelpText name='location.text' style="neuhelp"/>      
               </Grid>
             <Grid item xs={12} style={upstyle}>
               <div style={editstyle}>

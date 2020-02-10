@@ -196,14 +196,10 @@ class CampaignController extends Controller
         return($c);
     }
 
-    public function removeuser($branch,$user)
+    public function removeuser($campaign,$user)
     {
         if(Auth::check())
         {
-            if(!auth()->user()->can('Edit CLP'))
-            {
-                abort(404);
-            }
         }
         else {
             abort(404);
@@ -211,18 +207,14 @@ class CampaignController extends Controller
 
         $clpGuid = config('appsettings.clpGUID');
 
-        BranchAdministrator::where('user',$user)->where('branch',$branch)->delete();
-        Log::info('Removing user '.$user.' as a branch admin');
+        CampaignUser::where('user',$user)->where('campaign',$campaign)->delete();
+        Log::info('Removing user '.$user.' as a campaign admin for '.$campaign);
     }
 
-    public function adduser($branch,$user)
+    public function adduser($campaign,$user)
     {
         if(Auth::check())
         {
-            if(!auth()->user()->can('Edit CLP'))
-            {
-                abort(404);
-            }
         }
         else {
             abort(404);
@@ -230,13 +222,13 @@ class CampaignController extends Controller
 
         $clpGuid = config('appsettings.clpGUID');
 
-        BranchAdministrator::create(array(
-            'guid' => uniqid("BAU"),
-            'branch' => $branch,
+        CampaignUser::create(array(
+            'guid' => uniqid("CAU"),
+            'campaign' => $campaign,
             'user' => $user
         ));
 
-        Log::info('Adding user '.$user.' as a branch admin user');
+        Log::info('Adding user '.$user.' as a campaign admin user for '.$campaign);
     }
 
 }

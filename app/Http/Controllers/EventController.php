@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -53,27 +55,35 @@ class EventController extends Controller
         //
         if(Auth::check())
         {
-            if(!auth()->user()->can('Edit CLP'))
-            {
-                abort(403);
-            }
         }
         else {
             abort(403);
         }
 
         $clpGuid = config('appsettings.clpGUID');
-
+        $newguid=uniqid("EVT");
         Event::create(array(
-            'guid' => uniqid("CMP"),
+            'guid' => $newguid,
             'owner' => $request->owner,
             'title' => $request->title,
             'subtitle' => '',
             'location' => '',
-            'starttime' => '',
-            'endtime' => '',
+            'starttime' => Carbon::create(
+                    substr($request->start,0,4),
+                    substr($request->start,5,2),
+                    substr($request->start,8,2),
+                    substr($request->start,11,2),
+                    substr($request->start,14,2),
+            ),
+            'endtime' => Carbon::create(
+                substr($request->end,0,4),
+                substr($request->end,5,2),
+                substr($request->end,8,2),
+                substr($request->end,11,2),
+                substr($request->end,14,2),
+                ),
         ));
-
+        return $newguid;
     }
 
     /**

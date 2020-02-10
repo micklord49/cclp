@@ -7,6 +7,8 @@ import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
@@ -21,10 +23,21 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 //  Icons
 import SaveIcon from '@material-ui/icons/Save';
 import AddIcon from '@material-ui/icons/Add';
+import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import AnnouncementIcon from '@material-ui/icons/Announcement';
+import EventIcon from '@material-ui/icons/Event';
+import CameraIcon from '@material-ui/icons/Camera';
+import ShareIcon from '@material-ui/icons/Share';
 
 //
 //  CCLP Components
-import CampaignInfo from './CampaignInfo';
+import CampaignEdit from './CampaignEdit';
+import BlogEditor from './BlogEditor';
+import Event from './Event';
+import UploadPicture from './UploadPicture'
+import ControlPanelUserGroup from './ControlPanelUserGroup';
+import SocialMedia from './SocialMedia';
 
 export default class Campaign extends Component {
   constructor(props) {
@@ -32,6 +45,8 @@ export default class Campaign extends Component {
       this.state = {
           campaigns: new Array(), 
           selectedcampaign: { guid:'' },
+
+          selectedtab:0,
         
           open: false, 
           newname: ''
@@ -103,6 +118,7 @@ export default class Campaign extends Component {
       this.refresh();
   }
 
+
   refresh()
   {
     console.log("Reloading campaign...")
@@ -116,6 +132,26 @@ export default class Campaign extends Component {
       console.log(error);
     })
   }
+
+  addUser(guid)
+  {
+    let uri = '/campaign/'+this.state.selectedcampaign.guid+"/"+guid+'/adduser';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.campaignchanged();
+        });
+
+  }
+
+  removeUser(guid)
+  {
+    let uri = '/campaign/'+this.state.selectedcampaign.guid+"/"+guid+'/removeuser';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.campaignchanged();
+        });
+  }
+
 
   campaignchanged()
   {
@@ -135,6 +171,7 @@ export default class Campaign extends Component {
   render() 
   {
     let listitems = "";
+
     if(this.state.campaigns != null)
     {
       listitems = this.state.campaigns.map((item,key) =>
@@ -143,6 +180,15 @@ export default class Campaign extends Component {
             </ListItem>
       );
     }
+
+    const tabStyle = {
+      backgroundColor: "#A0A5AC" 
+    };
+
+    const tabpageStyle = {
+    backgroundColor: "#E0E5EC" 
+    };
+
     
     const neu = {
       backgroundColor: "#E0E5EC" ,
@@ -163,9 +209,12 @@ export default class Campaign extends Component {
                     </List>
                 </Grid>
                 <Grid item xs={9}>
-                    <CampaignInfo guid={this.state.selectedcampaign.guid} onChange={() => this.campaignchanged()} />
+                    <CampaignEdit guid={this.state.selectedcampaign.guid} />
                 </Grid>
             </Grid>
+
+
+
 
             <Dialog open={this.state.open} onClose={()=>{this.handleClose();}} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add new Campaign</DialogTitle>

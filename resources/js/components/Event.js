@@ -19,7 +19,7 @@ import {
     components,
   } from 'react-big-calendar'
   
-import moment from 'moment'
+import moment, { now } from 'moment'
 
 //
 //  Icons
@@ -80,7 +80,7 @@ export default class Event extends Component {
     }
 
     let uri = '/event';
-    axios.post(uri, campaign).then((response) => {
+    axios.post(uri, event).then((response) => {
           //this.props.history.push('/display-item');
           this.refresh();
     });
@@ -90,33 +90,77 @@ export default class Event extends Component {
       this.refresh();
   }
 
+
   refresh()
   {
-    console.log("Reloading event...")
+    if(this.props.owner=='')   return;
     axios.get("/event/" + this.props.owner + "/dir")
-    .then(response => {
-        console.log(response);
-        this.setState({  events: response.data });
-        if(response.data.length > 0)  this.setState({  selectedevent: response.data[0] });
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+      .then(response => {
+          console.log("Reloading events...");
+          response.data.forEach(event => {
+            event.start=new Date(event.start);
+            event.end=new Date(event.end);
+          });
+          console.log(response);
+          this.setState({  events: response.data });        
+          if(response.data.length > 0)  this.setState({  selectedevent: response.data[0] });
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
   }
 
   eventchanged()
   {
     if(this.props.owner=='')   return;
-    console.log("ControlPanelEC - campaign changes");
+    console.log("Event - events changes");
     axios.get("/event/"+this.props.owner+"/edit")
     .then(response => {
-      this.setState({  events: response.data.events });
+      console.log("Reloading events...");
+      response.data.events.forEach(event => {
+        event.start=new Date(event.start);
+        event.end=new Date(event.end);
+      });
+      console.log(response);
+      this.setState({  events: response.data.events });        
       this.selectEvent(this.state.selectedevent.guid);
     })
     .catch(function (error) {
       console.log(error);
     })
   }
+
+  onAdd(start, end ) {
+    const title = window.prompt('New Event title')
+    if (title)
+    {
+      this.setState({
+        title: title,
+        subtitle: '',
+        location: '',
+        start: start.start,
+        end: start.end,
+        owner: this.props.owner,
+      });
+      this.addnewevent();
+      
+    }
+  }
+
+  onSelect(e) {
+    console.log(e);
+      this.setState({
+        selectedevent: e
+      });
+  }
+
+  eventColor(e,start,end,selected)
+  {
+    if(start<now()) return { style: { backgroundColor: 'darkgray' } }
+    if(selected)    return { style: { backgroundColor: 'mediumorchid' } }
+    return { style: { backgroundColor: 'aquamarine' } }
+  }
+
 
   render() 
   {
@@ -138,7 +182,11 @@ export default class Event extends Component {
                 events={this.state.events}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: 500 }}
+                selectable
+                style={{ height: 600 }}
+                onSelectSlot={(start,end) => {this.onAdd(start,end);}}
+                onSelectEvent={(e) => {this.onSelect(e);}}
+                eventPropGetter={(event, start, end, isSelected) => {this.eventColor(event,start,end,isSelected);}}
             />
         </div>
       )
@@ -146,13 +194,12 @@ export default class Event extends Component {
 
     return (
         <div>
-            <Button startIcon={<AddIcon />} onClick={() => {this.handleClickOpen();}} color="primary">Add New Campaign</Button>
             <Grid container spacing={3}>
                 <Grid item xs={6}>
                     <MyCalendar />
                 </Grid>
                 <Grid item xs={6}>
-                    <EventInfo guid={this.state.selectedevent.guid} onChange={() => this.eventchanged()} />
+                    <EventInfo guid={this.state.selectedevent.resource} onChange={() => this.eventchanged()} />
                 </Grid>
             </Grid>
 

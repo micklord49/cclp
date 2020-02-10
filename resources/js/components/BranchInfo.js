@@ -116,8 +116,19 @@ class BranchInfo extends Component {
     this.setState({ about: value })
   }
 
+  componentDidUpdate(){
+    this.refresh();
+  }
   
   componentDidMount(){
+    this.refresh();
+  }
+
+
+  refresh()
+  {
+    if(typeof(this.props.guid)=="undefined")  return;
+    if(this.props.uid=='')  return;
     console.log("Retrieving branch");
     axios.get("/branch/"+this.props.guid+"/edit")
       .then(response => {
@@ -130,8 +141,8 @@ class BranchInfo extends Component {
       .catch(function (error) {
         console.log(error);
       });
-  }
 
+  }
 
   handleSubmit(event) 
   {

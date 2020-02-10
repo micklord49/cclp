@@ -61,6 +61,8 @@ Route::get('ec/{role}/{user}/adduser', 'ECController@addroleuser');
 Route::get('ec/{role}/{user}/removeuser', 'ECController@removeroleuser');
 
 Route::get('campaign/{owner}/dir', 'CampaignController@dir');
+Route::get('campaign/{campaign}/{user}/adduser', 'CampaignController@adduser');
+Route::get('campaign/{campaign}/{user}/removeuser', 'CampaignController@removeuser');
 
 Route::get('event/{owner}/dir', 'EventController@dir');
 

@@ -125,6 +125,7 @@ class CampaignInfo extends Component {
 
   refresh()
   {
+    if(this.props.guid=='') return;
     console.log("Retrieving campaign");
     axios.get("/campaign/"+this.props.guid+"/edit")
       .then(response => {
@@ -235,7 +236,7 @@ class CampaignInfo extends Component {
             <Grid item xs={12}>
                 <TextField id="info-subtitle" 
                 value={this.state.subtitle} 
-                label="Title" 
+                label="Subtitle" 
                 name="subtitle"
                 onChange={(e)=>{this.handleChange(e);}} 
                 fullWidth
@@ -260,7 +261,7 @@ class CampaignInfo extends Component {
         <Grid item md={6} xs={12}>
           <Grid container>
             <Grid item xs={12} style={upstyle}>
-                <HelpText name='councillor.text' style="neuhelp"/>      
+                <HelpText name='campaign.text' style="neuhelp"/>      
               </Grid>
             <Grid item xs={12} style={upstyle}>
               <div style={editstyle}>

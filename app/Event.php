@@ -11,5 +11,9 @@ class Event extends Model
         'guid', 'title', 'subtitle', 'location', 'starttime', 'endtime', 'owner'
     ];
 
+    protected $dates = [
+        'starttime', 'endtime',
+    ];
+
 
 }

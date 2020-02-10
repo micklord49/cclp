@@ -42,7 +42,11 @@ export default class SMFacebook extends Component {
   }
  
   componentDidMount(){
+    if(typeof(this.props.owner) == "undefined") return;
+    if(this.props.owner=='') return;
+
     console.log("Retreiving facebook")
+
     axios.get("/social/load/"+this.props.owner)
       .then(response => {
         console.log(response);

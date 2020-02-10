@@ -61,6 +61,7 @@ export default class UploadPicture extends Component {
 
   loadImage()
   {
+    if(this.props.owner=='')   return;
     axios.get("/image/"+this.props.owner+"/imagefile")
       .then(response => {
         this.setState({ imagefile: response.data.filename, 
