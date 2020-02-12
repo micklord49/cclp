@@ -140,7 +140,7 @@ export default class SMFacebook extends Component {
         <Grid item xs={12}>
             <IoLogoFacebook />
             <TextField 
-                id="info-facebook" 
+                id="sm-facebook" 
                 fullWidth
                 name="facebook"
                 value={this.state.facebook} 
@@ -154,7 +154,7 @@ export default class SMFacebook extends Component {
         <Grid item xs={12}>
             <VpnKey />
             <TextField 
-                id="info-facebookKey" 
+                id="sm-facebookKey" 
                 name="facebookKey"
                 fullWidth
                 value={this.state.facebookKey} 
@@ -165,7 +165,7 @@ export default class SMFacebook extends Component {
         <Grid item xs={12}>
             <IoLogoFacebook />
             <TextField 
-                id="info-facebookSecret" 
+                id="sm-facebookSecret" 
                 fullWidth
                 name="facebookSecret"
                 value={this.state.facebookSecret} 

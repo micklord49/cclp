@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Permission;
 use App\Branch;
 use App\ViewModels\ViewBranches;
 use App\ViewModels\HomeBranch;
+use App\ViewModels\HomeBranches;
 use App\ViewModels\EditBranch;
 use App\BranchAdministrator;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class BranchController extends Controller
         $clpGuid = config('appsettings.clpGUID');
 
 
-        $data = new ViewBranches($clpGuid);
+        $data = new HomeBranches($clpGuid);
         if($data->guid=="") about(404);
         return view("branches",['Data' => $data]);
     }

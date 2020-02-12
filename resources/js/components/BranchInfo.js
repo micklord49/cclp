@@ -108,6 +108,8 @@ class BranchInfo extends Component {
     this.setState({
       [name]: value
     });
+
+    this.reloading = false;
     console.log(this.state);
 
   }
@@ -117,6 +119,11 @@ class BranchInfo extends Component {
   }
 
   componentDidUpdate(){
+    if(this.reloading)
+    {
+      this.reloading = false;
+      return;
+    }
     this.refresh();
   }
   
@@ -126,10 +133,11 @@ class BranchInfo extends Component {
 
 
   refresh()
-  {
+  {    
     if(typeof(this.props.guid)=="undefined")  return;
     if(this.props.uid=='')  return;
     console.log("Retrieving branch");
+    this.reloading=true;
     axios.get("/branch/"+this.props.guid+"/edit")
       .then(response => {
         this.setState({ dn: response.data.dn, 

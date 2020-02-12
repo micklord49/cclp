@@ -11,7 +11,7 @@ use App\Campaign;
 use App\CampaignUser;
 
 use App\ViewModels\ViewBranches;
-use App\ViewModels\HomeBranch;
+use App\ViewModels\HomeCampaign;
 use App\ViewModels\EditBranch;
 use Illuminate\Http\Request;
 
@@ -81,9 +81,9 @@ class CampaignController extends Controller
         $clpGuid = config('appsettings.clpGUID');
 
 
-        $data = new HomeBranch($branch);
+        $data = new HomeCampaign($branch);
         if($data->guid=="") abort(404);
-        return view("branch",['Data' => $data]);
+        return view("campaign",['Data' => $data]);
     }
 
 
@@ -188,11 +188,14 @@ class CampaignController extends Controller
         foreach($campaigns as $campaign)
         {
             $new = new \stdClass();
+            $new->key = $campaign->guid;
             $new->guid = $campaign->guid;
             $new->title = $campaign->title;
 
             array_push($c,$new);
         }
+
+
         return($c);
     }
 

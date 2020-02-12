@@ -235,7 +235,7 @@ class EventInfo extends Component {
         <Grid item md={6} xs={12}>
           <Grid container>
             <Grid item xs={12}>
-                <TextField id="info-title" 
+                <TextField id="event-title" 
                 value={this.state.title} 
                 label="Title" 
                 name="title"
@@ -246,7 +246,7 @@ class EventInfo extends Component {
                 helperText="Try to keep this under 5 words"/>
             </Grid>
             <Grid item xs={12}>
-                <TextField id="info-subtitle" 
+                <TextField id="event-subtitle" 
                 value={this.state.subtitle} 
                 label="Subtitle" 
                 name="subtitle"
@@ -261,7 +261,7 @@ class EventInfo extends Component {
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDateTimePicker
                         margin="normal"
-                        id="info-start"
+                        id="event-start"
                         label="Event Start"
                         format="dd/MMM/yyyy hh:mm"
                         value={this.state.start}
@@ -277,7 +277,7 @@ class EventInfo extends Component {
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDateTimePicker
                         margin="normal"
-                        id="info-end"
+                        id="event-end"
                         label="Event Start"
                         format="dd/MMM/yyyy hh:mm"
                         value={this.state.end}

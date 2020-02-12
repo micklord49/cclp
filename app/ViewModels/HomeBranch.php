@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Branch;
+use App\Campaign;
+use App\Event;
+use App\Social;
 
 
 class HomeBranch extends Model
@@ -19,8 +22,11 @@ class HomeBranch extends Model
     public $intro;
     public $about;
     public $image;
+    public $campaigns = array();
+    public $events = array();
+    public $nextevent;
     public $news;
-    public $menu;
+    public $menu;    
 
     public function __construct($guid)
     {
@@ -34,8 +40,10 @@ class HomeBranch extends Model
         $this->clpname = $clps[0]->name;
 
         $branch = Branch::where('guid',$guid)->firstOrFail();
+        $owners = array();
 
         $this->guid = $guid;
+        array_push($owners,$guid);
 
         $this->name = $branch->name;
         $this->intro = $branch->intro;
@@ -50,6 +58,39 @@ class HomeBranch extends Model
         {
             $this->image = "/images/defaultbranch.png";
         }
+
+
+        $campaigns = Campaign::whereIn('owner',$owners)->get();
+        foreach($campaigns as $campaign)
+        {
+            $c = new class {};
+            $c->title = $campaign->title;
+            $c->subtitle = $campaign->subtitle;
+            $c->guid = $campaign->guid;
+
+            $social = Social::where('owner',$campaign->guid)->first();
+            if($social != null)
+            {
+                $c->facebook = strtolower($social->facebook);                
+                if(substr($c->facebook,0,4) != "http")
+                {
+                    $c->facebook = "https://".$c->facebook;
+                }
+            }
+
+            $i = new ImageFile($c->guid);
+            if($i->filename=="") {
+                $c->image = "/images/defaultcampaign.png";
+            }            
+            else  {
+                $c->image = $i->filename;
+            }
+
+            array_push($this->campaigns,$c);
+        }
+    
+        $this->nextevent = Event::where('owner',$guid)->where('starttime','>',now())->first();
+
 
         $this->news = new Blogs($guid,6,true,true);
         $this->menu = new Menu($clpGuid);

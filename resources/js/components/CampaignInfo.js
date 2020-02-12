@@ -134,6 +134,7 @@ class CampaignInfo extends Component {
                         title: response.data.title, 
                         subtitle: response.data.subtitle, 
                         body: response.data.body,
+                        adminusers: response.data.adminusers,
                       });
       })
       .catch(function (error) {
@@ -223,7 +224,7 @@ class CampaignInfo extends Component {
         <Grid item md={6} xs={12}>
           <Grid container>
             <Grid item xs={12}>
-                <TextField id="info-title" 
+                <TextField id="campaign-title" 
                 value={this.state.title} 
                 label="Title" 
                 name="title"
@@ -234,7 +235,7 @@ class CampaignInfo extends Component {
                 helperText="Try to keep this under 5 words"/>
             </Grid>
             <Grid item xs={12}>
-                <TextField id="info-subtitle" 
+                <TextField id="campaign-subtitle" 
                 value={this.state.subtitle} 
                 label="Subtitle" 
                 name="subtitle"
@@ -248,7 +249,7 @@ class CampaignInfo extends Component {
               <p>You can also point your own internet domain name to this site it you like.</p>
             </Grid>
             <Grid item xs={12}>
-                <TextField id="info-dn" 
+                <TextField id="campaign-dn" 
                 value={this.state.dn} 
                 label="Domain Name" 
                 name="dn"

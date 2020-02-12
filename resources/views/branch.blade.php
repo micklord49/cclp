@@ -24,6 +24,31 @@
         <div class="description text-center">
           <p>{{ $Data->intro }}</p>
         </div>
+
+        @isset($Data->nextevent)
+          @isset($Data->nextevent->starttime)
+          <div class="section text-center">
+            <h2 class="title">Our Next Event</h2>
+            <div class="team">
+            <div class="row">
+              <div class="description text-center">
+                <h5>{{ $Data->nextevent->title }}</h5>
+                <p>{{ $Data->nextevent->subtitle }}</p>
+                <h3>
+                  {{ \Carbon\Carbon::parse($Data->startime)->format('d/m/Y') }}<br/>
+                  <b>{{ \Carbon\Carbon::parse($Data->startime)->format('H:i') }}</b>
+                until
+                  <b>{{ \Carbon\Carbon::parse($Data->endtime)->format('H:i') }}</b>
+                </h3>
+              </div>
+            </div>            
+            </div>
+         </div>
+
+          @endisset
+        @endisset
+
+
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile-tabs">
@@ -60,7 +85,7 @@
           </div>
           <div class="tab-pane text-center gallery" id="favorite">
             <div class="row">
-                Campaigns
+              @each('layouts.partials.campaigncard',$Data->campaigns,'campaign')
             </div>
           </div>
         </div>

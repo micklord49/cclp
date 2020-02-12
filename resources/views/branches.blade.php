@@ -43,6 +43,16 @@
             </div>
         </div>
 
+        <div class="section text-center">
+            <h2 class="title">The Campaigns our branches support</h2>
+            <div class="team">
+            <div class="row">
+
+            @each('layouts.partials.campaigncard',$Data->campaigns,'campaign')
+
+            </div>            
+            </div>
+        </div>
 
       <div class="row">
             <div class="col-md-8 ml-auto mr-auto">

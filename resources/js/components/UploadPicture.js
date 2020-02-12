@@ -126,6 +126,12 @@ export default class UploadPicture extends Component {
   render() 
   {
 
+    if(this.props.owner=='')
+    {
+      return(<div>Loading...</div>);
+    }
+
+
     const inp = {
       display: 'none'
     }

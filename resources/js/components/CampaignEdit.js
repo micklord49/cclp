@@ -42,21 +42,21 @@ export default class CampaignEdit extends Component {
         };
       //this.selectRole = this.selectRole.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
+      this.Reloading = false;
   }
 
+  
 
   handleChange(event){
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-    console.log(event);
-  
     this.setState({
       [name]: value
     });
-    console.log(this.state);
 
+    if(name=='selectedcampaign')    this.campaignchanged();
   }
 
   componentDidMount(){
@@ -65,6 +65,7 @@ export default class CampaignEdit extends Component {
 
   refresh()
   {
+    this.campaignchanged();
   }
 
   addUser(guid)
@@ -90,16 +91,27 @@ export default class CampaignEdit extends Component {
     this.setState({ selectedtab: value });
   };
 
+  componentWillUpdate()
+  {
+    if(this.Reloading)  this.Reloading = false;
+    else                this.campaignchanged();
+  }
 
 
   campaignchanged()
   {
     if(this.props.guid=='')   return;
     if(typeof(this.props.guid) == 'undefined')  return;
-    console.log("ControlPanelEC - campaign changes");
+
+    this.Reloading = true;
+
     axios.get("/campaign/"+this.props.guid+"/edit")
     .then(response => {
-      this.setState({  campaigns: response.data.campaigns });
+      console.log("Campaign Edit campaignchanged()");
+      console.log(response);
+      this.setState({  
+        adminusers: response.data.adminusers
+      });
       if(response.data.campaigns.length > 0)  this.selectCampaign(this.state.selectedcampaign.guid);
     })
     .catch(function (error) {
@@ -112,6 +124,10 @@ export default class CampaignEdit extends Component {
       if(typeof(this.props.guid)=='undefined')
       {
           return(<div></div>);
+      }
+      if(this.props.guid=='')
+      {
+          return(<div>Loading...</div>);
       }
     const tabStyle = {
       backgroundColor: "#A0A5AC" 
@@ -156,7 +172,7 @@ export default class CampaignEdit extends Component {
             <CampaignInfo guid={this.props.guid} onChange={() => this.campaignchanged()} />
         </div>
         <div role="tabpanel" hidden={this.state.selectedtab != 3}>
-            <UploadPicture owner={this.props.guid} onChange={() => this.campaignchanged()} />
+            <UploadPicture title="Campaign Image" owner={this.props.guid} onChange={() => this.campaignchanged()} />
         </div>
         <div role="tabpanel" hidden={this.state.selectedtab != 4}>
             <ControlPanelUserGroup onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.adminusers} addUser={(guid) => this.addUser(guid)}/>

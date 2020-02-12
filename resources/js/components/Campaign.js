@@ -11,6 +11,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -44,7 +48,7 @@ export default class Campaign extends Component {
       super(props);
       this.state = {
           campaigns: new Array(), 
-          selectedcampaign: { guid:'' },
+          selectedcampaign: '',
 
           selectedtab:0,
         
@@ -56,17 +60,17 @@ export default class Campaign extends Component {
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  selectCampaign(r){
-    if(r=='') return;
-    console.log("Calling select campaign..."+r);
-    console.log(this.state.campaigns);
+  campaignselected(e){
+    //if(r=='') return;
+    //console.log("Calling select campaign..."+r);
+    console.log(e);
     for(let i=0;i<this.state.campaigns.length;i++)
     {
-      if(this.state.campaigns[i].guid == r)  
-      {
-        console.log("Setting campaign..."+this.state.campaigns[i]);
-        this.setState({ selectedcampaign: this.state.campaigns[i] });
-      }
+    //  if(this.state.campaigns[i].guid == r)  
+    //  {
+    //    console.log("Setting campaign..."+this.state.campaigns[i]);
+        //this.setState({ selectedcampaign: this.state.campaigns[i] });
+    //  }
     }
   }
 
@@ -125,8 +129,10 @@ export default class Campaign extends Component {
     axios.get("/campaign/" + this.props.owner + "/dir")
     .then(response => {
         console.log(response);
-        this.setState({  campaigns: response.data });
-        if(response.data.length>0) this.setState({  selectedcampaign: response.data[0] });
+        this.setState({  
+          campaigns: response.data
+        });
+        if(response.data.length>0) this.setState({  selectedcampaign: response.data[0].guid });
     })
     .catch(function (error) {
       console.log(error);
@@ -135,7 +141,7 @@ export default class Campaign extends Component {
 
   addUser(guid)
   {
-    let uri = '/campaign/'+this.state.selectedcampaign.guid+"/"+guid+'/adduser';
+    let uri = '/campaign/'+this.state.selectedcampaign+"/"+guid+'/adduser';
     axios.get(uri, {}).then((response) => {
           //this.props.history.push('/display-item');
           this.campaignchanged();
@@ -145,7 +151,7 @@ export default class Campaign extends Component {
 
   removeUser(guid)
   {
-    let uri = '/campaign/'+this.state.selectedcampaign.guid+"/"+guid+'/removeuser';
+    let uri = '/campaign/'+this.state.selectedcampaign+"/"+guid+'/removeuser';
     axios.get(uri, {}).then((response) => {
           //this.props.history.push('/display-item');
           this.campaignchanged();
@@ -158,10 +164,13 @@ export default class Campaign extends Component {
     if(this.props.owner=='')   return;
     if(this.state.selectedcampaign==undefined)  return;
     console.log("ControlPanelEC - campaign changes");
+
     axios.get("/campaign/"+this.props.owner+"/edit")
     .then(response => {
-      this.setState({  campaigns: response.data.campaigns });
-      if(response.data.campaigns.length > 0)  this.selectCampaign(this.state.selectedcampaign.guid);
+      this.setState({
+          campaigns: response.data.campaigns,
+          adminusers: response.data.adminusersm
+       });
     })
     .catch(function (error) {
       console.log(error);
@@ -170,46 +179,62 @@ export default class Campaign extends Component {
 
   render() 
   {
+    if(this.props.owner=='')
+    {
+      return(<div>Loading...</div>)
+    }
     let listitems = "";
 
     if(this.state.campaigns != null)
     {
       listitems = this.state.campaigns.map((item,key) =>
-            <ListItem key={item.guid} button onClick={() => this.selectCampaign(item.guid)}>
-              <ListItemText primary={item.title} />
-            </ListItem>
+          <MenuItem key={item.guid} value={item.guid}>{item.title}</MenuItem>
       );
     }
 
     const tabStyle = {
-      backgroundColor: "#A0A5AC" 
+//      backgroundColor: "#A0A5AC" 
     };
 
     const tabpageStyle = {
-    backgroundColor: "#E0E5EC" 
+//    backgroundColor: "#E0E5EC" 
     };
 
     
     const neu = {
-      backgroundColor: "#E0E5EC" ,
-      borderRadius:4,
-      marginLeft: "auto",
-      marginRight: "auto",
-      marginTop:10,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+//      backgroundColor: "#E0E5EC" ,
+//      borderRadius:4,
+//      marginLeft: "auto",
+//      marginRight: "auto",
+//      marginTop:10,
+//      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     return (
         <div>
-            <Button startIcon={<AddIcon />} onClick={() => {this.handleClickOpen();}} color="primary">Add New Campaign</Button>
             <Grid container spacing={3}>
                 <Grid item xs={3}>
-                    <List component="nav" style={neu} aria-label="EC">
-                    {listitems}
-                    </List>
+
+                  <FormControl >
+                    <InputLabel id="select-campaign-label">Age</InputLabel>
+                    <Select
+                      labelId="select-campaign-label"
+                      id="select-campaign"
+                      value={this.state.selectedcampaign}
+                      name="selectedcampaign"
+                      onChange={(e)=>{this.handleChange(e);}}
+                      autoWidth
+                      style={{width:'100%'}}
+                    >
+                      {listitems}
+                    </Select>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={9}>
-                    <CampaignEdit guid={this.state.selectedcampaign.guid} />
+                  <Button startIcon={<AddIcon />} onClick={() => {this.handleClickOpen();}} color="primary">Add New Campaign</Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <CampaignEdit guid={this.state.selectedcampaign} />
                 </Grid>
             </Grid>
 
@@ -225,8 +250,7 @@ export default class Campaign extends Component {
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="campaigntitle"
-                        label="Campaign Title"
+                        label="New Campaign Title"
                         type="text"
                         fullWidth
                         name="newtitle"

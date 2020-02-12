@@ -51,7 +51,7 @@ export default class ControlPanelUserGroup extends Component {
   }
 
   render() 
-  {
+  {    
     return (
         <div>
             <UserList users={this.props.users} onremoveuser={(guid) => {this.onRemoveUser(guid);}} ></UserList>

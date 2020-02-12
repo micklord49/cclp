@@ -111,6 +111,10 @@ export default class BlogPost extends Component {
   
   render() 
   {
+    if(this.props.owner=='')
+    {
+      return(<div>Loading...</div>);
+    }
 
     const neu = {
       backgroundColor: "#E0E5EC" ,
