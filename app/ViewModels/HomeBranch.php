@@ -4,6 +4,7 @@ namespace App\ViewModels;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\CalendarLinks\Link;
 
 use App\Branch;
 use App\Campaign;
@@ -90,6 +91,14 @@ class HomeBranch extends Model
         }
     
         $this->nextevent = Event::where('owner',$guid)->where('starttime','>',now())->first();
+        $this->nexteventlink = "";
+        if($this->nextevent->guid != "")
+        {
+            $link = Link::create($this->nextevent->title, $this->nextevent->starttime, $this->nextevent->endtime)
+                            ->description($this->nextevent->subtitle)
+                            ->address($this->nextevent->location);
+            $this->nexteventlink = $link->ics();
+        }
 
 
         $this->news = new Blogs($guid,6,true,true);

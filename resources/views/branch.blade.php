@@ -27,23 +27,15 @@
 
         @isset($Data->nextevent)
           @isset($Data->nextevent->starttime)
+
+
+
           <div class="section text-center">
             <h2 class="title">Our Next Event</h2>
-            <div class="team">
-            <div class="row">
-              <div class="description text-center">
-                <h5>{{ $Data->nextevent->title }}</h5>
-                <p>{{ $Data->nextevent->subtitle }}</p>
-                <h3>
-                  {{ \Carbon\Carbon::parse($Data->startime)->format('d/m/Y') }}<br/>
-                  <b>{{ \Carbon\Carbon::parse($Data->startime)->format('H:i') }}</b>
-                until
-                  <b>{{ \Carbon\Carbon::parse($Data->endtime)->format('H:i') }}</b>
-                </h3>
-              </div>
-            </div>            
-            </div>
-         </div>
+          </div>
+          <div class="row justify-content-md-center">
+              @include('layouts.partials.eventcard',['event' => $Data->nextevent, 'eventlink' => $Data->nexteventlink])
+          </div>            
 
           @endisset
         @endisset
