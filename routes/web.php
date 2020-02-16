@@ -50,6 +50,9 @@ Route::resource('image', 'ImageController');
 
 Route::get('clpapi/wards', 'ClpController@warddir');
 
+Route::get('clp/{user}/adduser', 'ClpController@adduser');
+Route::get('clp/{user}/removeuser', 'ClpController@removeuser');
+
 Route::get('user/{id}', 'ProfileController@view');
 
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');

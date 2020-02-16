@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Permission;
 use App\ViewModels\EditClp;
 use App\Cclp;
 use App\Ward;
+use App\User;
 
 
 class ClpController extends Controller
@@ -89,6 +90,8 @@ class ClpController extends Controller
 
         $clpGuid = config('appsettings.clpGUID');
         $clp = Cclp::where('guid',$clpGuid)->first();
+        $clp->adminusers = User::select('guid')->where('clp',$clpGuid)->permission('Edit CLP')->get();
+
         return $clp;
     }
 
@@ -160,6 +163,44 @@ class ClpController extends Controller
     {
         $clpGuid = config('appsettings.clpGUID');
         return Ward::where('clp',$clpGuid)->get();
+    }
+
+    public function adduser($guid)
+    {
+        if(Auth::check())
+        {
+            if(!auth()->user()->can('Edit CLP'))
+            {
+                abort(403);
+            }
+        }
+        else {
+            abort(403);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+        $user = User::where('guid',$guid)->firstOrFail();
+        $user->givePermissionTo('Edit CLP');
+
+    }
+
+    public function removeuser($guid)
+    {
+        if(Auth::check())
+        {
+            if(!auth()->user()->can('Edit CLP'))
+            {
+                abort(403);
+            }
+        }
+        else {
+            abort(403);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+        $user = User::where('guid',$guid)->permission('Edit CLP')->firstOrFail();
+        $user->revokePermissionTo('Edit CLP');
+
     }
 
 }

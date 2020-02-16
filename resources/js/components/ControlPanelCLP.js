@@ -147,7 +147,7 @@ class ControlPanelCLP extends Component {
             <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
             <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
         </Menu>
-        <main id="page-wrap">
+        <main id="page-wrap" style={{width: '100%'}}>
         
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
               <h4>News Posts from the CLP</h4>

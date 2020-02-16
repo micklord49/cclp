@@ -40,6 +40,7 @@ import {
 } from '@material-ui/pickers';
 
 import HelpText from './HelpText';
+import CPLUsers from'./CPLUsers';
 
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css'; // ES6
@@ -85,13 +86,16 @@ class CampaignInfo extends Component {
         body: '', 
         dn: '', 
 
+        adminusers: new Array(),
+
         opensuccess: false, 
         openfail: false, 
         failmessage: '',         
 
       };
       this.handleSubmit = this.handleSubmit.bind(this);
-  }
+      this.Reloading = false;
+    }
 
 
   handleChange(event){
@@ -116,17 +120,41 @@ class CampaignInfo extends Component {
   {
     if(typeof(this.props.guid) == "undefined")   return;
     if(prevProps.guid == this.props.guid)     return;
-    this.refresh();
+
+    if(this.Reloading)  this.Reloading = false;
+    else                this.refresh();
   }
   
   componentDidMount(){
     this.refresh();
   }
 
+  addUser(guid)
+  {
+    let uri = '/campaign/'+this.props.guid+"/"+guid+'/adduser';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
+
+  }
+
+  removeUser(guid)
+  {
+    let uri = '/campaign/'+this.props.guid+"/"+guid+'/removeuser';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
+  }
+
   refresh()
   {
     if(this.props.guid=='') return;
     console.log("Retrieving campaign");
+
+    this.Reloading = true;
+
     axios.get("/campaign/"+this.props.guid+"/edit")
       .then(response => {
         console.log(response);
@@ -141,7 +169,6 @@ class CampaignInfo extends Component {
         console.log(error);
       });
   }
-
 
   handleSubmit(event) 
   {
@@ -222,7 +249,7 @@ class CampaignInfo extends Component {
             </Button>
         </Grid>
         <Grid item md={6} xs={12}>
-          <Grid container>
+          <Grid container spacing={4}>
             <Grid item xs={12}>
                 <TextField id="campaign-title" 
                 value={this.state.title} 
@@ -246,16 +273,18 @@ class CampaignInfo extends Component {
                 helperText="One sentence that expands on yoour title"/>
             </Grid>
             <Grid item xs={12}>
-              <p>You can also point your own internet domain name to this site it you like.</p>
+              <p>Select the users who will be able to access the administration screen</p>
+              <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.adminusers} addUser={(guid) => this.addUser(guid)}/>              
             </Grid>
             <Grid item xs={12}>
+                <p>You can also point your own internet domain name to this campaign it you like.</p>
                 <TextField id="campaign-dn" 
                 value={this.state.dn} 
                 label="Domain Name" 
                 name="dn"
                 onChange={(e)=>{this.handleChange(e);}} 
                 fullWidth
-                helperText="This is your personal domain name."/>
+                helperText="This is your personal domain name just for this campaign."/>
             </Grid>
           </Grid>
         </Grid>
@@ -266,8 +295,8 @@ class CampaignInfo extends Component {
               </Grid>
             <Grid item xs={12} style={upstyle}>
               <div style={editstyle}>
-              <ReactQuill value={this.state.body}
-                  onChange={(e)=>{this.handleChangeBody(e);}} />
+                <ReactQuill value={this.state.body}
+                    onChange={(e)=>{this.handleChangeBody(e);}} />
               </div>
             </Grid>
           </Grid>

@@ -82,6 +82,7 @@ class CouncillorInfo extends Component {
       this.state = {
         ward: '', 
         dn: '', 
+        email: '', 
         intro: '', 
         about: '', 
         active: false, 
@@ -121,13 +122,15 @@ class CouncillorInfo extends Component {
     console.log("Retrieving councillor");
     axios.get("/councillor/"+this.props.guid+"/edit")
       .then(response => {
-        this.setState({ dn: response.data.dn, 
-                        intro: response.data.intro, 
-                        about: response.data.about, 
-                        active: response.data.active==1, 
-                        campaign: response.data.campaign==1, 
-                        ward: response.data.ward,
-                      });
+        this.setState({ 
+          dn: response.data.dn, 
+          email: response.data.email, 
+          intro: response.data.intro, 
+          about: response.data.about, 
+          active: response.data.active==1, 
+          campaign: response.data.campaign==1, 
+          ward: response.data.ward,
+        });
       })
       .catch(function (error) {
         console.log(error);
@@ -159,6 +162,7 @@ class CouncillorInfo extends Component {
       type: 'INFO',
       ward: this.state.ward,
       dn: this.state.dn,
+      email: this.state.email,
       intro: this.state.intro,
       about: this.state.about,
       active: this.state.active,
@@ -232,7 +236,7 @@ class CouncillorInfo extends Component {
             </Button>
         </Grid>
         <Grid item md={6} xs={12}>
-          <Grid container>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <InputLabel id="ward-select-label">Ward</InputLabel>
@@ -260,9 +264,22 @@ class CouncillorInfo extends Component {
                 helperText="This is a short introduction to be shown on your card."/>
             </Grid>
             <Grid item xs={12}>
-              <p>You can also point your own internet domain name to this site it you like.</p>
+                <p>Youu can soecify a separate email address for your work as a councillor.</p>
+                <FormControl >
+                      <InputLabel htmlFor="clp-email">Email</InputLabel>
+                      <Input
+                        id="councillor-email"
+                        type='text'
+                        value={this.state.email}
+                        name="email"
+                        onChange={(e)=>{this.handleChange(e);}}  
+                        endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
+                  />
+                </FormControl>
+
             </Grid>
             <Grid item xs={12}>
+                <p>You can also point your own internet domain name to this site it you like.</p>
                 <TextField id="info-dn" 
                 value={this.state.dn} 
                 label="Domain Name" 

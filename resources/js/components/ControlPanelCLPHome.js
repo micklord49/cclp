@@ -22,6 +22,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import MailIcon from '@material-ui/icons/ContactMail';
 import PhoneIcon from '@material-ui/icons/Phone';
 import HelpText from './HelpText';
+import CPLUsers from'./CPLUsers';
 
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css'; // ES6
@@ -31,7 +32,16 @@ import 'react-quill/dist/quill.snow.css'; // ES6
 export default class ControlPanelCLPHome extends Component {
   constructor(props) {
       super(props);
-      this.state = {name: '', description: '', dn: '', phone: '', email: ''};
+      this.state = {
+        name: '', 
+        description: '', 
+        dn: '', 
+        phone: '', 
+        email: '',
+
+        adminusers: new Array(),
+
+      };
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -52,14 +62,46 @@ export default class ControlPanelCLPHome extends Component {
   }
 
   componentDidMount(){
+    this.refresh();
+  }
+
+  refresh()
+  {
     axios.get(`/clp/1/edit`)
       .then(response => {
-        this.setState({ name: response.data.name, description: response.data.description, dn: response.data.dn, phone: response.data.phone, email: response.data.email });
+        this.setState({ 
+          name: response.data.name, 
+          description: response.data.description, 
+          dn: response.data.dn, 
+          phone: response.data.phone, 
+          email: response.data.email,
+          adminusers: response.data.adminusers,
+         });
       })
       .catch(function (error) {
         console.log(error);
       })
   }
+
+  addUser(guid)
+  {
+    let uri = '/clp/'+guid+'/adduser';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
+
+  }
+
+  removeUser(guid)
+  {
+    let uri = '/clp/'+guid+'/removeuser';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
+  }
+
 
   handleSubmit(event) 
   {
@@ -71,7 +113,7 @@ export default class ControlPanelCLPHome extends Component {
       description: this.state.description,
       dn: this.state.dn,
       phone: this.state.phone,
-      email: this.state.email
+      email: this.state.email,
     }
 
     let uri = '/clp/1';
@@ -90,7 +132,7 @@ export default class ControlPanelCLPHome extends Component {
       marginRight: "auto",
       marginTop:10,
       paddingBottom:16,
-      paddingRight:20,
+      paddingRight:40,
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
@@ -98,7 +140,7 @@ export default class ControlPanelCLPHome extends Component {
       <div style={neu}>
         <HelpText name='clp.role' style="neu"/>      
         <form noValidate autoComplete="off" onSubmit={(e)=>{this.handleSubmit(e);}}>
-          <Grid container style={{paddingLeft: 10}} >
+          <Grid container style={{paddingLeft: 10}} spacing={2} >
             <Grid item xs={12}>
               <Button color="primary" type="submit">
                 <SaveIcon />Save
@@ -151,6 +193,10 @@ export default class ControlPanelCLPHome extends Component {
                     endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
                   />
                 </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <p>Select the users who will be able to access the administration screen</p>
+                <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.adminusers} addUser={(guid) => this.addUser(guid)}/>              
               </Grid>
             </Grid>
           </Grid>

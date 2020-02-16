@@ -115,7 +115,7 @@ export default class ControlPanelCLPEC extends Component {
         <Grid item xs={9}>
           <ControlPanelCLPECRole role={this.state.selectedrole} onChange={() => this.rolechanged()} />
         </Grid>
-    </Grid>
+      </Grid>
     );
   }
 }

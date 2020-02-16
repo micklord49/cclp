@@ -88,20 +88,16 @@ export default class BlogEditor extends Component {
 
   editPost(guid)
   {
-    console.log("OnNew()");
     this.setState({ edittitle: "New Blog Post"});
     this.setState({ postguid: guid});
     this.setState({ openedit: true});
-    console.log("Opened blog editor");
   }
 
   editImage(guid)
   {
-    console.log("OnNew()");
     this.setState({ edittitle: "Post Image"});
     this.setState({ postguid: guid});
     this.setState({ openpicture: true});
-    console.log("Opened blog editor");
   }
 
   onSave()

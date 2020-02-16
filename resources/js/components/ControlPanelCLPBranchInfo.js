@@ -16,6 +16,7 @@ import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 
 import ControlPanelUserGroup from'./ControlPanelUserGroup';
+import CPLUsers from'./CPLUsers';
 
 
 export default class ControlPanelCLPBranchInfo extends Component {
@@ -145,7 +146,7 @@ export default class ControlPanelCLPBranchInfo extends Component {
               <p>These are the people who can make changes to the branch web pages.</p>
             </Grid>              
             <Grid item xs={12}>
-              <ControlPanelUserGroup onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.adminusers} addUser={(guid) => this.addUser(guid)}/>
+              <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.adminusers} addUser={(guid) => this.addUser(guid)}/>
             </Grid>
           </Grid>
         </form>  

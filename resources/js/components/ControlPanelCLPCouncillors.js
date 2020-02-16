@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import StarIcon from '@material-ui/icons/Star';
 import StarOutlineIcon from '@material-ui/icons/StarBorder';
-import ControlPanelUserGroup from './ControlPanelUserGroup';
+import CPLUsers from './CPLUsers';
 import HelpText from './HelpText';
 
 export default class ControlPanelCLPCouncillors extends Component {
@@ -90,7 +90,7 @@ export default class ControlPanelCLPCouncillors extends Component {
             <p style={neu}>Select the users who are your local councillors, both standing and candidates</p>
           </Grid>
           <Grid item xs={12}>
-            <ControlPanelUserGroup onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.councillors} addUser={(guid) => this.addUser(guid)}/>
+            <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.councillors} addUser={(guid) => this.addUser(guid)}/>
           </Grid>
         </Grid>
       </div>

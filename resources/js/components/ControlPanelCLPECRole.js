@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import StarIcon from '@material-ui/icons/Star';
 import StarOutlineIcon from '@material-ui/icons/StarBorder';
-import ControlPanelUserGroup from './ControlPanelUserGroup';
+import CPLUsers from './CPLUsers';
 import HelpText from './HelpText';
 
 export default class ControlPanelCLPECRole extends Component {
@@ -102,7 +102,7 @@ export default class ControlPanelCLPECRole extends Component {
             <h5 style={neu}>{this.props.role.description}</h5>
           </Grid>
           <Grid item xs={12}>
-            <ControlPanelUserGroup onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.props.role.users} addUser={(guid) => this.addUser(guid)}/>
+            <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.props.role.users} addUser={(guid) => this.addUser(guid)}/>
           </Grid>
           <Grid item xs={12}>
             <HelpText name={this.props.role.help}/>
