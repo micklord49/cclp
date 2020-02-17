@@ -21,6 +21,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import CameraIcon from '@material-ui/icons/Camera';
 import EventIcon from '@material-ui/icons/Event';
+import EmailIcon from '@material-ui/icons/Email';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
 import ShareIcon from '@material-ui/icons/Share';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
@@ -37,6 +38,7 @@ import ControlPanelCLPCouncillors from './ControlPanelCLPCouncillors';
 import BlogEditor from './BlogEditor';
 import Campaign from './Campaign';
 import Event from './Event';
+import Messages from './Messages';
 import UploadPicture from './UploadPicture'
 import SocialMedia from './SocialMedia';
 
@@ -138,14 +140,15 @@ class ControlPanelCLP extends Component {
                 customBurgerIcon={ false } 
                 customCrossIcon={ false } 
                 width={80}>
-            <a onClick={()=>{this.setState({selectedmaintab:0}); }} id="home" className="menu-item">{<AnnouncementIcon />}<br/>News</a>
-            <a onClick={()=>{this.setState({selectedmaintab:1}); }} id="about" className="menu-item">{<InfoIcon />}<br/>About</a>
-            <a onClick={()=>{this.setState({selectedmaintab:2}); }} id="contact" className="menu-item">{<CameraIcon />}<br/>Images</a>
-            <a onClick={()=>{this.setState({selectedmaintab:3}); }} className="menu-item">{<ShareIcon />}<br/>Social</a>
-            <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<SupervisorAccountIcon />}<br/>People</a>
-            <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
-            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
-            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
+            <a onClick={()=>{this.setState({selectedmaintab:0}); }} className="menu-item">{<AnnouncementIcon />}<br/>News</a>
+            <a onClick={()=>{this.setState({selectedmaintab:1}); }} className="menu-item">{<EmailIcon />}<br/>Messages</a>
+            <a onClick={()=>{this.setState({selectedmaintab:2}); }} className="menu-item">{<InfoIcon />}<br/>About</a>
+            <a onClick={()=>{this.setState({selectedmaintab:3}); }} className="menu-item">{<CameraIcon />}<br/>Images</a>
+            <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<ShareIcon />}<br/>Social</a>
+            <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<SupervisorAccountIcon />}<br/>People</a>
+            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
+            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
+            <a onClick={()=>{this.setState({selectedmaintab:8}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
         </Menu>
         <main id="page-wrap" style={{width: '100%'}}>
         
@@ -155,6 +158,10 @@ class ControlPanelCLP extends Component {
           </div>
 
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 1}>
+              <Messages title="Messages for the CLP" owner={this.props.guid} description="Messages sent to the CLP"/>
+          </div>
+
+          <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
               <h4>CLP Information</h4>
               <Tabs 
                   style={tabStyle} 
@@ -176,15 +183,15 @@ class ControlPanelCLP extends Component {
               </div>
           </div>
 
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
                 <h4>Images of the CLP</h4>
                 <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
                 <h4>Social Media links for the CLP</h4>
                 <SocialMedia  owner={this.props.guid}/>
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
                 <h4>The People of the CLP</h4>
 
                 <Tabs 
@@ -207,18 +214,17 @@ class ControlPanelCLP extends Component {
               </div>
 
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>
                 <h4>Campaigns run by the CLP</h4>
                 <Campaign owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 7}>
                 <h4>Events organised by the CLP</h4>
                 <Event owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 7}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 8}>
                 <h4>Help</h4>
             </div>
-
                 
         </main>
 

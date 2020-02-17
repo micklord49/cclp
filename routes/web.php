@@ -47,6 +47,7 @@ Route::resource('campaign', 'CampaignController');
 Route::resource('blog', 'BlogController');
 Route::resource('event', 'EventController');
 Route::resource('image', 'ImageController');
+Route::resource('message', 'MessageController');
 
 Route::get('clpapi/wards', 'ClpController@warddir');
 
@@ -56,6 +57,9 @@ Route::get('clp/{user}/removeuser', 'ClpController@removeuser');
 Route::get('user/{id}', 'ProfileController@view');
 
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');
+
+Route::get('message/{owner}/{perpage}/{page}/search', 'MessageController@search');
+Route::post('message/new/{owner}', 'MessageController@new');
 
 Route::get('blog/{perpage}/{page}/{owner}/ownersearch', 'BlogController@ownersearch');
 Route::patch('blog/', 'BlogController@store');
