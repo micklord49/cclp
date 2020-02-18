@@ -59,7 +59,7 @@ Route::get('user/{id}', 'ProfileController@view');
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');
 
 Route::get('message/{owner}/{perpage}/{page}/search', 'MessageController@search');
-Route::post('message/new/{owner}', 'MessageController@new');
+Route::post('message/new/{owner}', 'MessageController@newmessage');
 
 Route::get('blog/{perpage}/{page}/{owner}/ownersearch', 'BlogController@ownersearch');
 Route::patch('blog/', 'BlogController@store');

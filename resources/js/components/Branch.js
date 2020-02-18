@@ -20,6 +20,7 @@ import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import EventIcon from '@material-ui/icons/Event';
 import HelpIcon from '@material-ui/icons/Help';
 import MembershipIcon from '@material-ui/icons/CardMembership';
+import EmailIcon from '@material-ui/icons/Email';
 
 import { push as Menu } from 'react-burger-menu'
 
@@ -31,6 +32,7 @@ import Campaign from './Campaign';
 import UploadPicture from './UploadPicture'
 import SocialMedia from './SocialMedia';
 import Event from './Event';
+import Messages from './Messages';
 
 
 const styles = theme => ({
@@ -131,21 +133,25 @@ class Branch extends Component {
                 customCrossIcon={ false } 
                 width={80}>
             <a onClick={()=>{this.setState({selectedmaintab:0}); }} id="home" className="menu-item">{<AnnouncementIcon />}<br/>News</a>
-            <a onClick={()=>{this.setState({selectedmaintab:1}); }} id="about" className="menu-item">{<InfoIcon />}<br/>About</a>
-            <a onClick={()=>{this.setState({selectedmaintab:2}); }} id="contact" className="menu-item">{<CameraIcon />}<br/>Images</a>
-            <a onClick={()=>{this.setState({selectedmaintab:3}); }} className="menu-item">{<ShareIcon />}<br/>Social</a>
-            <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
-            <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
-            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
+            <a onClick={()=>{this.setState({selectedmaintab:1}); }} className="menu-item">{<EmailIcon />}<br/>Messages</a>
+            <a onClick={()=>{this.setState({selectedmaintab:2}); }} id="about" className="menu-item">{<InfoIcon />}<br/>About</a>
+            <a onClick={()=>{this.setState({selectedmaintab:3}); }} id="contact" className="menu-item">{<CameraIcon />}<br/>Images</a>
+            <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<ShareIcon />}<br/>Social</a>
+            <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
+            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
+            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
         </Menu>
-        <main id="page-wrap">
+        <main id="page-wrap" style={{width: '100%'}}>
         
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
-              <h4>News Posts from the branch</h4>
-              <BlogEditor owner={this.props.guid} description="Your posts as the CLP"/>
+              <BlogEditor owner={this.props.guid} description="Your posts as the branch"/>
           </div>
 
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 1}>
+              <Messages owner={this.props.guid} description="Messages sent to the branch"/>
+          </div>
+
+          <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
               <h4>Branch Information</h4>
               <Tabs 
                   style={tabStyle} 
@@ -163,26 +169,25 @@ class Branch extends Component {
               </div>
           </div>
 
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
                 <h4>Branch Images</h4>
                 <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
                 <h4>Social Media links for the branch</h4>
                 <SocialMedia  owner={this.props.guid}/>
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
                 <h4>Campaigns run by the branch</h4>
                 <Campaign owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>
                 <h4>Events organised by the branch</h4>
                 <Event owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 7}>
                 <h4>Help</h4>
             </div>
-
                 
         </main>
 

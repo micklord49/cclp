@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import PropTypes from 'prop-types';
 
+import { createMuiTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MaterialTable from 'material-table';
@@ -50,6 +51,19 @@ export default class BlogEditor extends Component {
       this._childBlog = React.createRef();
       this._childPicture = React.createRef();
       this.tableRef = React.createRef();
+
+      this.theme = createMuiTheme({
+        palette: {
+          primary: {
+            main: '#4caf50',
+          },
+          secondary: {
+            main: '#ff9100',
+          },
+        },
+  
+      });
+  
     }
 
   componentDidMount(){
@@ -137,15 +151,15 @@ export default class BlogEditor extends Component {
   {
 
     const neu = {
-      backgroundColor: "#E0E5EC" ,
+      //backgroundColor: "#E0E5EC" ,
       borderRadius:4,
       marginLeft: "auto",
-      marginRight: "auto",
+      marginRight: 60,
       marginTop:10,
       paddingBottom:16,
       paddingLeft:10,
       paddingRight: 20,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+      //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     const Transition = React.forwardRef(function Transition(props, ref) {
@@ -157,19 +171,14 @@ export default class BlogEditor extends Component {
       <div style={neu}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-            <Button color="primary" onClick={()=>{this.onNew();}}>
-                <NoteAddIcon />New
-            </Button>
-        </Grid>
-        <Grid item xs={12}>
-            <h5>{this.props.description}</h5>
           <MaterialTable
             tableRef={this.tableRef}
             columns={[
               {
                 field: 'edit',
                 Title: 'Edit',
-                sorting: false,
+                sorting: false, 
+                cellStyle: {padding:0} ,
                 render: rowData => 
                           <IconButton color="primary" onClick={() => {this.editPost(rowData.guid)}}>
                             <EditIcon />
@@ -178,31 +187,42 @@ export default class BlogEditor extends Component {
               {
                 field: 'edit',
                 Title: 'Edit',
-                sorting: false,
+                sorting: false, 
+                cellStyle: {padding:0}, 
                 render: rowData => 
                           <IconButton color="primary" onClick={() => {this.editImage(rowData.guid)}}>
                             <CameraIcon />
                           </IconButton>
               },
-              { title: 'Title', field: 'title' },
-              { title: 'Published On', field: 'publishedOn', type:"datetime" },
+              { title: 'Title', field: 'title', cellStyle:{padding:0}  },
+              { title: 'Published On', field: 'publishedOn', type:"datetime", cellStyle:{padding:0} },
             ]}
             data={query =>
-              new Promise((resolve, reject) => {
-                let url = '/blog/' + query.pageSize + "/" + (query.page + 1) + "/" + this.props.owner + "/ownersearch" 
-                fetch(url)
-                  .then(response => response.json())
-                  .then(result => {
-                    resolve({
-                      data: result.data,
-                      page: result.page - 1,
-                      totalCount: result.count,
-                    })
-                  })
-              })
-    
+                    new Promise((resolve, reject) => {
+                      let url = '/blog/' + query.pageSize + "/" + (query.page + 1) + "/" + this.props.owner + "/ownersearch" 
+                      fetch(url)
+                        .then(response => response.json())
+                        .then(result => {
+                          resolve({
+                            data: result.data,
+                            page: result.page - 1,
+                            totalCount: result.count,
+                          })
+                        })
+                    })    
                   }
-            title="Blog Posts" 
+
+                  actions={[
+                    {
+                      icon: 'add',
+                      tooltip: 'Add New Post',
+                      isFreeAction: true,
+                      onClick: () => this.onNew()
+                    }
+                  ]}
+            
+            padding="dense"
+            title={this.props.description} 
           />
         </Grid>
       </Grid>

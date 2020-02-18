@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
+use App\ViewModels\Home;
 use App\ViewModels\Userdir;
 use App\ViewModels\ImageFile;
+use App\ViewModels\Msg;
 use App\User;
 use App\Contact;
 use App\Message;
@@ -58,10 +60,11 @@ class MessageController extends Controller
      * Show the form for editing the specified resource.
      *
      */
-    public function edit($user)
+    public function edit($guid)
     {
         Log::info('Creating Userdir for '.$user);
-        $u = new Userdir($user);
+        $msg = Message::where($guid);
+
         return($u);
     }
 
@@ -79,10 +82,10 @@ class MessageController extends Controller
         $data->count = User::where("clp",$clpGuid)->count();
         foreach($data->data as $msg)
         {
-            $contact = Contact::where('guid',$msg->to)->firstOrFail();
-            $msg->toemail=$contact->email;
-            $msg->toname=$contact->name;
-            $msg->to=$contact->name + ' [' + $contact->email + ']';
+            $contact = Contact::where('guid',$msg->from)->firstOrFail();
+            $msg->fromemail=$contact->email;
+            $msg->fromname=$contact->name;
+            $msg->from=$contact->name . ' [' . $contact->email . ']';
         }
 
         return(json_encode($data));
@@ -112,12 +115,26 @@ class MessageController extends Controller
     }
 
 
-    public function new($owner,$request)
+    public function newmessage(Request $request,$owner)
     {
         Log::info('Inserting new message for the clp ');
         Log::info($request);
 
-        $msg = new Msg($owner);
+        $msg = new Msg();
         
+        $msg->owner = $owner;
+        $msg->name = $request->msgname;
+        $msg->email = $request->msgemail;
+        $msg->subject = "Home Page Question";
+        $msg->message = $request->msgmessage;
+        $msg->status = "unread";
+        $msg->category = "message";
+        $msg->event = "CLP Message";
+
+        $msg->store();
+
+        $data = new Home();
+        return view('thankyou',['Data' => $data]);
+
     }
 }

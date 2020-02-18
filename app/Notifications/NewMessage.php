@@ -17,9 +17,9 @@ class NewMessage extends Notification
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct($from)
     {
-        $this->fromUser = $user;
+        $this->fromUser = $from;
     }
     /**
      * Get the notification's delivery channels.
@@ -40,16 +40,17 @@ class NewMessage extends Notification
      */
     public function toMail($notifiable)
     {
-        $subject = sprintf('%s: You\'ve got a new message from %s!', config('app.name'), $this->fromUser->name);
-        $greeting = sprintf('Hello %s!', $notifiable->name);
+        $subject = sprintf('%s: You\'ve got a new message for %s!', config('app.name'), $notifiable->name);
+        $greeting = sprintf('Hello,');
  
         return (new MailMessage)
+                    ->from('test@example.com', 'Example')
                     ->subject($subject)
                     ->greeting($greeting)
                     ->salutation('Yours Faithfully')
-                    ->line('The introduction to the notification.')
+                    ->line('A new message has been sent to %s from %s.',$notifiable->name,$this->fromUser)
                     ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line('please log in and reply!');
     }
 
     /**

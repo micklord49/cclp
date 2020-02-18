@@ -12,9 +12,9 @@ export default class Messages extends Component {
   render() 
   {    
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{paddingRight: 70}}>
             <Grid item xs={12}>
-                <MessageList title={this.props.title} owner={this.props.owner} onSelect={(guid) => {this.setState({message: guid});}} />
+                <MessageList title={this.props.title} owner={this.props.owner} onSelect={(e,guid) => {this.setState({message: guid.guid});}} />
             </Grid>
             <Grid item xs={12}>
                 <MessageView guid={this.state.message} />

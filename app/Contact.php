@@ -11,7 +11,15 @@ class Contact extends Model
 
 
     protected $fillable = [
-        'name', 'email', 'email_verified_at', 'address1', 'address2', 'city'
+        'guid', 'name', 'email', 'email_verified_at', 'address1', 'address2', 'city', 'postcode'
     ];
+
+    protected $attributes = [
+        'address1' => '',
+        'address2' => '',
+        'city' => '',
+        'postcode' => '',
+     ];
+
 
 }

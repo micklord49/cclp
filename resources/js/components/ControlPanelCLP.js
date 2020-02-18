@@ -153,8 +153,7 @@ class ControlPanelCLP extends Component {
         <main id="page-wrap" style={{width: '100%'}}>
         
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
-              <h4>News Posts from the CLP</h4>
-              <BlogEditor owner={this.props.guid} description="Your posts as the CLP"/>
+              <BlogEditor owner={this.props.guid} description="News Posts From The CLP"/>
           </div>
 
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 1}>

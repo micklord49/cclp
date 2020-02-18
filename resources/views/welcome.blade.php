@@ -211,19 +211,19 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="bmd-label-floating">Your Name</label>
-                  <input id="msg-name" type="text" class="form-control">
+                  <input name="msgname" id="msgname" type="text" class="form-control">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="bmd-label-floating">Your Email</label>
-                  <input id="msg-email" type="email" class="form-control">
+                  <input name="msgemail" id="msgemail" type="email" class="form-control">
                 </div>
               </div>
             </div>
             <div class="form-group">
               <label for="exampleMessage" class="bmd-label-floating">Your Message</label>
-              <textarea type="text" class="form-control" rows="4" id="msg-message"></textarea>
+              <textarea type="text" class="form-control" rows="4" name="msgmessage" id="msgmessage"></textarea>
             </div>
             <div class="row">
               <div class="col-md-4 ml-auto mr-auto text-center">

@@ -80,6 +80,7 @@ export default class MessageList extends Component {
                 }
           title={this.props.title} 
           padding="dense"
+          onRowClick={this.props.onSelect}
         />
       </div>
     );

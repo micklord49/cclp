@@ -16,15 +16,15 @@ class Cclp extends Model
 
      public function routeNotificationForMail($notification)
      {
-        $emailaddress = "";
+        $emailaddress = array();
 
-        $users = User::where('clp',$this->guid)->role('Edit CLP')->get();
+        $users = User::where('clp',$this->guid)->permission('Edit CLP')->get();
         foreach($users as $user)
         {
             if($user->email != "")
             {
-                if($emailaddress!="")   $emailaddress += ";";
-                $emailaddress += $user->email;
+                //if($emailaddress!="")   $emailaddress .= ";";
+                array_push($emailaddress,$user->email);
             }
         }
        return $emailaddress;
