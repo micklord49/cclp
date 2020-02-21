@@ -41,6 +41,7 @@ import {
 
 import HelpText from './HelpText';
 import CPLUsers from'./CPLUsers';
+import TagControl from'./TagControl';
 
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css'; // ES6
@@ -87,13 +88,13 @@ class CampaignInfo extends Component {
         dn: '', 
 
         adminusers: new Array(),
+        tags: new Array(),
 
         opensuccess: false, 
         openfail: false, 
         failmessage: '',         
 
       };
-      this.handleSubmit = this.handleSubmit.bind(this);
       this.Reloading = false;
     }
 
@@ -139,6 +140,26 @@ class CampaignInfo extends Component {
 
   }
 
+  addTag(guid)
+  {
+    let uri = '/campaign/'+this.props.guid+"/"+guid+'/addtag';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
+
+  }
+
+  removeTag(guid)
+  {
+    let uri = '/campaign/'+this.props.guid+"/"+guid+'/removetag';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
+  }
+
+
   removeUser(guid)
   {
     let uri = '/campaign/'+this.props.guid+"/"+guid+'/removeuser';
@@ -163,6 +184,7 @@ class CampaignInfo extends Component {
                         subtitle: response.data.subtitle, 
                         body: response.data.body,
                         adminusers: response.data.adminusers,
+                        tags: response.data.tags
                       });
       })
       .catch(function (error) {
@@ -196,6 +218,10 @@ class CampaignInfo extends Component {
 
   render() 
   {
+    if(this.props.owner=="")
+    {
+      return(<p>Loading...</p>);
+    }
     const { classes } = this.props;
 
     const neu = {
@@ -241,7 +267,7 @@ class CampaignInfo extends Component {
 
     return (
       <div style={neu}>
-    <form noValidate autoComplete="off" onSubmit={this.handleSubmit} >
+    <form noValidate autoComplete="off" onSubmit={()=>this.handleSubmit()} >
       <Grid container spacing={2}>
         <Grid item xs={12}>
             <Button color="primary" type="submit">
@@ -271,6 +297,10 @@ class CampaignInfo extends Component {
                 multiline
                 placeholder="Subtitle of your campaign"
                 helperText="One sentence that expands on yoour title"/>
+            </Grid>
+            <Grid item xs={12}>
+              <p>Add tags to categorise this campaign</p>
+              <TagControl onremovetag={(guid)=>{this.removeTag(guid)}} tags={this.state.tags} addTag={(guid) => this.addTag(guid)}/>              
             </Grid>
             <Grid item xs={12}>
               <p>Select the users who will be able to access the administration screen</p>

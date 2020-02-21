@@ -8,6 +8,10 @@ use App\Contact;
 use App\ContactEvent;
 use App\Message;
 use App\Cclp;
+use App\Branch;
+use App\Campaign;
+
+use App\ViewModels\TagManager;
 
 use Notification;
 use App\Notifications\NewMessage;
@@ -36,23 +40,23 @@ class Msg
         $from = "";
 
         $this->email = strtolower($this->email);
-        $contacts = Contact::where('email',$this->email)->first();
-        if(empty($contacts))
+        $contact = Contact::where('email',$this->email)->first();
+        if(empty($contact))
         {
             //  Insert a new contact
             $from = uniqid("CNT");
-            Contact::create(array(
+            $contact = Contact::create(array(
                 'guid' => $from,
                 'name' => $this->name,
                 'email' => $this->email,
-            ));            
+                ));            
         }
         else
         {
-            $from = $contacts->guid;
+            $from = $contact->guid;
         }
         $msg = uniqid("MSG");
-        Message::create(array(
+        $newmessage = Message::create(array(
             'guid' => $msg,
             'from' => $from,
             'to' => $this->owner,
@@ -67,12 +71,33 @@ class Msg
             'event' => $this->event,
         ));
 
+                
+        $newmessage->fromemail=$contact->email;
+        $newmessage->fromname=$contact->name;
+        $newmessage->from=$contact->name . ' [' . $contact->email . ']';
+
+        foreach(TagManager::owner($this->owner)->tags() as $tag)
+        {
+            TagManager::owner($from)->addtag($tag->guid);
+        }
+
         //
         //  Notify account owner
-        switch(substr($this->owner,0,3))
-        {
-            case "CLP":
-                //Cclp::where('guid',$this->owner)->firstOrFail()->notify(new NewMessage($this->email));
+        try {
+            switch(substr($this->owner,0,3))
+            {
+                case "CLP":
+                    Cclp::where('guid',$this->owner)->firstOrFail()->notify(new NewMessage($newmessage));                    
+                    break;
+                case "CMP":
+                    Campaign::where('guid',$this->owner)->firstOrFail()->notify(new NewMessage($newmessage));                    
+                    break;
+                case "BRC":
+                    Branch::where('guid',$this->owner)->firstOrFail()->notify(new NewMessage($newmessage));                    
+                    break;
+            }
+        } catch (Throwable $th) {
+            //throw $th;
         }
 
     }

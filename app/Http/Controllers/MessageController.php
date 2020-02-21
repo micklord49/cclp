@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 use App\ViewModels\Home;
 use App\ViewModels\Userdir;
@@ -51,9 +52,19 @@ class MessageController extends Controller
      * Display the specified resource.
      *
      */
-    public function show($ec)
+    public function show($message)
     {
-        //
+        $msg = Message::where('guid',$message)->firstOrFail();
+        
+        $contact = Contact::where('guid',$msg->from)->firstOrFail();
+        $msg->fromemail=$contact->email;
+        $msg->fromname=$contact->name;
+        $msg->from=$contact->name . ' [' . $contact->email . ']';
+
+        $recieved = new Carbon($contact->created_at);
+        $msg->created_at = $recieved->toDateTimeString();
+
+        return($msg);
     }
 
     /**
@@ -62,10 +73,6 @@ class MessageController extends Controller
      */
     public function edit($guid)
     {
-        Log::info('Creating Userdir for '.$user);
-        $msg = Message::where($guid);
-
-        return($u);
     }
 
     public function search($owner,$perpage,$page)
@@ -77,7 +84,7 @@ class MessageController extends Controller
         app('debugbar')->disable();
 
 
-        $data->data = Message::select('guid','from','to','subject','message')->where("to",$owner)->skip($perpage*($page-1))->take($perpage)->get();        
+        $data->data = Message::select('guid','from','to','subject','message')->where("to",$owner)->orderBy('created_at','DESC')->skip($perpage*($page-1))->take($perpage)->get();        
         $data->page = $page;
         $data->count = User::where("clp",$clpGuid)->count();
         foreach($data->data as $msg)
@@ -86,6 +93,9 @@ class MessageController extends Controller
             $msg->fromemail=$contact->email;
             $msg->fromname=$contact->name;
             $msg->from=$contact->name . ' [' . $contact->email . ']';
+
+            $recieved = new Carbon($contact->created_at);
+            $msg->created_at = $recieved->toDateTimeString();
         }
 
         return(json_encode($data));

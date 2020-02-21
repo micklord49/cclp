@@ -37,11 +37,6 @@ import ShareIcon from '@material-ui/icons/Share';
 //
 //  CCLP Components
 import CampaignEdit from './CampaignEdit';
-import BlogEditor from './BlogEditor';
-import Event from './Event';
-import UploadPicture from './UploadPicture'
-import ControlPanelUserGroup from './ControlPanelUserGroup';
-import SocialMedia from './SocialMedia';
 
 export default class Campaign extends Component {
   constructor(props) {
@@ -216,7 +211,7 @@ export default class Campaign extends Component {
                 <Grid item xs={3}>
 
                   <FormControl >
-                    <InputLabel id="select-campaign-label">Age</InputLabel>
+                    <InputLabel id="select-campaign-label">Campaign</InputLabel>
                     <Select
                       labelId="select-campaign-label"
                       id="select-campaign"

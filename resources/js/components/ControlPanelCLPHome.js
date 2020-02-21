@@ -18,11 +18,12 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SaveIcon from '@material-ui/icons/Save';
-import HomeIcon from '@material-ui/icons/Home';
+import AddIcon from '@material-ui/icons/Add';
 import MailIcon from '@material-ui/icons/ContactMail';
 import PhoneIcon from '@material-ui/icons/Phone';
 import HelpText from './HelpText';
 import CPLUsers from'./CPLUsers';
+import TagList from './TagList';
 
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css'; // ES6
@@ -38,8 +39,10 @@ export default class ControlPanelCLPHome extends Component {
         dn: '', 
         phone: '', 
         email: '',
+        newtag: '',
 
         adminusers: new Array(),
+        tags: new Array(),
 
       };
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -76,6 +79,7 @@ export default class ControlPanelCLPHome extends Component {
           phone: response.data.phone, 
           email: response.data.email,
           adminusers: response.data.adminusers,
+          tags: response.data.tags,
          });
       })
       .catch(function (error) {
@@ -102,6 +106,28 @@ export default class ControlPanelCLPHome extends Component {
         });
   }
 
+  removeTag(guid)
+  {
+    let uri = '/clp/'+guid+'/removetag';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
+  }
+
+  addTag(name)
+  {
+    if(this.state.newtag=="") return;
+    const tag = {
+      name: this.state.newtag,
+    }
+    this.setState({newtag:""});
+    let uri = '/clp/1/addtag';
+    axios.patch(uri, tag).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+    });
+  }
 
   handleSubmit(event) 
   {
@@ -197,6 +223,30 @@ export default class ControlPanelCLPHome extends Component {
               <Grid item xs={12}>
                 <p>Select the users who will be able to access the administration screen</p>
                 <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.adminusers} addUser={(guid) => this.addUser(guid)}/>              
+              </Grid>
+              <Grid item xs={12}>
+                <p>Create the tags your CLP will use</p>
+                <FormControl >
+                  <InputLabel htmlFor="clp-tag">New Tag</InputLabel>
+                  <Input
+                    id="newtag"
+                    type='text'
+                    value={this.state.newtag}
+                    name="newtag"
+                    onChange={(e)=>{this.handleChange(e);}} 
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="add new tag"
+                          onClick={()=>{this.addTag()}}
+                        >
+                          <AddIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    }        
+                  />
+                </FormControl>
+                <TagList tags={this.state.tags} onremovetag={(guid) => {this.onRemoveTag(guid);}} />
               </Grid>
             </Grid>
           </Grid>

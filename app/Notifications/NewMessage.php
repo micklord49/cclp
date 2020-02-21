@@ -10,16 +10,34 @@ use Illuminate\Notifications\Notification;
 class NewMessage extends Notification
 {
     use Queueable;
-    public $fromUser;
+    public $guid;
+    public $from;
+    public $fromname;
+    public $fromemail;
+
+    public $to;
+    public $subject;
+    public $message;
+    public $status;
+    public $category;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($from)
+    public function __construct($msg)
     {
-        $this->fromUser = $from;
+        $this->guid = $msg->guid;
+        $this->from = $msg->from;
+        $this->fromname = $msg->fromname;
+        $this->fromemail = $msg->fromemail;
+        $this->to = $msg->to;
+        $this->subject = $msg->subject;
+        $this->message = $msg->message;
+        $this->status = $msg->status;
+        $this->category = $msg->category;
+
     }
     /**
      * Get the notification's delivery channels.
@@ -40,17 +58,21 @@ class NewMessage extends Notification
      */
     public function toMail($notifiable)
     {
-        $subject = sprintf('%s: You\'ve got a new message for %s!', config('app.name'), $notifiable->name);
+        $subject = sprintf('%s: You\'ve got a new message from %s!', config('app.name'), $this->from);
         $greeting = sprintf('Hello,');
+        $from = sprintf('A new message has been sent from %s.',$this->from);
  
         return (new MailMessage)
-                    ->from('test@example.com', 'Example')
+                    ->from('clp@maild.biz', 'CLP')
                     ->subject($subject)
-                    ->greeting($greeting)
+                    ->greeting('Hello')
+                    ->line($from)
+                    ->line("Message is as follows:")
+                    ->line($this->message)
+                    ->line("")
                     ->salutation('Yours Faithfully')
-                    ->line('A new message has been sent to %s from %s.',$notifiable->name,$this->fromUser)
-                    ->action('Notification Action', url('/'))
-                    ->line('please log in and reply!');
+                    ->action('Reply', 'mailto:'.$this->fromemail)
+                    ->line('please log in and confirm the message has been dealt with!');
     }
 
     /**

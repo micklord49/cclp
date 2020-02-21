@@ -48,11 +48,15 @@ Route::resource('blog', 'BlogController');
 Route::resource('event', 'EventController');
 Route::resource('image', 'ImageController');
 Route::resource('message', 'MessageController');
+Route::resource('tag', 'TagController');
 
 Route::get('clpapi/wards', 'ClpController@warddir');
 
 Route::get('clp/{user}/adduser', 'ClpController@adduser');
 Route::get('clp/{user}/removeuser', 'ClpController@removeuser');
+Route::patch('clp/{user}/addtag', 'ClpController@addtag');
+Route::get('clp/{user}/removetag', 'ClpController@removetag');
+Route::get('clp/{user}/tags', 'ClpController@tags');
 
 Route::get('user/{id}', 'ProfileController@view');
 
@@ -70,6 +74,8 @@ Route::get('ec/{role}/{user}/removeuser', 'ECController@removeroleuser');
 Route::get('campaign/{owner}/dir', 'CampaignController@dir');
 Route::get('campaign/{campaign}/{user}/adduser', 'CampaignController@adduser');
 Route::get('campaign/{campaign}/{user}/removeuser', 'CampaignController@removeuser');
+Route::get('campaign/{campaign}/{tag}/addtag', 'CampaignController@addtag');
+Route::get('campaign/{campaign}/{tag}/removetag', 'CampaignController@removetag');
 
 Route::get('event/{owner}/dir', 'EventController@dir');
 

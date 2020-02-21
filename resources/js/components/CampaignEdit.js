@@ -69,7 +69,7 @@ export default class CampaignEdit extends Component {
           <Tab label="Social" icon={<ShareIcon />} />
         </Tabs>
         <div role="tabpanel" hidden={this.state.selectedtab != 0}>
-            <BlogEditor owner={this.props.guid} description="Your posts as the CLP"/>
+            <BlogEditor owner={this.props.guid} description="Your posts as the campaign"/>
         </div>
         <div role="tabpanel" hidden={this.state.selectedtab != 1}>
             <Event owner={this.props.guid} />

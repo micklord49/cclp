@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Permission;
 use App\ViewModels\EditClp;
 use App\Cclp;
 use App\Ward;
+use App\Tag;
 use App\User;
 
 
@@ -91,6 +92,7 @@ class ClpController extends Controller
         $clpGuid = config('appsettings.clpGUID');
         $clp = Cclp::where('guid',$clpGuid)->first();
         $clp->adminusers = User::select('guid')->where('clp',$clpGuid)->permission('Edit CLP')->get();
+        $clp->tags = Tag::select('guid')->where('clp',$clpGuid)->get();
 
         return $clp;
     }
@@ -182,6 +184,43 @@ class ClpController extends Controller
         $user = User::where('guid',$guid)->firstOrFail();
         $user->givePermissionTo('Edit CLP');
 
+    }
+
+    public function addtag(Request $request)
+    {
+        if(Auth::check())
+        {
+            if(!auth()->user()->can('Edit CLP'))
+            {
+                abort(403);
+            }
+        }
+        else {
+            abort(403);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+        $tag = Tag::create([
+            'guid' => uniqid("TAG"),
+            'clp' => $clpGuid,
+            'name' => $request->name,
+        ]);
+    }
+
+    public function tags($owner)
+    {
+        if(Auth::check())
+        {
+            if(!auth()->user()->can('Edit CLP'))
+            {
+                abort(403);
+            }
+        }
+        else {
+            abort(403);
+        }
+        $clpGuid = config('appsettings.clpGUID');
+        return Tag::where('clp',$clpGuid)->get();
     }
 
     public function removeuser($guid)

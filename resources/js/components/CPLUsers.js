@@ -19,8 +19,6 @@ export default class CPLUsers extends Component {
       this.state = {
           opensearch: false,
           };
-      this.addUser = this.addUser.bind(this);
-      this.onRemoveUser = this.onRemoveUser.bind(this);
   }
 
   componentDidMount(){

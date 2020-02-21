@@ -68,26 +68,38 @@ export default class MessageView extends Component {
 
   
   componentDidMount(){
-    if(this.state.guid == "")
+    if(this.props.guid == "")
     {
-        return;
+      console.log("MESSAGE GUID BLANK")
+      return;
     }
     else
     {
-        console.log("Getting message :"+this.props.guid)
-        let uri = '/message/'+this.props.guid;
-        axios.get(uri).then((response) => {
-          this.setState({
-            guid: response.data.guid, 
-            from: response.data.from, 
-            to: response.data.to, 
-            subject: response.data.subject, 
-            message: response.data.message,
-          });
-        });
+      this.refresh();
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.guid !== prevProps.guid) {
+      this.refresh();
+    }
+   }
+   
+
+  refresh()
+  {
+    console.log("Getting message :"+this.props.guid)
+    let uri = '/message/'+this.props.guid;
+    axios.get(uri).then((response) => {
+      this.setState({
+        guid: response.data.guid, 
+        from: response.data.from, 
+        to: response.data.to, 
+        subject: response.data.subject, 
+        message: response.data.message,
+      });
+    });
+}
 
   async save() 
   {

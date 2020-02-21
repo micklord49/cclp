@@ -9,10 +9,13 @@ use Spatie\Permission\Models\Permission;
 
 use App\Campaign;
 use App\CampaignUser;
+use App\Tag;
+use App\TagOwner;
 
 use App\ViewModels\ViewBranches;
 use App\ViewModels\HomeCampaign;
 use App\ViewModels\EditBranch;
+use App\ViewModels\TagManager;
 use Illuminate\Http\Request;
 
 class CampaignController extends Controller
@@ -124,6 +127,16 @@ class CampaignController extends Controller
             array_push($adminusers,$new);
         }
         $ret->adminusers = $adminusers;
+        $t = TagOwner::where('owner',$campaign)->get();
+        $tags = array();
+        foreach($t as $tag)
+        {
+            $new = new \stdClass();
+            $new->guid = $tag->tag;
+            array_push($tags,$new);
+        }
+        $ret->tags = $tags;
+        
         return $ret;
     }
 
@@ -233,5 +246,31 @@ class CampaignController extends Controller
 
         Log::info('Adding user '.$user.' as a campaign admin user for '.$campaign);
     }
+
+
+    public function removetag($campaign,$tag)
+    {
+        if(Auth::check())
+        {
+        }
+        else {
+            abort(404);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+        TagManager::owner($campaign)->removetag($tag);
+    }
+
+    public function addtag($campaign,$tag)
+    {
+        if(Auth::check())
+        {
+        }
+        else {
+            abort(404);
+        }
+        TagManager::owner($campaign)->addtag($tag);
+    }
+
 
 }

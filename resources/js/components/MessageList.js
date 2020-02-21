@@ -61,7 +61,7 @@ export default class MessageList extends Component {
           columns={[
             { title: 'From', field: 'from' },
             { title: 'Subject', field: 'subject' },
-            { title: 'Send At', field: 'sentat' },
+            { title: 'Recieved At', field: 'created_at' },
           ]}
           data={query =>
             new Promise((resolve, reject) => {
@@ -75,9 +75,9 @@ export default class MessageList extends Component {
                     totalCount: result.count,
                   })
                 })
-            })
+              })
    
-                }
+            }
           title={this.props.title} 
           padding="dense"
           onRowClick={this.props.onSelect}
