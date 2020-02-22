@@ -21,6 +21,9 @@ It is currently under very active development, but there is a long way to go yet
 - News posts
 - Campaigns
 - Events
+- Contacts
+- Messages
+- Tags
 
 ## Getting Started
 
