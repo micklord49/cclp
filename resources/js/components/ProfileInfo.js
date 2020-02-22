@@ -31,12 +31,10 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-require('medium-editor/dist/css/medium-editor.css');
-require('medium-editor/dist/css/themes/default.css');
 
 // ES module
-import Editor from 'react-medium-editor';
-
+import ReactQuill from 'react-quill'; // ES6
+import 'react-quill/dist/quill.snow.css'; // ES6
 
 
 export default class ProfileInfo extends Component {
@@ -128,6 +126,17 @@ export default class ProfileInfo extends Component {
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
+    const editstyle = {
+      border: '1px solid gray',
+      minHeight: 400,
+      backgroundColor: '#ffffff',
+      marginLeft: 0,
+      marginRight: 0,
+      paddingLeft:0,
+      paddingRight:0,
+    }
+
+
     return (
       <div style={neu}>
         <form noValidate autoComplete="off" onSubmit={this.handleSubmit} >
@@ -218,7 +227,7 @@ export default class ProfileInfo extends Component {
             </Grid>
             <Grid item xs={6}>
               <Grid container>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                   <TextField id="info-intro" 
                   value={this.state.intro} 
                   label="Introduce Yourself" 
@@ -230,15 +239,13 @@ export default class ProfileInfo extends Component {
                   helperText="This is a short introduction to be shown on your card."/>
 
                 </Grid>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                   <h4>Tell the world about yourself</h4>
-                  <div style={{backgroundColor:"#ffffff", minHeight:300}}>
-                    <Editor 
-                        id="info-about" 
-                        text={this.state.about} 
-                        onChange={(text,medium)=>{this.handleChangeAbout(text,medium)}} 
-                        options={{ placeholder: false}}            />
+                  <div style={editstyle}>
+                    <ReactQuill value={this.state.about}
+                        onChange={(e)=>{this.handleChangeAbout(e);}} />
                   </div>
+
                 </Grid>
               </Grid>
             </Grid>

@@ -49,6 +49,7 @@ Route::resource('event', 'EventController');
 Route::resource('image', 'ImageController');
 Route::resource('message', 'MessageController');
 Route::resource('tag', 'TagController');
+Route::resource('contacts', 'ContactsController');
 
 Route::get('clpapi/wards', 'ClpController@warddir');
 
@@ -57,6 +58,12 @@ Route::get('clp/{user}/removeuser', 'ClpController@removeuser');
 Route::patch('clp/{user}/addtag', 'ClpController@addtag');
 Route::get('clp/{user}/removetag', 'ClpController@removetag');
 Route::get('clp/{user}/tags', 'ClpController@tags');
+
+Route::get('contacts/{perpage}/{page}/search', 'ContactsController@search');
+Route::get('contacts/{contact}/verify', 'ContactsController@verify');
+Route::get('contacts/{contact}/{tag}/addtag', 'ContactsController@addtag');
+Route::get('contacts/{contact}/{tag}/removetag', 'ContactsController@removetag');
+
 
 Route::get('user/{id}', 'ProfileController@view');
 
@@ -86,6 +93,9 @@ Route::get('councils/{council}/wards', 'CouncilsController@wards');
 Route::get('councillors/dir/all', 'CouncillorController@dir');
 Route::get('councillors/{user}/adduser', 'CouncillorController@adduser');
 Route::get('councillors/{user}/removeuser', 'CouncillorController@removeuser');
+Route::get('councillors/{councillor}/{user}/addadminuser', 'CouncillorController@addadminuser');
+Route::get('councillors/{councillor}/{user}/removeadminuser', 'CouncillorController@removeadminuser');
+Route::get('councillors/{councillor}/infoedit', 'CouncillorController@infoedit');
 
 Route::get('cpl/branch/{branch}', 'BranchController@showcplbranch');
 Route::get('branch/dir/all', 'BranchController@dir');

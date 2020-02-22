@@ -204,10 +204,6 @@ class BranchController extends Controller
     {
         if(Auth::check())
         {
-            if(!auth()->user()->can('Edit CLP'))
-            {
-                abort(404);
-            }
         }
         else {
             abort(404);
@@ -223,10 +219,6 @@ class BranchController extends Controller
     {
         if(Auth::check())
         {
-            if(!auth()->user()->can('Edit CLP'))
-            {
-                abort(404);
-            }
         }
         else {
             abort(404);

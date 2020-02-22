@@ -11,6 +11,7 @@ use App\ViewModels\Home;
 use App\ViewModels\Userdir;
 use App\ViewModels\ImageFile;
 use App\ViewModels\Msg;
+use App\ViewModels\TagManager;
 use App\User;
 use App\Contact;
 use App\Message;
@@ -57,8 +58,10 @@ class MessageController extends Controller
         $msg = Message::where('guid',$message)->firstOrFail();
         
         $contact = Contact::where('guid',$msg->from)->firstOrFail();
+        $msg->fromtags = TagManager::owner($msg->from)->tags();
         $msg->fromemail=$contact->email;
         $msg->fromname=$contact->name;
+        $msg->fromguid=$msg->from;
         $msg->from=$contact->name . ' [' . $contact->email . ']';
 
         $recieved = new Carbon($contact->created_at);

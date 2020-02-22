@@ -31,7 +31,7 @@ class EditCouncillor extends Model
     public function __construct($id)
     {
         $clpGuid = config('appsettings.clpGUID');
-        $councillor = Councillor::where('owner',$id)->firstOrFail();
+        $councillor = Councillor::where('guid',$id)->firstOrFail();
 
         $this->guid = $councillor->guid;
         $this->menu = new Menu($clpGuid);

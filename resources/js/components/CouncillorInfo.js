@@ -31,6 +31,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import PhoneIcon from '@material-ui/icons/Phone';
 
 import AlertSave from './AlertSave';
+import CPLUsers from './CPLUsers';
 
 
 import {
@@ -119,22 +120,6 @@ class CouncillorInfo extends Component {
 
   
   componentDidMount(){
-    console.log("Retrieving councillor");
-    axios.get("/councillor/"+this.props.guid+"/edit")
-      .then(response => {
-        this.setState({ 
-          dn: response.data.dn, 
-          email: response.data.email, 
-          intro: response.data.intro, 
-          about: response.data.about, 
-          active: response.data.active==1, 
-          campaign: response.data.campaign==1, 
-          ward: response.data.ward,
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
 
       axios.get("/clpapi/wards")
       .then(response => {
@@ -150,7 +135,51 @@ class CouncillorInfo extends Component {
       }).catch(error => {
         console.log(error);
       });
-  
+
+      this.refresh();
+
+  }
+
+
+  refresh()
+  {
+    console.log("Retrieving councillor");
+    axios.get("/councillor/"+this.props.guid+"/edit")
+      .then(response => {
+        this.setState({ 
+          dn: response.data.dn, 
+          email: response.data.email, 
+          intro: response.data.intro, 
+          about: response.data.about, 
+          active: response.data.active==1, 
+          campaign: response.data.campaign==1, 
+          ward: response.data.ward,
+          adminusers: response.data.adminusers,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+
+  addUser(guid)
+  {
+    let uri = '/councillors/'+this.props.guid+"/"+guid+'/addadminuser';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
+
+  }
+
+  removeUser(guid)
+  {
+    let uri = '/councillors/'+this.props.guid+"/"+guid+'/removeadminuser';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
   }
 
 
@@ -186,7 +215,6 @@ class CouncillorInfo extends Component {
     const { classes } = this.props;
 
     const neu = {
-      backgroundColor: "#E0E5EC" ,
       borderRadius:4,
       marginLeft: "auto",
       marginRight: "auto",
@@ -194,7 +222,6 @@ class CouncillorInfo extends Component {
       paddingBottom:16,
       paddingLeft:10,
       paddingRight: 20,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     const neuhelp = {
@@ -264,7 +291,7 @@ class CouncillorInfo extends Component {
                 helperText="This is a short introduction to be shown on your card."/>
             </Grid>
             <Grid item xs={12}>
-                <p>Youu can soecify a separate email address for your work as a councillor.</p>
+                <p>You can and should specify a separate email address for your work as a councillor.</p>
                 <FormControl >
                       <InputLabel htmlFor="clp-email">Email</InputLabel>
                       <Input
@@ -325,6 +352,11 @@ class CouncillorInfo extends Component {
                 label="Campaign Mode"
               />
             </Grid>
+            <Grid item xs={12}>
+                <p>Select the users who will be able to access your councillor administration screen in addition to yourself</p>
+                <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.adminusers} addUser={(guid) => this.addUser(guid)}/>              
+            </Grid>
+          
           </Grid>
         </Grid>
         <Grid item md={6} xs={12}>
@@ -342,7 +374,7 @@ class CouncillorInfo extends Component {
         </Grid>
       </Grid>
     </form>  
-    <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="details"/>
+    <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="details" style={{zIndex:1450}}/>
   </div>    );
   }
 }

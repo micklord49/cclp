@@ -118,7 +118,7 @@ class Profile extends Component {
 
       }
       
-      
+        
     return(
     <div id="outer-container" className={classes.root} style={containerStyle}>
         <Menu isOpen={ true } styles={ styles }
@@ -137,7 +137,7 @@ class Profile extends Component {
             <a onClick={()=>{this.setState({selectedmaintab:3}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
             <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
         </Menu>
-        <main id="page-wrap">
+        <main id="page-wrap" style={{width: '100%', paddingRight:  50}}>
         
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
                 <h4>Personal Information</h4>

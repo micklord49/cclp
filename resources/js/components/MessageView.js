@@ -23,6 +23,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Switch from '@material-ui/core/Switch';
 
+import TagControl from './TagControl';
 
 import SaveIcon from '@material-ui/icons/Save';
 import MailIcon from '@material-ui/icons/Mail';
@@ -94,12 +95,35 @@ export default class MessageView extends Component {
       this.setState({
         guid: response.data.guid, 
         from: response.data.from, 
+        fromguid: response.data.fromguid, 
+        fromtags: response.data.fromtags,
         to: response.data.to, 
         subject: response.data.subject, 
         message: response.data.message,
+
       });
     });
-}
+  }
+
+  addTag(guid)
+  {
+    let uri = '/contacts/'+this.state.fromguid+"/"+guid+'/addtag';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
+
+  }
+
+  removeTag(guid)
+  {
+    let uri = '/contacts/'+this.state.fromguid+"/"+guid+'/removetag';
+    axios.get(uri, {}).then((response) => {
+          //this.props.history.push('/display-item');
+          this.refresh();
+        });
+  }
+
 
   async save() 
   {
@@ -153,7 +177,7 @@ export default class MessageView extends Component {
                     {this.state.from}
                 </Grid>
                 <Grid item xs={12}>
-                    {this.state.to}
+                    <TagControl owner={this.props.guid} tags={this.state.fromtags} addTag={(guid) => this.addTag(guid)} onremovetag={(guid)=>{this.removeTag(guid)}} />
                 </Grid>
                 <Grid item xs={12}>
                   <p>{this.state.subject}</p>

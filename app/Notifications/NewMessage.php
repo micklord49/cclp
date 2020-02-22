@@ -7,6 +7,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
+use App\Cclp;
+use App\Branch;
+use App\Campaign;
+
+
 class NewMessage extends Notification
 {
     use Queueable;
@@ -58,7 +63,27 @@ class NewMessage extends Notification
      */
     public function toMail($notifiable)
     {
-        $subject = sprintf('%s: You\'ve got a new message from %s!', config('app.name'), $this->from);
+
+        $fromname = "";
+
+        switch(substr($this->to,0,3))
+        {
+            case "CLP":
+                $cclp = Cclp::where('guid',$this->to)->firstOrFail();
+                $fromname = $cclp->name;
+                break;
+            case "CMP":
+                $campaign = Campaign::where('guid',$this->to)->firstOrFail();
+                $fromname = $campaign->title;
+                break;
+            case "BRC":
+                $branch = Branch::where('guid',$this->to)->firstOrFail();
+                $fromname = $branch->name;
+                break;
+        }
+
+
+        $subject = sprintf('%s: You\'ve got a new message from %s!', config('app.name'), $fromname);
         $greeting = sprintf('Hello,');
         $from = sprintf('A new message has been sent from %s.',$this->from);
  

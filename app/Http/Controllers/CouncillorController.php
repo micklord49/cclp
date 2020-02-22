@@ -8,11 +8,11 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use App\Councillor;
+use App\CouncillorAdministrator;
 use Illuminate\Http\Request;
 
 use App\ViewModels\EditCouncillor;
 use App\ViewModels\HomeCouncillor;
-
 
 class CouncillorController extends Controller
 {
@@ -30,7 +30,9 @@ class CouncillorController extends Controller
             abort(404);
         }
         $user = auth()->user();
-        $data = new EditCouncillor($user->guid);
+        $clr = Councillor::where('owner',$user->guid)->firstOrFail();
+
+        $data = new EditCouncillor($clr->guid);
         Log::info('Editing Councillor '.$user->guid);
 
         if($data->guid=="") about(404);
@@ -87,7 +89,34 @@ class CouncillorController extends Controller
     {
         //
         $ret = Councillor::where('guid',$councillor)->firstOrFail();
+        $users = CouncillorAdministrator::where('councillor',$councillor)->get();
+        $adminusers = array();
+        foreach($users as $user)
+        {
+            $new = new \stdClass();
+            $new->guid = $user->user;
+            array_push($adminusers,$new);
+        }
+        $ret->adminusers = $adminusers;
+
         return $ret;
+    }
+
+
+    public function infoedit($councillor)
+    {
+        $clpGuid = config('appsettings.clpGUID');
+
+        if(!Auth::check())
+        {
+            abort(404);
+        }
+        $data = new EditCouncillor($councillor);
+        Log::info('Editing Councillor '.$councillor);
+
+        if($data->guid=="") about(404);
+        return view("editcouncillor",['Data' => $data]);
+    //
     }
 
     /**
@@ -117,6 +146,7 @@ class CouncillorController extends Controller
                 if(isset($request->ward)) $user->ward = $request->ward;
                 if(isset($request->dn)) $user->dn = $request->dn;
                 if(isset($request->intro)) $user->intro = $request->intro;
+                if(isset($request->email)) $user->email = $request->email;
                 if(isset($request->about)) $user->about = $request->about;
                 if(isset($request->active)) $user->active = $request->active;
                 if(isset($request->campaign)) $user->campaign = $request->campaign;
@@ -199,6 +229,47 @@ class CouncillorController extends Controller
         ));
 
         Log::info('Adding user '.$user.' as a councillor');
+    }
+
+
+    public function removeadminuser($councillor,$user)
+    {
+        if(Auth::check())
+        {
+        }
+        else {
+            abort(404);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+
+        CouncillorAdministrator::where('user',$user)->where('councillor',$councillor)->delete();
+        Log::info('Removing user '.$user.' as a councillor admin');
+    }
+
+    public function addadminuser($councillor,$user)
+    {
+        if(Auth::check())
+        {
+        }
+        else {
+            abort(404);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+
+        $count = CouncillorAdministrator::where('councillor',$councillor)->where('user',$user)->count();
+        if($count==0)
+        {
+            CouncillorAdministrator::create(array(
+                'guid' => uniqid("BAU"),
+                'councillor' => $councillor,
+                'user' => $user
+            ));
+        }
+
+
+        Log::info('Adding user '.$user.' as a councillor admin user');
     }
 
 

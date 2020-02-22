@@ -8,11 +8,13 @@ import CameraIcon from '@material-ui/icons/Camera';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
 import ShareIcon from '@material-ui/icons/Share';
 import EventIcon from '@material-ui/icons/Event';
+import EmailIcon from '@material-ui/icons/Email';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import HelpIcon from '@material-ui/icons/Help';
 
 import CouncillorInfo from './CouncillorInfo';
 import BlogEditor from './BlogEditor';
+import Messages from './Messages';
 import Campaign from './Campaign';
 import Event from './Event';
 import UploadPicture from './UploadPicture'
@@ -113,40 +115,45 @@ class ControlPanelCLP extends Component {
                 customCrossIcon={ false } 
                 width={80}>
             <a onClick={()=>{this.setState({selectedmaintab:0}); }} className="menu-item">{<AnnouncementIcon />}<br/>News</a>
-            <a onClick={()=>{this.setState({selectedmaintab:1}); }} className="menu-item">{<InfoIcon />}<br/>About</a>
-            <a onClick={()=>{this.setState({selectedmaintab:2}); }} className="menu-item">{<CameraIcon />}<br/>Images</a>
-            <a onClick={()=>{this.setState({selectedmaintab:3}); }} className="menu-item">{<ShareIcon />}<br/>Social</a>
-            <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
-            <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
-            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
+            <a onClick={()=>{this.setState({selectedmaintab:1}); }} className="menu-item">{<EmailIcon />}<br/>Messages</a>
+            <a onClick={()=>{this.setState({selectedmaintab:2}); }} className="menu-item">{<InfoIcon />}<br/>About</a>
+            <a onClick={()=>{this.setState({selectedmaintab:3}); }} className="menu-item">{<CameraIcon />}<br/>Images</a>
+            <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<ShareIcon />}<br/>Social</a>
+            <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
+            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
+            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
         </Menu>
-        <main id="page-wrap">
+        <main id="page-wrap" style={{width: '100%', paddingRight:50}}>
         
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
-                <h4>My News Posts as a councillor</h4>
-                <BlogEditor owner={this.props.guid} description="Your posts as the CLP"/>
+                <BlogEditor owner={this.props.guid} description="Your posts as a councillor"/>
             </div>
+
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 1}>
-                <h4>My Councillor Information</h4>
+              <Messages title="Messages for you as a councillor" owner={this.props.guid} description="Messages sent to the CLP"/>
+            </div>
+
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
+                <h4>My Information as a Councillor</h4>
                 <CouncillorInfo guid={this.props.guid}/>
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
                 <h4>Images of me as a councillor</h4>
                 <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
                 <h4>My Social Media links as a councillor</h4>
                 <SocialMedia  owner={this.props.guid}/>
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
                 <h4>The campaigns I run as a councillor</h4>
                 <Campaign owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>
                 <h4>The events I organise as a councillor</h4>
                 <Event owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 7}>
                 <h4>Help</h4>
             </div>
 

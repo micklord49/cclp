@@ -29,6 +29,7 @@ export default class TagList extends Component {
       overflowX: "hidden",
       overflowY: "scroll",    
       display: "flex",  
+      margin: 3,
     };
 
     if(this.props.tags != null)

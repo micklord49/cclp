@@ -8,8 +8,10 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use App\Councillor;
+use App\CouncillorAdministrator;
 use App\Branch;
 use App\BranchAdministrator;
+use App\User;
 
 class Menu
 {
@@ -52,6 +54,7 @@ class Menu
             if(auth()->user()->can('Edit CLP'))
             {
                 $menu->AddSubMenu(new MenuItem("Edit CLP","/clp",true));
+                $menu->AddSubMenu(new MenuItem("Manage Contacts","/contacts",true));
             }
             $this->CouncillorMenu($menu);
             $this->BranchesMenu($menu);
@@ -85,13 +88,21 @@ class Menu
     {
         if(!Auth::check())          return;     //  Only available for logged in user
         $user = auth()->user();
-        $councillor = Councillor::where('owner',$user->guid)->get();
-        if(count($councillor)==0)
+        $councillor = Councillor::where('owner',$user->guid)->count();
+        if($councillor>0)
         {
-            return;
+            $councillor = Councillor::where('owner',$user->guid)->first();
+            $menu->AddSubMenu(new MenuItem("My info as a Councillor","/councillor/",true));
         }
-        $menu->AddSubMenu(new MenuItem("My info as a Councillor","/councillor",true));
-    }
+        $councillors = CouncillorAdministrator::where('user',$user->guid)->get();
+        foreach($councillors as $councillor)
+        {
+            $clr = Councillor::where('guid',$councillor->councillor)->first();
+            $usr = User::where('guid',$clr->owner)->first();
+            $menu->AddSubMenu(new MenuItem("Info for Councillor ".$usr->name,"/councillors/".$clr->guid."/infoedit",true));
+        }
+        return;
+}
 
     private function ECMenu($clpGuid)
     {

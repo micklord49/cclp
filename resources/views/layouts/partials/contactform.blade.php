@@ -5,6 +5,7 @@
         <div class="col-md-8 ml-auto mr-auto">
           <h2 class="text-center title">{{ $title }}</h2>
           <h4 class="text-center description">{{ $subtitle }}</h4>
+          <h4 class="text-center description"></h4>
           <form class="contact-form">
             <div class="row">
               <div class="col-md-6">

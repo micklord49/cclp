@@ -24,9 +24,10 @@ class Councillor extends Model
 
      public function routeNotificationForMail($notification)
      {
-        if($this->email != "")      return $email;
+        if($this->email != "")      return $this->email;
 
-        $users = User::where('clp',$this->guid)->role('Edit CLP')->get();
+        $users = User::where('clp',$this->owner)->get();
+        $emailaddress = "";
         foreach($users as $user)
         {
             if($user->email != "")

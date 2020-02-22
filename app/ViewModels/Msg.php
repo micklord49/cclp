@@ -10,11 +10,13 @@ use App\Message;
 use App\Cclp;
 use App\Branch;
 use App\Campaign;
+use App\Councillor;
 
 use App\ViewModels\TagManager;
 
 use Notification;
 use App\Notifications\NewMessage;
+use App\Notifications\ConfirmEmail;
 use Illuminate\Notifications\Notifiable;
 
 
@@ -37,7 +39,37 @@ class Msg
 
     public function store()
     {
+        $clpGuid = config('appsettings.clpGUID');
+
         $from = "";
+
+        $fromname = "";
+
+        switch(substr($this->owner,0,3))
+        {
+            case "CLP":
+                $cclp = Cclp::where('guid',$this->owner)->firstOrFail();
+                $fromname = $cclp->name;
+                $this->event = "New message to CLP ".$fromname;
+                break;
+            case "CMP":
+                $campaign = Campaign::where('guid',$this->owner)->firstOrFail();
+                $fromname = $campaign->title;
+                $this->event = "New message to Campaign ".$fromname;
+                break;
+            case "CNR":
+                $councillor = Councillor::where('guid',$this->owner)->firstOrFail();
+                $user = User::where('guid',$councillor->owner)->firstOrFail();
+                $fromname = "Councillor ".$user->name;
+                $this->event = "New message to ".$fromname;
+                break;
+            case "BRC":
+                $branch = Branch::where('guid',$this->owner)->firstOrFail();
+                $fromname = $branch->name;
+                $this->event = "New message to branch ".$fromname;
+                break;
+        }
+
 
         $this->email = strtolower($this->email);
         $contact = Contact::where('email',$this->email)->first();
@@ -49,6 +81,7 @@ class Msg
                 'guid' => $from,
                 'name' => $this->name,
                 'email' => $this->email,
+                'clp' => $clpGuid,
                 ));            
         }
         else
@@ -92,12 +125,22 @@ class Msg
                 case "CMP":
                     Campaign::where('guid',$this->owner)->firstOrFail()->notify(new NewMessage($newmessage));                    
                     break;
+                case "CNR":
+                    Councillor::where('guid',$this->owner)->firstOrFail()->notify(new NewMessage($newmessage));                    
+                    break;
                 case "BRC":
                     Branch::where('guid',$this->owner)->firstOrFail()->notify(new NewMessage($newmessage));                    
                     break;
             }
         } catch (Throwable $th) {
             //throw $th;
+        }
+
+        //
+        //  Generate confirm if required
+        if($contact->email_verified_at==null)
+        {
+            $contact->notify(new ConfirmEmail($this->owner));
         }
 
     }
