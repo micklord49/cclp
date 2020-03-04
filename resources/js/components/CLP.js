@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import ControlPanelCLP from './ControlPanelCLP'
+import ControlPanelCLP from './clp/ControlPanelCLP'
 
 export default class Main extends Component {
   render() {
@@ -10,7 +10,6 @@ export default class Main extends Component {
       );
   }
 }
-
 
 if (document.getElementById('root')) {
   if (document.getElementById('datapipe')) {

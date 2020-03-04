@@ -12,9 +12,18 @@
             <p class="card-description">{{ $campaign->subtitle }}</p>
         </div>
         <div class="card-footer justify-content-center">
-            @isset($campaign->facebook)
-                <i class="fa fa-facebook-square" style="cursor:pointer" onclick="document.location='{{ $branch->facebook }}';return false;"></i>
-            @endisset
+            @if(isset($Data->facebook))
+                <a href="{{ $Data->facebook }}" class="btn btn-just-icon btn-link btn-facebook"><i class="fa fa-facebook"></i></a>
+            @endif
+            @if(isset($Data->instagram))
+                <a href="{{ $Data->instagram }}" class="btn btn-just-icon btn-link btn-instagram"><i class="fa fa-instagram"></i></a>
+            @endif
+            @if(isset($Data->twitter))
+                <a href="{{ $Data->twitter }}" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
+            @endif
+            @if(isset($Data->youtube))
+                <a href="{{ $Data->youtube }}" class="btn btn-just-icon btn-link btn-youtube"><i class="fa fa-youtube"></i></a>
+            @endif
         </div>
     </div>
     </div>

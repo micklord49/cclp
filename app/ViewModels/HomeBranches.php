@@ -32,11 +32,14 @@ class HomeBranches extends Model
         $clpGuid = config('appsettings.clpGUID');
         $clps = DB::select('select * from cclps where guid=?',[$clpGuid]);
         if(count($clps) == 0)
-        {
+        { 
             return;
         }
 
-        $this->guid = $clpGuid;
+        $this->clpguid = $clpGuid;
+        $this->clpname = $clps[0]->name;
+        $this->analytics = $clps[0]->analytics;
+
 
         $branches = Branch::where('clp',$clpGuid)->get();
         $owners = array();

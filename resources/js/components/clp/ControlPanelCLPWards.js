@@ -17,7 +17,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 //
 //  CCLP Components
-import NavList from './NavList';
+import NavList from '../NavList';
 import ControlPannelCLPWard from './ControlPanelCLPWard';
 
 

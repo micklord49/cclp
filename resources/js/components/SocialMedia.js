@@ -19,6 +19,10 @@ import { IoLogoYoutube } from 'react-icons/io';
 import { IoLogoTumblr } from 'react-icons/io';
 
 import SMFacebook from './SMFacebook';
+import SMInstagram from './SMInstagram';
+import SMTwitter from './SMTwitter';
+import SMYouTube from './SMYouTube';
+import SMTumblr from './SMTumblr';
 //
 //  CCLP Components
 
@@ -58,22 +62,23 @@ export default class SocialMedia extends Component {
             this.setState({ tumblr: true });
             break;
     }
+    console.log(this.state);
   }
 
 
   render() 
   {
     const neu = {
-      backgroundColor: "#E0E5EC" ,
-      borderRadius:4,
-      marginLeft: "auto",
+      backgroundColor: "#ffffff" ,
+      //borderRadius:4,
+      marginLeft: 20,
       marginRight: "auto",
       marginTop:10,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+      //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     return (
-      <Grid container spacing={3}>
+      <Grid container spacing={3} style={neu}>
         <Grid item xs={3}>
           <List component="nav" style={neu} aria-label="EC">
             <ListItem button onClick={() => this.selectForm("fb")}>
@@ -99,7 +104,11 @@ export default class SocialMedia extends Component {
           </List>
         </Grid>
         <Grid item xs={9}>
-            <SMFacebook owner={this.props.owner} id="FacebookSheet"/>
+            <div hidden={!this.state.fb}><SMFacebook owner={this.props.owner}/></div>
+            <div hidden={!this.state.instagram}><SMInstagram owner={this.props.owner}/></div>
+            <div hidden={!this.state.twitter}><SMTwitter owner={this.props.owner}/></div>
+            <div hidden={!this.state.youtube}><SMYouTube owner={this.props.owner}/></div>
+            <div hidden={!this.state.tumblr}><SMTumblr owner={this.props.owner}/></div>
         </Grid>
     </Grid>
     );

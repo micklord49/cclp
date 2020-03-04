@@ -183,26 +183,26 @@ class EventInfo extends Component {
     const { classes } = this.props;
 
     const neu = {
-      backgroundColor: "#E0E5EC" ,
-      borderRadius:4,
-      marginLeft: "auto",
+      backgroundColor: "#ffffff" ,
+      //borderRadius:4,
+      marginLeft: 20,
       marginRight: "auto",
       marginTop:10,
       paddingBottom:16,
-      paddingLeft:10,
+      paddingLeft:20,
       paddingRight: 20,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+      //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     const neuhelp = {
-      backgroundColor: "#E0E5EC" ,
+      //backgroundColor: "#E0E5EC" ,
       borderRadius:4,
       marginLeft: "auto",
       marginRight: "auto",
       marginTop:10,
       paddingBottom:16,
       paddingRight:20,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+      //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     const upstyle = {

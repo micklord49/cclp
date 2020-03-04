@@ -12,6 +12,7 @@ use App\CouncillorAdministrator;
 use App\Branch;
 use App\BranchAdministrator;
 use App\User;
+use App\Social;
 
 class Menu
 {
@@ -28,6 +29,10 @@ class Menu
 
         $this->Menu = [ new MenuItem("Home","/",true) ];
 
+        $this->CLPSocial = new \stdClass();
+        SocialManager::owner($clpGuid)->addlinks($this->CLPSocial);
+
+        
 
         switch($siteType)
         {
@@ -49,6 +54,7 @@ class Menu
         {
             $this->Class = "navbar-dark bg-dark";
 
+            $menu->AddSubMenu(new MenuItem("Dashboard","/home",true));
             $menu->AddSubMenu(new MenuItem("Edit Profile","/profile/".auth()->user()->guid,true));
 
             if(auth()->user()->can('Edit CLP'))

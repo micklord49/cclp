@@ -18,6 +18,7 @@ class CreateCclpsTable extends Migration
             $table->string('guid',36);
             $table->string('name',128);
             $table->string('description',2048);
+            $table->string('analytics',48);
             $table->string('dn');
             $table->string('email');
             $table->string('phone');

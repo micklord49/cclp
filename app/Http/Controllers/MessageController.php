@@ -67,6 +67,12 @@ class MessageController extends Controller
         $recieved = new Carbon($contact->created_at);
         $msg->created_at = $recieved->toDateTimeString();
 
+        if($msg->status == "unread")
+        {
+            $msg->status = "read";
+            $msg->store();
+        }
+
         return($msg);
     }
 

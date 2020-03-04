@@ -51,8 +51,17 @@ class SocialController extends Controller
                 case 'INSTAGRAM':
                     $social->instagram = $request->instagram ?? '';
                     break;
+                case 'TWITTER':
+                    $social->twitter = $request->twitter ?? '';
+                    break;
+                case 'YOUTUBE':
+                    $social->youtube = $request->youtube ?? '';
+                    break;
+                case 'INSTAGRAM':
+                    $social->tumblr = $request->tumblr ?? '';
+                    break;
             }
-            }
+        }
         catch(Exception $e)
         {
             report($e);

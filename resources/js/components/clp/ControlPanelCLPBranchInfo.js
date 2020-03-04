@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 
-import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Fab from '@material-ui/core/Fab';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 
-import ControlPanelUserGroup from'./ControlPanelUserGroup';
-import CPLUsers from'./CPLUsers';
+import ControlPanelUserGroup from '../ControlPanelUserGroup';
+import CPLUsers from '../CPLUsers';
 
 
 export default class ControlPanelCLPBranchInfo extends Component {

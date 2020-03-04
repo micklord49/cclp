@@ -136,19 +136,6 @@ export default class UploadPicture extends Component {
       display: 'none'
     }
 
-    const neu = {
-      backgroundColor: "#E0E5EC" ,
-      borderRadius:4,
-      marginLeft: "auto",
-      marginRight: "auto",
-      marginTop:10,
-      paddingBottom:16,
-      paddingTop:10,
-      paddingLeft:10,
-      paddingRight:20,
-      paddingBottom:20,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
-    };
 
     const neuhelp = {
       backgroundColor: "#E0E5EC" ,
@@ -186,7 +173,7 @@ export default class UploadPicture extends Component {
     };
 
     return (
-      <div style={neu}>
+      <div>
         <Grid container>
           <Grid item xs={6} style={{height: 400}}>
             <Cropper

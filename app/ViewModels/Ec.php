@@ -39,9 +39,10 @@ class Ec extends Model
             return;
         }
 
-        $this->guid = $clpGuid;
+        $this->clpguid = $clpGuid;
         $this->clpname = $clps[0]->name;
         $this->clpdescription = $clps[0]->description;
+        $this->analytics = $clps[0]->analytics;
 
         $roles = Clprole::where('clp',$clpGuid)->orderBy('sortorder', 'ASC')->get();
         foreach($roles as $role)

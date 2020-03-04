@@ -3,7 +3,11 @@
 use App\ViewModels\Home;
 use App\ViewModels\Councillors;
 use App\ViewModels\Ec;
+use App\ViewModels\HomeCampaigns;
 
+use App\ViewModels\VisitManager;
+
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 
 /*
@@ -19,15 +23,23 @@ use App\ViewModels\Ec;
 
 Route::get('/', function () {
     $home = new Home();
+    VisitManager::visit($home->clpguid,"Index");
     return view('welcome',['Data' => $home]);
 });
 Route::get('/councillors', function () {
     $home = new Councillors();
+    VisitManager::visit($home->clpguid,"Councillors");
     return view('councillors',['Data' => $home]);
 });
 Route::get('/committee', function () {
     $home = new Ec();
+    VisitManager::visit($home->clpguid,"Committee");
     return view('committee',['Data' => $home]);
+});
+Route::get('/campaigns', function () {
+    $home = new HomeCampaigns();
+    VisitManager::visit($home->clpguid,"Campaigns");
+    return view('campaigns',['Data' => $home]);
 });
 
 Auth::routes();
@@ -70,7 +82,7 @@ Route::get('user/{id}', 'ProfileController@view');
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');
 
 Route::get('message/{owner}/{perpage}/{page}/search', 'MessageController@search');
-Route::post('message/new/{owner}', 'MessageController@newmessage');
+Route::post('message/new/{owner}', 'MessageController@newmessage')->middleware(ProtectAgainstSpam::class);
 
 Route::get('blog/{perpage}/{page}/{owner}/ownersearch', 'BlogController@ownersearch');
 Route::patch('blog/', 'BlogController@store');

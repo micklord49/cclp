@@ -13,53 +13,35 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import StarIcon from '@material-ui/icons/Star';
 import StarOutlineIcon from '@material-ui/icons/StarBorder';
-import CPLUsers from './CPLUsers';
-import HelpText from './HelpText';
+import CPLUsers from '../CPLUsers';
+import HelpText from '../HelpText';
 
-export default class ControlPanelCLPCouncillors extends Component {
+export default class ControlPanelCLPECRole extends Component {
   constructor(props) {
       super(props);
-      this.state = {};
+      this.state = {role: new Object()};
   }
 
-
-  componentDidMount()
-  {
-      this.refresh();
+  componentDidMount(){
   }
 
-  refresh()
-  {
-    axios.get("/councillors/dir/all")
-          .then(response => {
-            const items = response.data;
-            this.setState({ councillors: items,
-                            selectedcouncillor: items[0] 
-                          });
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-  }
-
-  
   addUser(guid)
   {
-    let uri = '/councillors/'+guid+'/adduser';
+    let uri = '/ec/'+this.props.role.guid+'/'+guid+'/adduser';
     axios.get(uri, {}).then((response) => {
           //this.props.history.push('/display-item');
-          console.log("Firing ControlPanelCLPCouncillors.onChange event")
-          this.refresh();
+          console.log("Firing ControlPanelECRole.onChange event")
+          this.props.onChange();
         });
-
   }
 
   removeUser(guid)
   {
-    let uri = '/councillors/'+guid+'/removeuser';
+    let uri = '/ec/'+this.props.role.guid+'/'+guid+'/removeuser';
     axios.get(uri, {}).then((response) => {
           //this.props.history.push('/display-item');
-          this.refresh();
+          console.log("Firing ControlPanelECRole.onChange event")
+          this.props.onChange();
         });
   }
 
@@ -77,20 +59,17 @@ export default class ControlPanelCLPCouncillors extends Component {
       boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
-    if(typeof(this.state.councillors)=="undefined")
-    {
-      return(<div></div>);
-    }
-
-
     return (
       <div>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <p style={neu}>Select the users who are your local councillors, both standing and candidates</p>
+            <h5 style={neu}>{this.props.role.description}</h5>
           </Grid>
           <Grid item xs={12}>
-            <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.councillors} addUser={(guid) => this.addUser(guid)}/>
+            <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.props.role.users} addUser={(guid) => this.addUser(guid)}/>
+          </Grid>
+          <Grid item xs={12}>
+            <HelpText name={this.props.role.help}/>
           </Grid>
         </Grid>
       </div>

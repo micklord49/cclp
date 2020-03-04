@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\ViewModels\Home;
 use App\ViewModels\HomeBranches;
 use App\ViewModels\HomeWards;
+use App\ViewModels\Dashboard;
 
 class HomeController extends Controller
 {
@@ -27,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data = new Home();
+        $data = new Dashboard();
         return view('home',['Data' => $data]);
     }
 

@@ -28,6 +28,10 @@ class Home extends Model
         }
 
         $this->guid = $clpGuid;
+        $this->clpguid = $clpGuid;
+        $this->clpname = $clps[0]->name;
+        $this->analytics = $clps[0]->analytics;
+
         $this->name = $clps[0]->name;
         $this->description = $clps[0]->description;
 

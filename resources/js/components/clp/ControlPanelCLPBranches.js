@@ -17,7 +17,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 //
 //  CCLP Components
-import NavList from './NavList';
+import NavList from '../NavList';
 import ControlPannelCLPBranchInfo from './ControlPanelCLPBranchInfo';
 
 export default class ControlPanelCLPBranches extends Component {

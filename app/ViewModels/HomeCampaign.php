@@ -36,7 +36,9 @@ class HomeCampaign extends Model
             return;
         }
 
+        $this->clpguid = $clpGuid;
         $this->clpname = $clps[0]->name;
+        $this->analytics = $clps[0]->analytics;
 
         $campaign = Campaign::where('guid',$guid)->firstOrFail();
         $owners = array();
@@ -63,6 +65,8 @@ class HomeCampaign extends Model
 
         $this->news = new Blogs($guid,6,true,true);
         $this->menu = new Menu($clpGuid);
+
+        SocialManager::owner($guid)->addlinks($this);
 
         //$this->indexUrl = action([PostsController::class, 'index']); 
     }

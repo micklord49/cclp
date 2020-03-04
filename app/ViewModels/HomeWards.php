@@ -5,6 +5,9 @@ namespace App\ViewModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Council;
+use App\Ward;
+
 class HomeWards extends Model
 {
     //
@@ -27,11 +30,16 @@ class HomeWards extends Model
             return;
         }
 
-        $this->guid = $clpGuid;
-        $this->name = $clps[0]->name;
-        $this->description = $clps[0]->description;
+        $this->clpguid = $clpGuid;
+        $this->clpname = $clps[0]->name;
+        $this->analytics = $clps[0]->analytics;
 
-        $this->news = new Blogs($clpGuid,6,true,true);
+        $this->councils = Council::where('clp',$clpGuid)->orderBy('name','ASC')->get();
+        foreach($this->councils as $council)
+        {
+            $council->wards = Ward::where('council',$council->guid)->orderBy('name','ASC')->get();
+        }
+
 
         $this->menu = new Menu($clpGuid);
 

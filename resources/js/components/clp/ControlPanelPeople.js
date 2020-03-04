@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 import PropTypes from 'prop-types';
 
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -11,18 +9,14 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-import HomeIcon from '@material-ui/icons/Home';
 import GavelIcon from '@material-ui/icons/Gavel';
 import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
-import MembershipIcon from '@material-ui/icons/CardMembership';
 
-import ControlPanelCLPHome from './ControlPanelCLPHome';
-import ControlPanelCLPSocial from './ControlPanelCLPSocial';
 import ControlPanelCLPEC from './ControlPanelCLPEC';
 import ControlPanelCLPCouncillors from './ControlPanelCLPCouncillors';
 
-import HelpText from './HelpText';
+import HelpText from '../HelpText';
 
 
 function TabPanel(props) {

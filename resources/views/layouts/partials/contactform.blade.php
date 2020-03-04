@@ -1,6 +1,7 @@
 <form method="POST" action="/message/new/{{ $owner }}">
 @csrf
-    <div class="section section-contacts">
+@honeypot
+    <div class="section section-contacts" id="contactform">
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto">
           <h2 class="text-center title">{{ $title }}</h2>

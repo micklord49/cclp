@@ -14,9 +14,18 @@
               </div>
               <div class="name">
                 <h3 class="title">{{ $Data->name }}</h3>
-                <a href="#pablo" class="btn btn-just-icon btn-link btn-facebook"><i class="fa fa-dribbble"></i></a>
-                <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
-                <a href="#pablo" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-pinterest"></i></a>
+                @if(isset($Data->facebook))
+                  <a href="{{ $Data->facebook }}" class="btn btn-just-icon btn-link btn-facebook"><i class="fa fa-facebook"></i></a>
+                @endif
+                @if(isset($Data->instagram))
+                  <a href="{{ $Data->instagram }}" class="btn btn-just-icon btn-link btn-instagram"><i class="fa fa-instagram"></i></a>
+                @endif
+                @if(isset($Data->twitter))
+                  <a href="{{ $Data->twitter }}" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
+                @endif
+                @if(isset($Data->youtube))
+                  <a href="{{ $Data->youtube }}" class="btn btn-just-icon btn-link btn-youtube"><i class="fa fa-youtube"></i></a>
+                @endif
               </div>
             </div>
           </div>

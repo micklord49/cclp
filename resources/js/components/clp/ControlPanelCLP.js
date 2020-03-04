@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-
-import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,7 +6,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import HomeIcon from '@material-ui/icons/Home';
@@ -35,12 +31,12 @@ import ControlPanelCLPCouncils from './ControlPanelCLPCouncils';
 import ControlPanelCLPBranches from './ControlPanelCLPBranches';
 import ControlPanelCLPEC from './ControlPanelCLPEC';
 import ControlPanelCLPCouncillors from './ControlPanelCLPCouncillors';
-import BlogEditor from './BlogEditor';
-import Campaign from './Campaign';
-import Event from './Event';
-import Messages from './Messages';
-import UploadPicture from './UploadPicture'
-import SocialMedia from './SocialMedia';
+import BlogEditor from '../BlogEditor';
+import Campaign from '../Campaign';
+import Event from '../Event';
+import Messages from '../Messages';
+import UploadPicture from '../UploadPicture'
+import SocialMedia from '../SocialMedia';
 
 
 const styles = theme => ({
@@ -146,11 +142,15 @@ class ControlPanelCLP extends Component {
             <a onClick={()=>{this.setState({selectedmaintab:3}); }} className="menu-item">{<CameraIcon />}<br/>Images</a>
             <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<ShareIcon />}<br/>Social</a>
             <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<SupervisorAccountIcon />}<br/>People</a>
-            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
-            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
-            <a onClick={()=>{this.setState({selectedmaintab:8}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
+
+            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<GavelIcon />}<br/>Councils</a>
+            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<LocalFloristIcon />}<br/>Branches</a>
+
+            <a onClick={()=>{this.setState({selectedmaintab:8}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
+            <a onClick={()=>{this.setState({selectedmaintab:9}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
+            <a onClick={()=>{this.setState({selectedmaintab:10}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
         </Menu>
-        <main id="page-wrap" style={{width: '100%'}}>
+        <main id="page-wrap" style={{width: '100%',bgColor: '#ffffff'}}>
         
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
               <BlogEditor owner={this.props.guid} description="News Posts From The CLP"/>
@@ -161,25 +161,7 @@ class ControlPanelCLP extends Component {
           </div>
 
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 2}>
-              <h4>CLP Information</h4>
-              <Tabs 
-                  style={tabStyle} 
-                  value={this.state.selectedtab} 
-                  aria-label="simple tabs example" 
-                  onChange={(e,v) => { this.handleChange(e,v); }}>
-                  <Tab label="Basic Information" icon={<HomeIcon />} />
-                  <Tab label="Councils" icon={<GavelIcon />} />
-                  <Tab label="Branches"  icon={<LocalFloristIcon />} />
-              </Tabs>
-              <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 0}>
-                  <ControlPanelCLPHome />
-              </div>
-              <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 1}>
-                  <ControlPanelCLPCouncils />
-              </div>
-              <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 2}>
-                  <ControlPanelCLPBranches owner={this.props.guid} />
-              </div>
+              <ControlPanelCLPHome />
           </div>
 
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
@@ -192,7 +174,6 @@ class ControlPanelCLP extends Component {
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
                 <h4>The People of the CLP</h4>
-
                 <Tabs 
                   style={tabStyle} 
                   value={this.state.selectedtab} 
@@ -213,15 +194,28 @@ class ControlPanelCLP extends Component {
               </div>
 
             </div>
+            
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>
+                <h4>Councils</h4>
+                <ControlPanelCLPCouncils />
+            </div>
+
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 7}>
+                <h4>Branches</h4>
+                <ControlPanelCLPBranches owner={this.props.guid} />
+            </div>
+
+
+
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 8}>
                 <h4>Campaigns run by the CLP</h4>
                 <Campaign owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 7}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 9}>
                 <h4>Events organised by the CLP</h4>
                 <Event owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 8}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 10}>
                 <h4>Help</h4>
             </div>
                 

@@ -12,6 +12,8 @@ use App\ViewModels\ViewBranches;
 use App\ViewModels\HomeBranch;
 use App\ViewModels\HomeBranches;
 use App\ViewModels\EditBranch;
+use App\ViewModels\SocialManager;
+use App\ViewModels\VisitManager;
 use App\BranchAdministrator;
 use Illuminate\Http\Request;
 
@@ -29,7 +31,7 @@ class BranchController extends Controller
 
 
         $data = new HomeBranches($clpGuid);
-        if($data->guid=="") about(404);
+        VisitManager::visit($data->clpguid,"Banches");
         return view("branches",['Data' => $data]);
     }
 
@@ -86,7 +88,7 @@ class BranchController extends Controller
 
 
         $data = new HomeBranch($branch);
-        if($data->guid=="") abort(404);
+        VisitManager::visit($branch,"Home");
         return view("branch",['Data' => $data]);
     }
 
@@ -194,6 +196,7 @@ class BranchController extends Controller
             $new = new \stdClass();
             $new->guid = $branch->guid;
             $new->name = $branch->name;
+            SocialManager::owner($branch->guid)->addlinks($new);
 
             array_push($b,$new);
         }

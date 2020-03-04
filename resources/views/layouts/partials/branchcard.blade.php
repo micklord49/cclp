@@ -12,9 +12,18 @@
             <p class="card-description">{{ $branch->branch }}</p>
         </div>
         <div class="card-footer justify-content-center">
-            @isset($branch->facebook)
-                <i class="fa fa-facebook-square" style="cursor:pointer" onclick="document.location='{{ $branch->facebook }}';return false;"></i>
-            @endisset
+            @if(isset($branch->facebook))
+                <a href="{{ $branch->facebook }}" class="btn btn-just-icon btn-link btn-facebook"><i class="fa fa-facebook"></i></a>
+            @endif
+            @if(isset($branch->instagram))
+                <a href="{{ $branch->instagram }}" class="btn btn-just-icon btn-link btn-instagram"><i class="fa fa-instagram"></i></a>
+            @endif
+            @if(isset($branch->twitter))
+                <a href="{{ $branch->twitter }}" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
+            @endif
+            @if(isset($branch->youtube))
+                <a href="{{ $branch->youtube }}" class="btn btn-just-icon btn-link btn-youtube"><i class="fa fa-youtube"></i></a>
+            @endif
         </div>
     </div>
     </div>

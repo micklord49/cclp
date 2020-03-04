@@ -37,9 +37,10 @@ class Councillors extends Model
             return;
         }
 
-        $this->guid = $clpGuid;
+        $this->clpguid = $clpGuid;
         $this->clpname = $clps[0]->name;
         $this->clpdescription = $clps[0]->description;
+        $this->analytics = $clps[0]->analytics;
 
         $councillors = Councillor::where('clp',$clpGuid)->where('active',1)->get();
         foreach($councillors as $councillor)

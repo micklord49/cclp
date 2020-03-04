@@ -16,6 +16,7 @@ use App\ViewModels\ViewBranches;
 use App\ViewModels\HomeCampaign;
 use App\ViewModels\EditBranch;
 use App\ViewModels\TagManager;
+use App\ViewModels\VisitManager;
 use Illuminate\Http\Request;
 
 class CampaignController extends Controller
@@ -28,12 +29,6 @@ class CampaignController extends Controller
     public function index()
     {
         //
-        $clpGuid = config('appsettings.clpGUID');
-
-
-        $data = new ViewBranches($clpGuid);
-        if($data->guid=="") about(404);
-        return view("branches",['Data' => $data]);
     }
 
     /**
@@ -78,14 +73,14 @@ class CampaignController extends Controller
      * @param  \App\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function show($branch)
+    public function show($campaign)
     {
         //
         $clpGuid = config('appsettings.clpGUID');
 
 
-        $data = new HomeCampaign($branch);
-        if($data->guid=="") abort(404);
+        $data = new HomeCampaign($campaign);
+        VisitManager::visit($campaign,"Home");
         return view("campaign",['Data' => $data]);
     }
 
@@ -207,8 +202,7 @@ class CampaignController extends Controller
 
             array_push($c,$new);
         }
-
-
+        
         return($c);
     }
 

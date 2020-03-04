@@ -127,6 +127,7 @@ class ClpController extends Controller
                 case 'INFO':
                     $clp->name = $request->name;
                     $clp->description = $request->description ?? '';
+                    $clp->analytics = $request->analytics ?? '';
                     $clp->dn = $request->dn ?? '';
                     $clp->phone = $request->phone ?? '';
                     $clp->email = $request->email ?? '';

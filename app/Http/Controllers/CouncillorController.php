@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 
 use App\ViewModels\EditCouncillor;
 use App\ViewModels\HomeCouncillor;
+use App\ViewModels\VisitManager;
 
 class CouncillorController extends Controller
 {
@@ -33,9 +34,6 @@ class CouncillorController extends Controller
         $clr = Councillor::where('owner',$user->guid)->firstOrFail();
 
         $data = new EditCouncillor($clr->guid);
-        Log::info('Editing Councillor '.$user->guid);
-
-        if($data->guid=="") about(404);
         return view("editcouncillor",['Data' => $data]);
     //
     }
@@ -74,7 +72,7 @@ class CouncillorController extends Controller
 
 
         $data = new HomeCouncillor($councillor);
-        if($data->guid=="") abort(404);
+        VisitManager::visit($councillor,"Home");
         return view("councillor",['Data' => $data]);
 
     }
@@ -112,9 +110,6 @@ class CouncillorController extends Controller
             abort(404);
         }
         $data = new EditCouncillor($councillor);
-        Log::info('Editing Councillor '.$councillor);
-
-        if($data->guid=="") about(404);
         return view("editcouncillor",['Data' => $data]);
     //
     }

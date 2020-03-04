@@ -21,9 +21,10 @@ import SaveIcon from '@material-ui/icons/Save';
 import AddIcon from '@material-ui/icons/Add';
 import MailIcon from '@material-ui/icons/ContactMail';
 import PhoneIcon from '@material-ui/icons/Phone';
-import HelpText from './HelpText';
-import CPLUsers from'./CPLUsers';
-import TagList from './TagList';
+
+import HelpText from '../HelpText';
+import CPLUsers from'../CPLUsers';
+import TagList from '../TagList';
 
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css'; // ES6
@@ -36,6 +37,7 @@ export default class ControlPanelCLPHome extends Component {
       this.state = {
         name: '', 
         description: '', 
+        analytics: '', 
         dn: '', 
         phone: '', 
         email: '',
@@ -76,6 +78,7 @@ export default class ControlPanelCLPHome extends Component {
           name: response.data.name, 
           description: response.data.description, 
           dn: response.data.dn, 
+          analytics: response.data.analytics, 
           phone: response.data.phone, 
           email: response.data.email,
           adminusers: response.data.adminusers,
@@ -137,6 +140,7 @@ export default class ControlPanelCLPHome extends Component {
       type: 'INFO',
       name: this.state.name,
       description: this.state.description,
+      analytics: this.state.analytics,
       dn: this.state.dn,
       phone: this.state.phone,
       email: this.state.email,
@@ -193,6 +197,16 @@ export default class ControlPanelCLPHome extends Component {
                       fullWidth
                       onChange={(e)=>{this.handleChange(e);}}  
                       helperText="(This will look like: www.myclp.org)"/>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField 
+                      id="clp-analytics" 
+                      value={this.state.analytics} 
+                      label="Google Analytics ID" 
+                      name="analytics"
+                      fullWidth
+                      onChange={(e)=>{this.handleChange(e);}}  
+                      helperText="(This is your Google Analytics Tracking ID)"/>
                 </Grid>
                 <Grid item xs={12}>
                 <FormControl >

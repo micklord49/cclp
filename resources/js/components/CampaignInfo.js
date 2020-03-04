@@ -179,10 +179,14 @@ class CampaignInfo extends Component {
     axios.get("/campaign/"+this.props.guid+"/edit")
       .then(response => {
         console.log(response);
-        this.setState({ dn: response.data.dn, 
-                        title: response.data.title, 
-                        subtitle: response.data.subtitle, 
-                        body: response.data.body,
+        r_dn = response.data.dn || "";
+        r_title = response.data.title || "";
+        r_subtitle = response.data.subtitle || "";
+        r_body = response.data.body || "";
+        this.setState({ dn: r_dn, 
+                        title: r_title, 
+                        subtitle: r_subtitle, 
+                        body: r_body,
                         adminusers: response.data.adminusers,
                         tags: response.data.tags
                       });
@@ -224,27 +228,15 @@ class CampaignInfo extends Component {
     }
     const { classes } = this.props;
 
-    const neu = {
-      backgroundColor: "#E0E5EC" ,
-      borderRadius:4,
-      marginLeft: "auto",
-      marginRight: "auto",
-      marginTop:10,
-      paddingBottom:16,
-      paddingLeft:10,
-      paddingRight: 20,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
-    };
-
     const neuhelp = {
-      backgroundColor: "#E0E5EC" ,
+      //backgroundColor: "#E0E5EC" ,
       borderRadius:4,
       marginLeft: "auto",
       marginRight: "auto",
       marginTop:10,
       paddingBottom:16,
       paddingRight:20,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+      //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     const upstyle = {
@@ -262,11 +254,20 @@ class CampaignInfo extends Component {
       marginRight: 0,
       paddingLeft:0,
       paddingRight:0,
-    }
+    };
 
+    const container = {
+      border: '1px solid gray',
+      minHeight: 400,
+      backgroundColor: '#ffffff',
+      marginLeft: 20,
+      marginRight: 20,
+      paddingLeft:0,
+      paddingRight:20,
+    };
 
     return (
-      <div style={neu}>
+      <div style={container}>
     <form noValidate autoComplete="off" onSubmit={()=>this.handleSubmit()} >
       <Grid container spacing={2}>
         <Grid item xs={12}>

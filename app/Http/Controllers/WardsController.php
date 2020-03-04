@@ -12,6 +12,9 @@ use Spatie\Permission\Models\Permission;
 use App\Council;
 use App\Ward;
 
+use App\ViewModels\HomeWard;
+use App\ViewModels\HomeWards;
+use App\ViewModels\VisitManager;
 
 class WardsController extends Controller
 {
@@ -23,6 +26,13 @@ class WardsController extends Controller
     public function index()
     {
         //
+        $clpGuid = config('appsettings.clpGUID');
+
+
+        $data = new HomeWards($clpGuid);
+        VisitManager::visit($data->clpguid,"Wards");
+        return view("wards",['Data' => $data]);
+
     }
 
     /**
@@ -76,6 +86,12 @@ class WardsController extends Controller
     public function show($request)
     {
         //
+        $clpGuid = config('appsettings.clpGUID');
+
+
+        $data = new HomeWard($request);
+        VisitManager::visit($data->clpguid,"Ward ".$data->name);
+        return view("ward",['Data' => $data]);
     }
 
     /**

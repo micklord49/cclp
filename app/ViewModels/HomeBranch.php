@@ -38,7 +38,9 @@ class HomeBranch extends Model
             return;
         }
 
+        $this->clpguid = $clpGuid;
         $this->clpname = $clps[0]->name;
+        $this->analytics = $clps[0]->analytics;
 
         $branch = Branch::where('guid',$guid)->firstOrFail();
         $owners = array();
@@ -68,16 +70,7 @@ class HomeBranch extends Model
             $c->title = $campaign->title;
             $c->subtitle = $campaign->subtitle;
             $c->guid = $campaign->guid;
-
-            $social = Social::where('owner',$campaign->guid)->first();
-            if($social != null)
-            {
-                $c->facebook = strtolower($social->facebook);                
-                if(substr($c->facebook,0,4) != "http")
-                {
-                    $c->facebook = "https://".$c->facebook;
-                }
-            }
+            SocialManager::owner($campaign->guid)->addlinks($c);
 
             $i = new ImageFile($c->guid);
             if($i->filename=="") {
@@ -92,7 +85,7 @@ class HomeBranch extends Model
     
         $this->nextevent = Event::where('owner',$guid)->where('starttime','>',now())->first();
         $this->nexteventlink = "";
-        if($this->nextevent->guid != "")
+        if(isset($this->nextevent->guid))
         {
             $link = Link::create($this->nextevent->title, $this->nextevent->starttime, $this->nextevent->endtime)
                             ->description($this->nextevent->subtitle)
@@ -103,6 +96,9 @@ class HomeBranch extends Model
 
         $this->news = new Blogs($guid,6,true,true);
         $this->menu = new Menu($clpGuid);
+
+        SocialManager::owner($guid)->addlinks($this);
+
 
         //$this->indexUrl = action([PostsController::class, 'index']); 
     }

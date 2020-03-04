@@ -98,23 +98,23 @@ export default class SMFacebook extends Component {
       backgroundColor: "#E0E5EC" ,
       borderRadius:4,
       marginLeft: "auto",
-      marginRight: 20,
+      marginRight: 120,
       marginTop:10,
       marginBottom:30,
-      paddingRight:10,
+      paddingRight:50,
       paddingBottom:30,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+      //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     const neuhelp = {
-        backgroundColor: "#E0E5EC" ,
+        //backgroundColor: "#E0E5EC" ,
         borderRadius:4,
         marginLeft: "auto",
         marginRight: "auto",
         marginTop:10,
         paddingBottom:16,
         paddingRight:20,
-        boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+        //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
       };
 
       const upstyle = {

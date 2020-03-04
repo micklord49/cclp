@@ -25,7 +25,8 @@ import EmailIcon from '@material-ui/icons/Email';
 import { push as Menu } from 'react-burger-menu'
 
 
-import ControlPanelCLPBranchInfo from './ControlPanelCLPBranchInfo';
+import ControlPanelCLPBranchInfo from './clp/ControlPanelCLPBranchInfo';
+
 import BranchInfo from './BranchInfo';
 import BlogEditor from './BlogEditor';
 import Campaign from './Campaign';
@@ -33,7 +34,6 @@ import UploadPicture from './UploadPicture'
 import SocialMedia from './SocialMedia';
 import Event from './Event';
 import Messages from './Messages';
-
 
 const styles = theme => ({
   root: {

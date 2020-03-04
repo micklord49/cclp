@@ -116,29 +116,9 @@ export default class BlogPost extends Component {
       return(<div>Loading...</div>);
     }
 
-    const neu = {
-      backgroundColor: "#E0E5EC" ,
-      borderRadius:4,
-      marginLeft: 10,
-      marginRight: 10,
-      marginTop:10,
-      paddingBottom:16,
-      paddingLeft:10,
-      paddingRight: 20,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
-    };
-
-    const dlg = {
-      backgroundColor: "#E0E5EC" ,
-      paddingLeft:20,
-      paddingRight: 20,
-      paddingTop:20,
-      paddingBottom: 20,
-    };
-
     return (
-      <div style={dlg}>
-            <Grid container spacing={2} style={neu}>
+      <div>
+            <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <TextField 
                         id="blog-title" value={this.state.title} 
