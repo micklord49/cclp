@@ -15,6 +15,8 @@ use App\Blog;
 use App\Visit;
 use Carbon\Carbon;
 
+use App\ViewModels\Managers\SocialManager;
+
 
 class Dashboard extends Model
 {
@@ -46,7 +48,7 @@ class Dashboard extends Model
 
         if(auth()->user()->can('Edit CLP'))
         {
-            array_push($this->boards,$this->StatsForOwner($this->guid,$this->name));
+            array_push($this->boards,$this->StatsForOwner($this->guid,$this->name,"/clp"));
         }
 
         $user = auth()->user();
@@ -55,31 +57,32 @@ class Dashboard extends Model
         if($councillor>0)
         {
             $councillor = Councillor::where('owner',$user->guid)->first();
-            array_push($this->boards,$this->StatsForOwner($councillor->guid,"My info as a Councillor"));
+            array_push($this->boards,$this->StatsForOwner($councillor->guid,"My info as a Councillor","/councillor"));
         }
         $councillors = CouncillorAdministrator::where('user',$user->guid)->get();
         foreach($councillors as $councillor)
         {
             $clr = Councillor::where('guid',$councillor->councillor)->first();
             $usr = User::where('guid',$clr->owner)->first();
-            array_push($this->boards,$this->StatsForOwner($clr->guid,"Info for Councillor ".$usr->name));
+            array_push($this->boards,$this->StatsForOwner($clr->guid,"Info for Councillor ".$usr->name,"/councillor/".$clr->guid));
         }
 
         $branches = BranchAdministrator::where('user',$user->guid)->get();
         foreach($branches as $branch)
         {
             $branchinfo = Branch::where('guid',$branch->branch)->first();
-            array_push($this->boards,$this->StatsForOwner($branch->branch,"Info for " . $branchinfo->name . " branch."));
+            array_push($this->boards,$this->StatsForOwner($branch->branch,"Info for " . $branchinfo->name . " branch.","/cpl/branch/".$branch->branch));
         }
 
         $this->menu = new Menu($clpGuid);
     }
 
-    public function StatsForOwner($owner,$description)
+    public function StatsForOwner($owner,$description,$link)
     {
         $c =  new \stdClass();
         $c->guid = $owner;
         $c->description = $description;
+        $c->link = $link;
 
         $c->visits = new \stdClass();
         $c->visits->last7 = array();
@@ -91,17 +94,19 @@ class Dashboard extends Model
                             ->where("created_at",">",Carbon::now()->addWeeks(-4))
                             ->count();
     
-        for($i=1;$i<7;$i++)
+        for($i=6;$i>=0;$i--)
         {
+            $v = new \stdClass();
             $start = Carbon::now()->addDays($i*-1);
             $end = Carbon::now()->addDays(($i*-1)-1);
+
+            $v->day = $end->format("D");
+
                         
             $count = Visit::where("owner",$owner)
-                                ->where("created_at",">",$start)
-                                ->where("created_at","<",$end)
+                                ->where("created_at","<",$start)
+                                ->where("created_at",">",$end)
                                 ->count();
-            $v = new \stdClass();
-            $v->day = $i;
             $v->visits = $count;
             array_push($c->visits->last7,$v);
         }

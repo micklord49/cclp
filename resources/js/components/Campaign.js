@@ -37,6 +37,7 @@ import ShareIcon from '@material-ui/icons/Share';
 //
 //  CCLP Components
 import CampaignEdit from './CampaignEdit';
+import StatsCard from './StatsCard';
 
 export default class Campaign extends Component {
   constructor(props) {
@@ -179,57 +180,29 @@ export default class Campaign extends Component {
       return(<div>Loading...</div>)
     }
     let listitems = "";
+    let cards = "";
 
     if(this.state.campaigns != null)
     {
       listitems = this.state.campaigns.map((item,key) =>
           <MenuItem key={item.guid} value={item.guid}>{item.title}</MenuItem>
       );
+      cards = this.state.campaigns.map((item,key) =>
+          <StatsCard stats={item.stats}/>
+      );
     }
 
-    const tabStyle = {
-//      backgroundColor: "#A0A5AC" 
-    };
-
-    const tabpageStyle = {
-//    backgroundColor: "#E0E5EC" 
-    };
-
-    
-    const neu = {
-//      backgroundColor: "#E0E5EC" ,
-//      borderRadius:4,
-//      marginLeft: "auto",
-//      marginRight: "auto",
-//      marginTop:10,
-//      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
-    };
 
     return (
         <div>
-            <Grid container spacing={3}>
-                <Grid item xs={3}>
-
-                  <FormControl >
-                    <InputLabel id="select-campaign-label">Campaign</InputLabel>
-                    <Select
-                      labelId="select-campaign-label"
-                      id="select-campaign"
-                      value={this.state.selectedcampaign}
-                      name="selectedcampaign"
-                      onChange={(e)=>{this.handleChange(e);}}
-                      autoWidth
-                      style={{width:'100%'}}
-                    >
-                      {listitems}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={9}>
+            <Grid container spacing={3}>                
+                <Grid item xs={12}>
                   <Button startIcon={<AddIcon />} onClick={() => {this.handleClickOpen();}} color="primary">Add New Campaign</Button>
                 </Grid>
                 <Grid item xs={12}>
-                  <CampaignEdit guid={this.state.selectedcampaign} />
+                  <Grid container spacing="4">
+                    {cards}
+                  </Grid>
                 </Grid>
             </Grid>
 

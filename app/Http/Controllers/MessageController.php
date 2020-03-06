@@ -11,7 +11,7 @@ use App\ViewModels\Home;
 use App\ViewModels\Userdir;
 use App\ViewModels\ImageFile;
 use App\ViewModels\Msg;
-use App\ViewModels\TagManager;
+use App\ViewModels\Managers\TagManager;
 use App\User;
 use App\Contact;
 use App\Message;

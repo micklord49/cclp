@@ -18,4 +18,5 @@ mix.react('resources/js/app.js', 'public/js')
    .react('resources/js/councillor.js', 'public/js')
    .react('resources/js/contacts.js', 'public/js')
    .react('resources/js/branch.js', 'public/js')
+   .react('resources/js/campaign.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');

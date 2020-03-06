@@ -1,6 +1,14 @@
 <div class="col-md-6">
     <div class="card">
-        <div class="card-header">{{ $board->description }}</div>
+        <div class="card-header">
+            <button class="btn btn-primary btn-fab btn-fab-mini btn-round"
+            onclick="document.location='{{ $board->link }}';return false;">
+                <i class="material-icons">edit</i>
+            </button>
+
+            {{ $board->description }}
+        
+        </div>
         <div class="col-md-12 ml-auto mr-auto"  style="cursor:pointer" onclick="document.location='/branch/{{ $board->guid }}';return false;">
         </div>
         <h4 class="card-title">

@@ -15,6 +15,7 @@ use App\Social;
 use App\ViewModels\ImageFile;
 use App\ViewModels\Blogs;
 
+use App\ViewModels\Managers\SocialManager;
 
 
 class HomeCampaigns extends Model

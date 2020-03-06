@@ -14,6 +14,9 @@ use App\BranchAdministrator;
 use App\User;
 use App\Social;
 
+use App\ViewModels\Managers\SocialManager;
+
+
 class Menu
 {
     //

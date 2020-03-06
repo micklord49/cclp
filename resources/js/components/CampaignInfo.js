@@ -179,14 +179,10 @@ class CampaignInfo extends Component {
     axios.get("/campaign/"+this.props.guid+"/edit")
       .then(response => {
         console.log(response);
-        r_dn = response.data.dn || "";
-        r_title = response.data.title || "";
-        r_subtitle = response.data.subtitle || "";
-        r_body = response.data.body || "";
-        this.setState({ dn: r_dn, 
-                        title: r_title, 
-                        subtitle: r_subtitle, 
-                        body: r_body,
+        this.setState({ dn: response.data.dn, 
+                        title: response.data.title, 
+                        subtitle: response.data.subtitle, 
+                        body: response.data.body,
                         adminusers: response.data.adminusers,
                         tags: response.data.tags
                       });

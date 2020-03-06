@@ -17,7 +17,7 @@ use App\ContactEvent;
 
 use App\ViewModels\Home;
 use App\ViewModels\ContactsIndex;
-use App\ViewModels\TagManager;
+use App\ViewModels\Managers\TagManager;
 
 
 class ContactsController extends Controller

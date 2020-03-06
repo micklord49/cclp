@@ -12,6 +12,7 @@ use App\Campaign;
 use App\Event;
 use App\Social;
 
+use App\ViewModels\Managers\SocialManager;
 
 class HomeWard extends Model
 {

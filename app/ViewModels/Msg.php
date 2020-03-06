@@ -12,7 +12,7 @@ use App\Branch;
 use App\Campaign;
 use App\Councillor;
 
-use App\ViewModels\TagManager;
+use App\ViewModels\Managers\TagManager;
 
 use Notification;
 use App\Notifications\NewMessage;

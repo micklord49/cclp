@@ -12,12 +12,13 @@ use App\CampaignUser;
 use App\Tag;
 use App\TagOwner;
 
-use App\ViewModels\ViewBranches;
 use App\ViewModels\HomeCampaign;
-use App\ViewModels\EditBranch;
-use App\ViewModels\TagManager;
+use App\ViewModels\EditCampaign;
 use App\ViewModels\VisitManager;
 use Illuminate\Http\Request;
+
+use App\ViewModels\Managers\TagManager;
+use App\ViewModels\Managers\StatsManager;
 
 class CampaignController extends Controller
 {
@@ -85,11 +86,15 @@ class CampaignController extends Controller
     }
 
 
-     public function showcplbranch($branch)
-    {
-        //
-        $clpGuid = config('appsettings.clpGUID');
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Branch  $branch
+     * @return \Illuminate\Http\Response
+     */
 
+    public function editor($campaign)
+    {
         if(!Auth::check())
         {
             abort(404);
@@ -97,19 +102,12 @@ class CampaignController extends Controller
         $user = auth()->user();
 
         
-
-        $data = new EditBranch($branch,$user->guid);
+        $data = new EditCampaign($campaign,$user->guid);
         if($data->guid=="") about(404);
-        return view("cplbranch",['Data' => $data]);
+        return view("cplcampaign",['Data' => $data]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Branch  $branch
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($campaign)
+     public function edit($campaign)
     {
         //
         $ret = Campaign::where('guid',$campaign)->firstOrFail();        
@@ -199,6 +197,8 @@ class CampaignController extends Controller
             $new->key = $campaign->guid;
             $new->guid = $campaign->guid;
             $new->title = $campaign->title;
+
+            $new->stats = StatsManager::owner($campaign->guid,$campaign->title,"/campaign/".$campaign->guid."/editor");
 
             array_push($c,$new);
         }

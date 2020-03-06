@@ -28,19 +28,20 @@ import Messages from './Messages';
 
 const styles = theme => ({
   root: {
+    backgroundColor: "#E0E5EC" ,
     flexGrow: 1,
     display: 'flex',
   },
 
   menuItem: {
-    bgColor: '#0a302f',
+    bgColor: '#212121',
   },
 
   tabpage: {
-    marginTop: 0,
+    marginTop: 20,
     marginBottom: 20,
     marginLeft: 20,
-    marginRight: 20,
+    marginRight: 80,
 
   },
 
@@ -80,10 +81,8 @@ class CampaignEdit extends Component {
     const { classes } = this.props;
 
     const containerStyle = {
-        backgroundColor: "#798080" ,
-        transform: 'translate3d(-20, 0, 0)',
-        paddingTop: 0
-      };
+      paddingTop: 46 
+    };
 
       const tabStyle = {
       //backgroundColor: "#A0A5AC" 
@@ -96,12 +95,33 @@ class CampaignEdit extends Component {
       bgColor: '#0a302f', 
       color: '#ffffff',
     };
+
+    const styles = {
+      bmMenuWrap: {
+        position: 'fixed',
+        height: '100%'
+      },
+      bmMenu: {
+        background: '#212121',
+        padding: '0 0 0',
+        fontSize: '0.8em',
+        textAlign: 'center'
+      },
+
+      bmItemList: {
+        color: '#eeeeee',
+        padding: '0.2em 0 0 0'
+      },
+
+    }
+    
+
     
     return (
       <div id="outer-container-campaign" style={containerStyle}>
         <Menu isOpen={ true } styles={ styles }
-                outerContainerId={ "outer-container-xcampaign" }
-                pageWrapId={ "page-wrap-xcampaign" }
+                outerContainerId={ "outer-container-campaign" }
+                pageWrapId={ "page-wrap-campaign" }
                 disableCloseOnEsc
                 noTransition
                 noOverlay
@@ -115,10 +135,10 @@ class CampaignEdit extends Component {
             <a onClick={()=>{this.setState({selectedmaintab:2}); }} className="menu-item" style={menu}>{<InfoIcon />}<br/>About</a>
             <a onClick={()=>{this.setState({selectedmaintab:3}); }} className="menu-item" style={menu}>{<CameraIcon />}<br/>Images</a>
             <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item" style={menu}>{<ShareIcon />}<br/>Social</a>
-            <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item" style={menu}>{<EventIcon />}><br/>Events</a>
-            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item" style={menu}>{<HelpIcon />}><br/>Help</a>
+            <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item" style={menu}>{<EventIcon />}<br/>Events</a>
+            <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item" style={menu}>{<HelpIcon />}<br/>Help</a>
         </Menu>
-        <main id="page-wrap-campaign" style={{width: '100%', paddingLeft: 50, bgColor: '#ffffff'}}>
+        <main id="page-wrap-campaign" style={{width: '100%', bgColor: '#ffffff'}}>
         
           <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 0}>
               <BlogEditor owner={this.props.guid} description="Your news posts as the campaign"/>
