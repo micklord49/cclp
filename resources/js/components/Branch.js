@@ -31,7 +31,7 @@ import BranchInfo from './BranchInfo';
 import BlogEditor from './BlogEditor';
 import Campaign from './Campaign';
 import UploadPicture from './UploadPicture'
-import SocialMedia from './SocialMedia';
+import SocialMedia from './social/SocialMedia';
 import Event from './Event';
 import Messages from './Messages';
 

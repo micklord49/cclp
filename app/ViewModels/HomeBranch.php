@@ -10,6 +10,10 @@ use App\Branch;
 use App\Campaign;
 use App\Event;
 use App\Social;
+use App\Councillor;
+use App\Council;
+use App\Ward;
+use App\User;
 
 use App\ViewModels\Managers\SocialManager;
 
@@ -26,6 +30,7 @@ class HomeBranch extends Model
     public $about;
     public $image;
     public $campaigns = array();
+    public $councillors = array();
     public $events = array();
     public $nextevent;
     public $news;
@@ -77,14 +82,39 @@ class HomeBranch extends Model
             $i = new ImageFile($c->guid);
             if($i->filename=="") {
                 $c->image = "/images/defaultcampaign.png";
-            }            
+            }
             else  {
                 $c->image = $i->filename;
             }
 
             array_push($this->campaigns,$c);
         }
-    
+
+        
+        $councillors = Councillor::where('branch',$guid)->get();
+        foreach($councillors as $councillor)
+        {
+            $c = new class {};
+            $usr = User::where('guid',$councillor->owner)->first();
+            $c->name = $usr->name;
+            $c->guid = $councillor->guid;
+            $c->intro = $councillor->intro;
+
+            SocialManager::owner($councillor->guid)->addlinks($c);
+
+            $i = new ImageFile($c->guid);
+            $c->image = $i->filename;
+
+            $ward = Ward::where('guid',$councillor->ward)->first();
+            $c->ward = $ward->name;
+
+            $council = Council::where('guid',$ward->council)->first();
+            $c->council = $council->name;
+
+            array_push($this->councillors,$c);
+        }
+
+
         $this->nextevent = Event::where('owner',$guid)->where('starttime','>',now())->first();
         $this->nexteventlink = "";
         if(isset($this->nextevent->guid))

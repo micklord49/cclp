@@ -12,6 +12,8 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 
 use App\Contact;
+use App\ContactList;
+use App\ListContact;
 use App\ContactOwner;
 use App\ContactEvent;
 
@@ -173,6 +175,31 @@ class ContactsController extends Controller
         $data->data = Contact::where("clp",$clpGuid)->orderBy('created_at','DESC')->skip($perpage*($page-1))->take($perpage)->get();        
         $data->page = $page;
         $data->count = Contact::where("clp",$clpGuid)->count();
+        foreach($data->data as $contact)
+        {
+            $firstcontact = new Carbon($contact->created_at);
+            $contact->firstcontact = $firstcontact->toDateTimeString();
+        }
+
+        return(json_encode($data));
+    }
+
+    public function listsearch($owner,$perpage,$page)
+    {
+        $clpGuid = config('appsettings.clpGUID');
+
+        $data = new \stdClass();
+        $data->data = array(); 
+        
+        app('debugbar')->disable();
+
+        $list = ContactList::where('guid',$owner)->firstOrFail();
+
+
+        $data->data = $list->pagedcontacts($perpage,$page);        
+
+        $data->page = $page;
+        $data->count = ListContact::where("list",$owner)->count();
         foreach($data->data as $contact)
         {
             $firstcontact = new Carbon($contact->created_at);

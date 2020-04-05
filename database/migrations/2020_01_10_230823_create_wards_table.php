@@ -19,7 +19,7 @@ class CreateWardsTable extends Migration
             $table->string('clp',36);
             $table->string('council',36);
             $table->string('name');
-            $table->string('description');
+            $table->longText('about');
             $table->timestamps();
         });
     }

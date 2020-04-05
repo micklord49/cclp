@@ -30,36 +30,12 @@
         <div class="section text-center">
             <h2 class="title">Your Councillors</h2>
             <div class="team">
-
-            @foreach ($Data->councillors as $councillor)
-            <div class="col-md-4">
-              <div class="team-player">
-                <div class="card card-plain">
-                  <div class="col-md-6 ml-auto mr-auto"  style="cursor:pointer" onclick="document.location='/councillor/{{ $councillor->guid }}';return false;">
-                    <img src="{{ $councillor->image }}" alt="Thumbnail Image" class="img-raised rounded img-fluid">
-                  </div>
-                  <h4 class="card-title">{{ $councillor->name }}
-                    <br>
-                    <small class="card-description text-muted">{{ $councillor->ward }} - <i>{{ $councillor->council }}</i></small>
-                  </h4>
-                  <div class="card-body">
-                    <p class="card-description">{{ $councillor->intro }}</p>
-                  </div>
-                  <div class="card-footer justify-content-center">
-                        @isset($councillor->facebook)
-                            <i class="fa fa-facebook-square" style="cursor:pointer" onclick="document.location='{{ $councillor->facebook }}';return false;"></i>
-                        @endisset
-                  </div>
-                </div>
-              </div>
-            </div>
-            @endforeach
-            
+              @each('layouts.partials.councillorcard',$Data->councillors,'councillor')
           </div>
-      </div>
+        </div>
 
 
-      <div class="row">
+        <div class="row">
             <div class="col-md-8 ml-auto mr-auto">
                 <h2 class="title">Latest news</h2>
                 <h5 class="description">Here is the latest news from our councillors.</h5>
@@ -74,7 +50,9 @@
             </div>
         </div>
 
+
       <div class="section section-contacts">
+      
         <div class="row">
           <div class="col-md-8 ml-auto mr-auto">
             <h2 class="text-center title">Get In Touch...</h2>
@@ -109,6 +87,9 @@
           </div>
         </div>
       </div>
+
+
+
     </div>
   </div>
   <footer class="footer footer-default">

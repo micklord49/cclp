@@ -1,7 +1,7 @@
 <?php
 
 use App\ViewModels\Home;
-use App\ViewModels\Councillors;
+use App\ViewModels\HomeCouncillors;
 use App\ViewModels\Ec;
 use App\ViewModels\HomeCampaigns;
 
@@ -26,8 +26,20 @@ Route::get('/', function () {
     VisitManager::visit($home->clpguid,"Index");
     return view('welcome',['Data' => $home]);
 });
+
+Route::get('/contactprivacy', function () {
+    $home = new Home();
+    VisitManager::visit($home->clpguid,"ContactPrivacy");
+    return view('contactterms',['Data' => $home]);
+});
+Route::get('/contactservice', function () {
+    $home = new Home();
+    VisitManager::visit($home->clpguid,"ContactPrivacy");
+    return view('contactserviceterms',['Data' => $home]);
+});
+
 Route::get('/councillors', function () {
-    $home = new Councillors();
+    $home = new HomeCouncillors();
     VisitManager::visit($home->clpguid,"Councillors");
     return view('councillors',['Data' => $home]);
 });
@@ -57,6 +69,7 @@ Route::resource('councillor', 'CouncillorController');
 Route::resource('wards', 'WardsController');
 Route::resource('campaign', 'CampaignController');
 Route::resource('blog', 'BlogController');
+Route::resource('list', 'ListController');
 Route::resource('event', 'EventController');
 Route::resource('image', 'ImageController');
 Route::resource('message', 'MessageController');
@@ -64,6 +77,7 @@ Route::resource('tag', 'TagController');
 Route::resource('contacts', 'ContactsController');
 
 Route::get('clpapi/wards', 'ClpController@warddir');
+Route::get('clpapi/branches', 'ClpController@branchdir');
 
 Route::get('clp/{user}/adduser', 'ClpController@adduser');
 Route::get('clp/{user}/removeuser', 'ClpController@removeuser');
@@ -72,6 +86,7 @@ Route::get('clp/{user}/removetag', 'ClpController@removetag');
 Route::get('clp/{user}/tags', 'ClpController@tags');
 
 Route::get('contacts/{perpage}/{page}/search', 'ContactsController@search');
+Route::get('contacts/{owner}/{perpage}/{page}/listsearch', 'ContactsController@listsearch');
 Route::get('contacts/{contact}/verify', 'ContactsController@verify');
 Route::get('contacts/{contact}/{tag}/addtag', 'ContactsController@addtag');
 Route::get('contacts/{contact}/{tag}/removetag', 'ContactsController@removetag');
@@ -86,6 +101,9 @@ Route::post('message/new/{owner}', 'MessageController@newmessage')->middleware(P
 
 Route::get('blog/{perpage}/{page}/{owner}/ownersearch', 'BlogController@ownersearch');
 Route::patch('blog/', 'BlogController@store');
+
+Route::get('list/{perpage}/{page}/{owner}/ownersearch', 'ListController@ownersearch');
+Route::patch('list/', 'ListController@store');
 
 Route::get('ec/{role}/{user}/adduser', 'ECController@addroleuser');
 Route::get('ec/{role}/{user}/removeuser', 'ECController@removeroleuser');
@@ -118,6 +136,7 @@ Route::get('branch/{branch}/{user}/removeuser', 'BranchController@removeuser');
 Route::post('image/{user}/changeimage', 'ImageController@changeimage');
 Route::get('image/{user}/imagefile', 'ImageController@imagefile');
 Route::get('image/{user}/image', 'ImageController@image');
+Route::get('image/{user}/blur', 'ImageController@blur');
 
 Route::get('social/load/{owner}', 'SocialController@load');
 Route::post('social/save', 'SocialController@save');

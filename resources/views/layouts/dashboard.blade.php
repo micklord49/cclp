@@ -35,6 +35,8 @@
     .material-icons.md-36 { font-size: 36px; vertical-align: middle;}
     .material-icons.md-48 { font-size: 48px; vertical-align: middle;}
 
+    .material-icons.md-yellow { color: rgba(240, 192, 128, 1); }
+
     </style>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -61,9 +63,13 @@ var data = google.visualization.arrayToDataTable(
         var options = {
           title: 'Web Visitors',
           curveType: 'function',
-          legend: { position: 'bottom' }
+          legend: { position: 'bottom' },
+          vAxis: { 
+              minValue: 0,
+              viewWindow: { min: 0 }
+            }
         };
-        var chart = new google.visualization.LineChart(document.getElementById('chart_{{ $board->guid }}'));
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_{{ $board->guid }}'));
         chart.draw(data, options);
 @endforeach
 

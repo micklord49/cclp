@@ -18,8 +18,14 @@ class CreateSocialsTable extends Migration
             $table->string('guid',36);
             $table->string('owner',36);
             $table->string('facebook');
+            $table->boolean('facebookfeed');
             $table->string('youtube');
             $table->string('twitter');
+            $table->boolean('twitterfeed');
+            $table->string('twitterapikey');
+            $table->string('twitterapisecret');
+            $table->string('twittertokenkey');
+            $table->string('twittertokensecret');
             $table->string('instagram');
             $table->string('tumblr');
             $table->timestamps();

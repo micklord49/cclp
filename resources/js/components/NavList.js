@@ -71,7 +71,7 @@ export default class NavList extends Component {
     }
     
     return (
-          <List component="nav" style={neu} aria-label="EC">
+          <List component="nav">
             {listitems}
           </List>
     );

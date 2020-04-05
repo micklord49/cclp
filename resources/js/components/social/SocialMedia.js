@@ -70,16 +70,19 @@ export default class SocialMedia extends Component {
   {
     const neu = {
       backgroundColor: "#ffffff" ,
-      //borderRadius:4,
-      marginLeft: 20,
       marginRight: "auto",
       marginTop:10,
-      //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+    };
+
+    const form = {
+      backgroundColor: "#ffffff" ,
+      borderLeft: "thin ridge silver",
+      borderRadius: 20,
     };
 
     return (
       <Grid container spacing={3} style={neu}>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <List component="nav" style={neu} aria-label="EC">
             <ListItem button onClick={() => this.selectForm("fb")}>
                 <ListItemIcon><IoLogoFacebook /></ListItemIcon>
@@ -103,7 +106,7 @@ export default class SocialMedia extends Component {
             </ListItem>
           </List>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={10} style={form}>
             <div hidden={!this.state.fb}><SMFacebook owner={this.props.owner}/></div>
             <div hidden={!this.state.instagram}><SMInstagram owner={this.props.owner}/></div>
             <div hidden={!this.state.twitter}><SMTwitter owner={this.props.owner}/></div>

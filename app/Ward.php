@@ -8,7 +8,7 @@ class Ward extends Model
 {
     //
     protected $fillable = [
-        'clp', 'council', 'guid', 'name', 'description'
+        'clp', 'council', 'guid', 'name', 'about'
     ];
 
 }

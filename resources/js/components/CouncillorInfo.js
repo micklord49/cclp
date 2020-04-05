@@ -82,6 +82,7 @@ class CouncillorInfo extends Component {
       super(props);
       this.state = {
         ward: '', 
+        branch: '', 
         dn: '', 
         email: '', 
         intro: '', 
@@ -90,6 +91,7 @@ class CouncillorInfo extends Component {
         campaign: false, 
 
         wards: [{value: '', display: '(Select your ward)'}],
+        branches: [{value: '', display: '(Select your branch)'}],
 
         opensuccess: false, 
         openfail: false, 
@@ -123,12 +125,9 @@ class CouncillorInfo extends Component {
 
       axios.get("/clpapi/wards")
       .then(response => {
-        console.log(response);
-        console.log("Loading wards...");
         let clpwards = response.data.map(ward => {
           return {value: ward.guid, display: ward.name}
         });
-        console.log(clpwards);
         this.setState({
           wards: [{value: '', display: '(Select your ward)'}].concat(clpwards)
         });
@@ -136,8 +135,19 @@ class CouncillorInfo extends Component {
         console.log(error);
       });
 
-      this.refresh();
+      axios.get("/clpapi/branches")
+      .then(response => {
+        let clpbranches = response.data.map(branch => {
+          return {value: branch.guid, display: branch.name}
+        });
+        this.setState({
+          branches: [{value: '', display: '(Select your branch)'}].concat(clpbranches)
+        });
+      }).catch(error => {
+        console.log(error);
+      });
 
+      this.refresh();
   }
 
 
@@ -154,6 +164,7 @@ class CouncillorInfo extends Component {
           active: response.data.active==1, 
           campaign: response.data.campaign==1, 
           ward: response.data.ward,
+          branch: response.data.branch,
           adminusers: response.data.adminusers,
         });
       })
@@ -190,6 +201,7 @@ class CouncillorInfo extends Component {
     const user = {
       type: 'INFO',
       ward: this.state.ward,
+      branch: this.state.branch,
       dn: this.state.dn,
       email: this.state.email,
       intro: this.state.intro,
@@ -276,6 +288,21 @@ class CouncillorInfo extends Component {
                   onChange={(e)=>{this.handleChange(e);}}
                 >
                   {this.state.wards.map((ward) => <MenuItem key={ward.value} value={ward.value}>{ward.display}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="branch-select-label">Branch</InputLabel>
+                <Select
+                  labelId="branch-select-label"
+                  id="branch-select"
+                  value={this.state.branch}
+                  name="branch"
+                  autoWidth
+                  onChange={(e)=>{this.handleChange(e);}}
+                >
+                  {this.state.branches.map((branch) => <MenuItem key={branch.value} value={branch.value}>{branch.display}</MenuItem>)}
                 </Select>
               </FormControl>
             </Grid>

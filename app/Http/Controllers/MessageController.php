@@ -56,6 +56,11 @@ class MessageController extends Controller
     public function show($message)
     {
         $msg = Message::where('guid',$message)->firstOrFail();
+        if($msg->status == "unread")
+        {
+            $msg->status = "read";
+            $msg->save();
+        }
         
         $contact = Contact::where('guid',$msg->from)->firstOrFail();
         $msg->fromtags = TagManager::owner($msg->from)->tags();
@@ -67,11 +72,6 @@ class MessageController extends Controller
         $recieved = new Carbon($contact->created_at);
         $msg->created_at = $recieved->toDateTimeString();
 
-        if($msg->status == "unread")
-        {
-            $msg->status = "read";
-            $msg->store();
-        }
 
         return($msg);
     }
@@ -93,7 +93,7 @@ class MessageController extends Controller
         app('debugbar')->disable();
 
 
-        $data->data = Message::select('guid','from','to','subject','message')->where("to",$owner)->orderBy('created_at','DESC')->skip($perpage*($page-1))->take($perpage)->get();        
+        $data->data = Message::select('guid','from','to','subject','message','status')->where("to",$owner)->orderBy('created_at','DESC')->skip($perpage*($page-1))->take($perpage)->get();        
         $data->page = $page;
         $data->count = User::where("clp",$clpGuid)->count();
         foreach($data->data as $msg)

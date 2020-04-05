@@ -7,22 +7,22 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 import { IconContext } from "react-icons";
-import { IoLogoTwitter } from 'react-icons/io';
+import { IoLogoYoutube } from 'react-icons/io';
 import SaveIcon from '@material-ui/icons/Save';
 import VpnKey from '@material-ui/icons/VpnKey';
 
-import HelpText from './HelpText';
-import AlertSave from './AlertSave';
+import HelpText from '../HelpText';
+import AlertSave from '../AlertSave';
 
 
 
-export default class SMTwitter extends Component {
+export default class SMYouTube extends Component {
   constructor(props) {
       super(props);
       this.state = {
-          twitter: '', 
-          twitterKey: '', 
-          twitterSecret: '',
+          youtube: '', 
+          youtubeKey: '', 
+          youtubeSecret: '',
 
           opensuccess: false, 
           openfail: false, 
@@ -45,20 +45,20 @@ export default class SMTwitter extends Component {
     if(typeof(this.props.owner) == "undefined") return;
     if(this.props.owner=='') return;
 
-    console.log("Retreiving twitter")
+    console.log("Retreiving youtube")
 
     axios.get("/social/load/"+this.props.owner)
       .then(response => {
         console.log(response);
         this.setState({  
-            twitter: response.data.twitter,
+            youtube: response.data.youtube,
             });
       })
       .catch(function (error) {
         this.setState({  
-          twitter: "",
-          twitterKey: "", 
-          twitterSecret: "", 
+          youtube: "",
+          youtubeKey: "", 
+          youtubeSecret: "", 
         });
 
         console.log(error);
@@ -71,11 +71,11 @@ export default class SMTwitter extends Component {
     event.preventDefault();
 
     const sm = {
-        type: 'TWITTER',
+        type: 'YOUTUBE',
         owner: this.props.owner,
-        twitter: this.state.twitter,
-        twitterKey: this.state.twitterKey,
-        twitterSecret: this.state.twitterSecret,
+        youtube: this.state.youtube,
+        youtubeKey: this.state.youtubeKey,
+        youtubeSecret: this.state.youtubeSecret,
     }
 
     let uri = '/social/save';
@@ -138,44 +138,44 @@ export default class SMTwitter extends Component {
           </Button>
         </Grid>
         <Grid item xs={12}>
-            <IoLogoTwitter />
+            <IoLogoYoutube />
             <TextField 
-                id="sm-twitter" 
+                id="sm-youtube" 
                 fullWidth
-                name="twitter"
-                value={this.state.twitter} 
+                name="youtube"
+                value={this.state.youtube} 
                 onChange={(e)=>{this.handleChange(e);}} 
-                label="Twitter" 
+                label="Youtube" 
             />
         </Grid>
         <Grid item xs={12} style={upstyle}>
-            <HelpText name='twitter.api' style="neuhelp"/>      
+            <HelpText name='youtube.api' style="neuhelp"/>      
         </Grid>
         <Grid item xs={12}>
             <VpnKey />
             <TextField 
-                id="sm-twitterKey" 
-                name="twitterKey"
+                id="sm-youtubeKey" 
+                name="youtubeKey"
                 fullWidth
-                value={this.state.twitterKey} 
+                value={this.state.youtubeKey} 
                 onChange={(e)=>{this.handleChange(e);}} 
-                label="Twitter Key" 
+                label="Youtube Key" 
             />
         </Grid>
         <Grid item xs={12}>
-            <IoLogoTwitter />
+            <IoLogoYoutube />
             <TextField 
-                id="sm-twitterSecret" 
+                id="sm-youtubeSecret" 
                 fullWidth
-                name="twitterSecret"
-                value={this.state.twitterSecret} 
+                name="youtubeSecret"
+                value={this.state.youtubeSecret} 
                 onChange={(e)=>{this.handleChange(e);}} 
-                label="Twitter Secret" 
+                label="Youtube Secret" 
             />
         </Grid>
       </Grid>
       </IconContext.Provider>
-      <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="twitter details"/>
+      <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="youtube details"/>
     </form>  
     );
   }

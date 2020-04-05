@@ -48,7 +48,7 @@ class Dashboard extends Model
 
         if(auth()->user()->can('Edit CLP'))
         {
-            array_push($this->boards,$this->StatsForOwner($this->guid,$this->name,"/clp"));
+            array_push($this->boards,$this->StatsForOwner($this->guid,$this->name,"/clp","/"));
         }
 
         $user = auth()->user();
@@ -57,32 +57,33 @@ class Dashboard extends Model
         if($councillor>0)
         {
             $councillor = Councillor::where('owner',$user->guid)->first();
-            array_push($this->boards,$this->StatsForOwner($councillor->guid,"My info as a Councillor","/councillor"));
+            array_push($this->boards,$this->StatsForOwner($councillor->guid,"My info as a Councillor","/councillor","/councillor/".$councillor->guid));
         }
         $councillors = CouncillorAdministrator::where('user',$user->guid)->get();
         foreach($councillors as $councillor)
         {
             $clr = Councillor::where('guid',$councillor->councillor)->first();
             $usr = User::where('guid',$clr->owner)->first();
-            array_push($this->boards,$this->StatsForOwner($clr->guid,"Info for Councillor ".$usr->name,"/councillor/".$clr->guid));
+            array_push($this->boards,$this->StatsForOwner($clr->guid,"Info for Councillor ".$usr->name,"/councillor/".$clr->guid,"/councillor/".$councillor->guid));
         }
 
         $branches = BranchAdministrator::where('user',$user->guid)->get();
         foreach($branches as $branch)
         {
             $branchinfo = Branch::where('guid',$branch->branch)->first();
-            array_push($this->boards,$this->StatsForOwner($branch->branch,"Info for " . $branchinfo->name . " branch.","/cpl/branch/".$branch->branch));
+            array_push($this->boards,$this->StatsForOwner($branch->branch,"Info for " . $branchinfo->name . " branch.","/cpl/branch/".$branch->branch,"/branch/".$branch->branch));
         }
 
         $this->menu = new Menu($clpGuid);
     }
 
-    public function StatsForOwner($owner,$description,$link)
+    public function StatsForOwner($owner,$description,$link,$view)
     {
         $c =  new \stdClass();
         $c->guid = $owner;
         $c->description = $description;
         $c->link = $link;
+        $c->view = $view;
 
         $c->visits = new \stdClass();
         $c->visits->last7 = array();

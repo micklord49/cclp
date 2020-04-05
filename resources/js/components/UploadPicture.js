@@ -59,6 +59,13 @@ export default class UploadPicture extends Component {
     this.loadImage();
   }
 
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.owner !== prevProps.owner) {
+      this.loadImage();
+    }
+  }
+  
   loadImage()
   {
     if(this.props.owner=='')   return;
@@ -149,19 +156,6 @@ export default class UploadPicture extends Component {
     };
 
 
-    const dandd = {
-      backgroundColor: "#E0E5EC" ,
-      borderRadius:4,
-      marginLeft: 20,
-      marginRight: "auto",
-      marginTop:10,
-      paddingBottom:16,
-      paddingTop:20,
-      paddingLeft:10,
-      paddingRight:20,
-      paddingBottom:20,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
-    };
 
     const upstyle = {
       marginLeft: 20,
@@ -172,10 +166,13 @@ export default class UploadPicture extends Component {
       paddingRight:20,
     };
 
+    var sz=6;
+    if(this.props.vertical) sz=12;
+
     return (
       <div>
         <Grid container>
-          <Grid item xs={6} style={{height: 400}}>
+          <Grid item xs={sz} style={{height: 400}}>
             <Cropper
                     ref={cropper}
                     src={this.state.imagefile}
@@ -186,10 +183,8 @@ export default class UploadPicture extends Component {
                     crop={()=>this._crop()} 
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={sz}>
             <Grid container>
-              <Grid item xs={12}>
-              </Grid>
               <Grid item xs={12} style={upstyle}>
                 <input
                   accept="image/*"

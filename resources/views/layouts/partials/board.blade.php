@@ -2,8 +2,12 @@
     <div class="card">
         <div class="card-header">
             <button class="btn btn-primary btn-fab btn-fab-mini btn-round"
-            onclick="document.location='{{ $board->link }}';return false;">
+                onclick="document.location='{{ $board->link }}';return false;">
                 <i class="material-icons">edit</i>
+            </button>
+            <button class="btn btn-info btn-fab btn-fab-mini btn-round"
+                onclick="document.location='{{ $board->view }}';return false;">
+                <i class="material-icons">visibility</i>
             </button>
 
             {{ $board->description }}
@@ -33,7 +37,9 @@
             </p>
 
             @if($board->unread > 0)
-                <p class="card-description"><i class="material-icons md-18">mail</i>{{ $board->unread }} unread messages</p>
+                <p class="card-description"><i class="material-icons md-18 md-yellow }" >mail</i>{{ $board->unread }} unread messages</p>
+            @else
+                <p class="card-description"><i class="material-icons md-18">mail</i>No unread messages</p>
             @endif
             @if($board->blog->total > 0)
                 <p class="card-description"><i class="material-icons md-18">chat</i> News posts {{ $board->blog->last7 }} last week, {{ $board->blog->last28 }} last month </p>

@@ -85,7 +85,7 @@ class CouncilsController extends Controller
     public function edit($council)
     {
         //
-        $ret = Council::select('guid','name')->where("guid",$council)->get();        
+        $ret = Council::select('guid','name', 'about')->where("guid",$council)->firstOrFail();        
         return($ret);
     }
 
@@ -115,6 +115,7 @@ class CouncilsController extends Controller
         try 
         {
             $c->name = $request->name;
+            $c->about = $request->about;
         }
         catch(Exception $e)
         {

@@ -3,10 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { push as Menu } from 'react-burger-menu'
 
-import InfoIcon from '@material-ui/icons/Info';
-import CameraIcon from '@material-ui/icons/Camera';
 import ContactsIcon from '@material-ui/icons/Contacts';
-import ShareIcon from '@material-ui/icons/Share';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import HelpIcon from '@material-ui/icons/Help';
@@ -14,10 +11,6 @@ import HelpIcon from '@material-ui/icons/Help';
 import CPLContactList from './CPLContactList';
 import CPLTagList from './CPLTagList';
 import CPLContactStats from './CPLContactStats';
-import Campaign from './Campaign';
-import Event from './Event';
-import UploadPicture from './UploadPicture'
-import SocialMedia from './SocialMedia';
 
 const styles = theme => ({
   root: {

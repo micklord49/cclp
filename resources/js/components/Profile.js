@@ -28,7 +28,7 @@ import { push as Menu } from 'react-burger-menu'
 import ProfileInfo from './ProfileInfo';
 import Campaign from './Campaign';
 import UploadPicture from './UploadPicture'
-import SocialMedia from './SocialMedia';
+import SocialMedia from './social/SocialMedia';
 
 
 const styles = theme => ({

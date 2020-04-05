@@ -185,10 +185,10 @@ export default class Campaign extends Component {
     if(this.state.campaigns != null)
     {
       listitems = this.state.campaigns.map((item,key) =>
-          <MenuItem key={item.guid} value={item.guid}>{item.title}</MenuItem>
+          <MenuItem key={'mi'+item.guid} value={item.guid}>{item.title}</MenuItem>
       );
       cards = this.state.campaigns.map((item,key) =>
-          <StatsCard stats={item.stats}/>
+          <StatsCard key={'sc'+item.guid} stats={item.stats}/>
       );
     }
 
@@ -200,7 +200,7 @@ export default class Campaign extends Component {
                   <Button startIcon={<AddIcon />} onClick={() => {this.handleClickOpen();}} color="primary">Add New Campaign</Button>
                 </Grid>
                 <Grid item xs={12}>
-                  <Grid container spacing="4">
+                  <Grid container spacing={4}>
                     {cards}
                   </Grid>
                 </Grid>

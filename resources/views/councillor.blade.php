@@ -56,6 +56,8 @@
             </div>
           </div>
         </div>
+
+
         <div class="tab-content tab-space">
           <div class="tab-pane active text-center gallery" id="studio">
             <div class="row">
@@ -72,6 +74,18 @@
                 Campaigns
             </div>
           </div>
+        </div>
+      </div>
+
+
+      <div class="section text-center container">
+        <div class="row justify-content-center">
+          @if(isset($Data->ward))
+              @include('layouts.partials.wardcard',['ward'=> $Data->ward])
+          @endif
+          @if(isset($Data->branch))
+              @include('layouts.partials.branchcard',['branch'=> $Data->branch])
+          @endif
         </div>
       </div>
 

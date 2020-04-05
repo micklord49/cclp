@@ -37,7 +37,24 @@ class HomeWards extends Model
         $this->councils = Council::where('clp',$clpGuid)->orderBy('name','ASC')->get();
         foreach($this->councils as $council)
         {
+            $i = new ImageFile($council->guid);
+            if($i->filename=="") {
+                $council->image = "/images/defaultbranch.png";
+            }            
+            else  {
+                $council->image = $i->filename;
+            }
             $council->wards = Ward::where('council',$council->guid)->orderBy('name','ASC')->get();
+            foreach($council->wards as $ward)
+            {
+                $i = new ImageFile($council->guid);
+                if($i->filename=="") {
+                    $ward->image = "/images/defaultbranch.png";
+                }            
+                else  {
+                    $ward->image = $i->filename;
+                }
+            }
         }
 
 

@@ -10,28 +10,17 @@ import Grid from '@material-ui/core/Grid';
 import MaterialTable from 'material-table';
 import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import BlogStatus from './BlogStatus';
 import Slide from '@material-ui/core/Slide';
+import TextField from '@material-ui/core/TextField';
 
 import AlertSave from './AlertSave';
-
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import CloseIcon from '@material-ui/icons/Close';
-import SaveIcon from '@material-ui/icons/Save';
-import CancelIcon from '@material-ui/icons/Cancel';
-import EditIcon from '@material-ui/icons/Edit';
-import CameraIcon from '@material-ui/icons/CameraAlt';
-
-
 import BlogPost from './BlogPost';
-import UploadPicture from './UploadPicture';
-import zIndex from '@material-ui/core/styles/zIndex';
-
 
 export default class BlogEditor extends Component {
-
-  
 
   constructor(props) {
       super(props);
@@ -40,7 +29,10 @@ export default class BlogEditor extends Component {
         edittitle: "", 
         owner: props.owner ,
 
-        openedit: false, 
+        newtitle: "",
+        newsubtitle: "",
+
+        opennew: false, 
         openpicture: false,
 
         opensuccess: false, 
@@ -71,6 +63,17 @@ export default class BlogEditor extends Component {
   }
 
 
+  handleChange(e){
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+  
+    this.setState({
+      [name]: value
+    });
+  }
+
+
   handleSubmit(event) 
   {
     event.preventDefault();
@@ -94,17 +97,14 @@ export default class BlogEditor extends Component {
   onNew()
   {
     console.log("OnNew()");
-    this.setState({ edittitle: "New Blog Post"});
     this.setState({ postguid: ""});
-    this.setState({ openedit: true});
+    this.setState({ opennew: true});
     console.log("Opened blog editor");
   }
 
   editPost(guid)
   {
-    this.setState({ edittitle: "New Blog Post"});
     this.setState({ postguid: guid});
-    this.setState({ openedit: true});
   }
 
   editImage(guid)
@@ -114,17 +114,36 @@ export default class BlogEditor extends Component {
     this.setState({ openpicture: true});
   }
 
+
   onSave()
   {
     console.log("OnSave()");
     this.saveAndRefresh();
   }
 
+
+  async save() 
+  {
+    const post = {
+      guid: "",
+      owner: this.state.owner,
+      title: this.state.newtitle,
+      subtitle: this.state.newsubtitle,
+      tofacebook: this.state.newsubtitle,
+    }
+
+    let uri = '/blog/'+this.props.guid;
+    await axios.patch(uri, post)
+      .then((response) => {
+        this.setState({ newtitle: "", newsubtitle: ""})
+      })
+    console.log("Saving new post");
+  }
+
   async saveAndRefresh()
   {
-    console.log("saveAndRefresh()");
-    this.setState({ openedit: false});
-    this._childBlog.current.save()
+    this.setState({ opennew: false});
+    this.save()
       .then(()=>{
         this.setState({ opensuccess: true })
         this.tableRef.current.onQueryChange();
@@ -137,34 +156,25 @@ export default class BlogEditor extends Component {
 
   onCancel()
   {
-    console.log("OnCancel()");
-    this.setState({ openedit: false});
-  }
-
-  onCancelPicture()
-  {
-    console.log("OnCancel()");
-    this.setState({ openpicture: false});
+    this.setState({ opennew: false});
   }
 
   render() 
   {
 
     const neu = {
-      //backgroundColor: "#E0E5EC" ,
-      borderRadius:4,
       marginLeft: "auto",
       marginRight: 60,
       marginTop:10,
       paddingBottom:16,
       paddingLeft:10,
       paddingRight: 20,
-      //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     const Transition = React.forwardRef(function Transition(props, ref) {
       return <Slide direction="up" ref={ref} {...props} />;
     });
+
     
 
     return (
@@ -174,27 +184,12 @@ export default class BlogEditor extends Component {
           <MaterialTable
             tableRef={this.tableRef}
             columns={[
-              {
-                field: 'edit',
-                Title: 'Edit',
-                sorting: false, 
-                cellStyle: {padding:0} ,
-                render: rowData => 
-                          <IconButton color="primary" onClick={() => {this.editPost(rowData.guid)}}>
-                            <EditIcon />
-                          </IconButton>
-              },
-              {
-                field: 'edit',
-                Title: 'Edit',
-                sorting: false, 
-                cellStyle: {padding:0}, 
-                render: rowData => 
-                          <IconButton color="primary" onClick={() => {this.editImage(rowData.guid)}}>
-                            <CameraIcon />
-                          </IconButton>
+              { title: '', 
+                cellStyle:{width:50},
+                field: 'status', render: rowData => <BlogStatus status={rowData.status} /> 
               },
               { title: 'Title', field: 'title', cellStyle:{padding:0}  },
+              { title: 'Status', field: 'status', cellStyle:{padding:0}  },
               { title: 'Published On', field: 'publishedOn', type:"datetime", cellStyle:{padding:0} },
             ]}
             data={query =>
@@ -223,44 +218,59 @@ export default class BlogEditor extends Component {
             
             padding="dense"
             title={this.props.description} 
+            onRowClick={(e,guid) => {
+              console.log("Setting postguid to "+guid.guid)
+              this.setState({postguid: guid.guid});
+            }}
           />
         </Grid>
+        <Grid item xs={12}>
+          <BlogPost ref={this._childBlog} owner={this.state.owner} guid={this.state.postguid} />
+        </Grid>
       </Grid>
-      <Dialog fullScreen open={this.state.openedit} style={{zIndex:'4100'}} onClose={()=>{this.onCancel();}} >
-        <AppBar style={{position: 'relative'}}>
-          <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={()=>{this.onCancel();}} aria-label="close">
-              <CloseIcon />
-            </IconButton>
-            <div style={{flex: 1}}>
-              {this.state.edittitle}
-            </div>
-            <Button startIcon={<CancelIcon />} autoFocus color="inherit" onClick={()=>{this.onCancel();}}>
-              Cancel
-            </Button>
-            <Button startIcon={<SaveIcon />} autoFocus color="inherit" onClick={()=>{this.onSave();}}>
-              Save
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <BlogPost ref={this._childBlog} owner={this.state.owner} guid={this.state.postguid} />
+
+
+
+
+      <Dialog open={this.state.opennew} style={{zIndex:'4100'}} onClose={()=>{this.onCancel();}} >
+        <DialogTitle>New Blog Post</DialogTitle>
+        <DialogContent>
+        <Grid container spacing={2} style={{padding:20}}>
+          <Grid item xs={12}>
+              <TextField 
+                  id="blog-title" value={this.state.newtitle} 
+                  label="Title" 
+                  name="newtitle"
+                  fullWidth
+                  onChange={(e)=>{this.handleChange(e);}} 
+                  helperText="(Describe the subject of your post - keep it short)"
+              />
+          </Grid>
+          <Grid item xs={12}>
+              <TextField 
+                  id="blog-subtitle" value={this.state.newsubtitle} 
+                  label="Subtitle" 
+                  name="newsubtitle"
+                  fullWidth
+                  onChange={(e)=>{this.handleChange(e);}} 
+                  helperText="(Subtitle for your post - expand on the subject)"
+              />
+          </Grid>
+        </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={()=>{this.onCancel();}} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={()=>{this.onSave();}} color="primary">
+            Create
+          </Button>
+        </DialogActions>
       </Dialog>
-      <Dialog fullScreen  style={{zIndex:'4100'}} open={this.state.openpicture} onClose={()=>{this.onCancelPicture();}} >
-        <AppBar style={{position: 'relative'}}>
-          <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={()=>{this.onCancelPicture();}} aria-label="close">
-              <CloseIcon />
-            </IconButton>
-            <div style={{flex: 1}}>
-              {this.state.edittitle}
-            </div>
-            <Button startIcon={<CancelIcon />} autoFocus color="inherit" onClick={()=>{this.onCancelPicture();}}>
-              Done
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <UploadPicture ref={this._childPicture} title="Upload blog picture" helptext="profile.picture" owner={this.state.postguid} />
-      </Dialog>
+
+
+
+
       <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="blog"/>
     </div>    );
   }

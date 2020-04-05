@@ -22,7 +22,7 @@ import CampaignInfo from './CampaignInfo';
 import BlogEditor from './BlogEditor';
 import Event from './Event';
 import UploadPicture from './UploadPicture'
-import SocialMedia from './SocialMedia';
+import SocialMedia from './social/SocialMedia';
 import Messages from './Messages';
 
 

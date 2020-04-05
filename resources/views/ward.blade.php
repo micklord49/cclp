@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="description text-center">
-          <p>{{ $Data->intro }}</p>
+          <p>{!! $Data->about !!}</p>
         </div>
 
 

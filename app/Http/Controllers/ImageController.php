@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image as ImageEdit;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -57,7 +58,6 @@ class ImageController extends Controller
     {
         //
         $filename = "images/".$request;
-        Log::debug("Getting ".$filename);
         if(!Storage::exists($filename)) {
             Log::debug("Unable to find file ".$request);
             abort(404);
@@ -200,6 +200,35 @@ class ImageController extends Controller
     
     }
 
+    public function blur($id)
+    {
+
+        $clpGuid = config('appsettings.clpGUID');
+
+        $filename = ImageFile::Filename($id);        
+        if($filename=="")
+        {
+            Log::debug("No filename returned - so using default user image");
+            switch(substr($id,0,3))
+            {
+                case "USR":
+                    $image->filename="/images/defaultuser.png";
+                    break;
+                case "CLR":
+                    $image->filename="/images/defaultuser.png";
+                    break;
+                default:
+                    $image->filename="/images/defaultuser.png";
+                break;
+            }
+        }
+
+        Log::debug("Image URL :".$filename);
+        Log::debug("Image File:".storage_path($filename));
+        Log::debug("No filename returned - so using default user image");
+        return ImageEdit::make(storage_path($filename))->blur(30)->contrast(-25)->response('jpg');
+    
+    }
 
 
     public function changeimage(Request $request,$id)

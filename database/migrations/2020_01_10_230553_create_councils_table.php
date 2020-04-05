@@ -18,6 +18,7 @@ class CreateCouncilsTable extends Migration
             $table->string('guid',36);
             $table->string('clp',36);
             $table->string('name');
+            $table->longText('about');
             $table->timestamps();
         });
     }

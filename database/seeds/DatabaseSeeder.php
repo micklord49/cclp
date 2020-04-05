@@ -486,6 +486,41 @@ objectives for the constituency.
             ',
             'sortorder' => 0,
         ));
+
+        Helptext::create(array(
+            'name' => 'twitter.api.text',
+            'heading' => 'Linking your Twitter Account',
+            'text' => '
+                <p>
+                    If you have a twitter account for this role (probalby not a personal twitter account), 
+                    you should link to it so we can help you connect with people. 
+                </p>
+            ',
+            'sortorder' => 0,
+        ));
+
+        Helptext::create(array(
+            'name' => 'twitter.api.full',
+            'heading' => 'Help with linking',
+            'text' => '
+                <p>
+                    In order to link to your twitter account, 
+                    we need the following four pieces of information.  
+                </p>
+                <p>
+                    First off, you will need to create a twitter application at <a href="https://dev.twitter.com/">dev.twitter.com</a>. 
+                    Don’t worry, it’s really easy to do, just sign in with your twitter account and fill in the requested information. 
+                    The main idea here is that you are going to need an API key, API secret, Access token, and Access token secret. 
+                    The first two represent your new application, 
+                    the second two represent your actual twitter account. 
+                </p>
+                <p>
+                    Keep all of these secret!
+                </p>
+            ',
+            'sortorder' => 0,
+        ));
+
     }
 }
 

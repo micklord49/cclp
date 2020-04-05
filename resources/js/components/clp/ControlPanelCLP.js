@@ -36,12 +36,12 @@ import Campaign from '../Campaign';
 import Event from '../Event';
 import Messages from '../Messages';
 import UploadPicture from '../UploadPicture'
-import SocialMedia from '../SocialMedia';
+import SocialMedia from '../social/SocialMedia';
 
 
 const styles = theme => ({
   root: {
-    backgroundColor: "#E0E5EC" ,
+    backgroundColor: "#ffffff" ,
     flexGrow: 1,
     display: 'flex',
 
@@ -51,7 +51,7 @@ const styles = theme => ({
     marginTop: 20,
     marginBottom: 20,
     marginLeft: 20,
-    marginRight: 20,
+    marginRight: 50,
 
   },
 
@@ -101,7 +101,7 @@ class ControlPanelCLP extends Component {
     };
 
     const tabpageStyle = {
-    backgroundColor: "#E0E5EC" 
+    backgroundColor: "#ffffff" 
     };
     
     const styles = {

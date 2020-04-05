@@ -30,7 +30,8 @@ class ISocialOwner
         }
         if(isset($social->twitter)) 
         {
-            if($social->twitter != "") $obj->twitter = $this->sanitize($social->twitter);
+            if($social->twitter != "") $obj->twitter = "https://twitter.com/".$social->twitter;
+            $obj->twitterfeed = $social->twitterfeed;
         }
         if(isset($social->youtube))
         {

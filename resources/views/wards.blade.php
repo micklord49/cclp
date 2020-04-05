@@ -32,6 +32,7 @@
             <div class="section text-center">
                 <h2 class="title">{{ $council->name }}</h2>
                 <div class="team">
+                <div class="row">{!! $council->about !!}</div>
                 <div class="row">
 
                 @each('layouts.partials.wardcard',$council->wards,'ward')

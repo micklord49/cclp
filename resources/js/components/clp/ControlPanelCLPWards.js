@@ -36,17 +36,14 @@ export default class ControlPanelCLPWards extends Component {
   {
     if(typeof(this.props.council)=="undefined")
     {
-      console.log("Council not defined yet - not loading wards");
       return;
     }
     if(this.props.council=="")
     {
-      console.log("Council not defined yet - not loading wards");
       return;
     }
     if(this.props.council==this.state.selectedcouncil)
     {
-      console.log("Council already loaded - not loading wards");
       return;
     }
     this.refresh();
@@ -94,17 +91,14 @@ export default class ControlPanelCLPWards extends Component {
   {
     if(typeof(guid)=="undefined")
     {
-      console.log("Ward not defined yet");
       return;
     }
     if(typeof(this.state.selectedward)=="undefined")
     {
-      console.log("My ward not set");
       return;
     }
     if(this.state.selectedward.guid==guid) 
     {
-      console.log("Ward already selected.");
       return;
     }
     this.state.wards.forEach(element => {
@@ -138,14 +132,14 @@ export default class ControlPanelCLPWards extends Component {
   {
     
     const neu = {
-      backgroundColor: "#E0E5EC" ,
+      //backgroundColor: "#E0E5EC" ,
       borderRadius:4,
       marginLeft: 10,
       marginRight: 10,
       marginTop:10,
       paddingLeft: 10,
       paddingBottom: 10,
-      boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
+      //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     const formtitle = {

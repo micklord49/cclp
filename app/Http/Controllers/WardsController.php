@@ -103,7 +103,7 @@ class WardsController extends Controller
     public function edit($ward)
     {
         //
-        $ret = Ward::select('guid','name')->where("guid",$ward)->get();        
+        $ret = Ward::select('guid','name','about')->where("guid",$ward)->firstOrFail();        
         return($ret);
     }
 
@@ -133,6 +133,7 @@ class WardsController extends Controller
         try 
         {
             $w->name = $request->name;
+            $w->about = $request->about ?? '';
         }
         catch(Exception $e)
         {

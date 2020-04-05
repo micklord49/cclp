@@ -38,6 +38,17 @@ class ImageFile extends Model
         return $this->canedit;
     }
 
+    public static function Filename($guid)
+    {
+        $images = Image::where('guid',$guid)->get();
+        if(count($images) == 0)
+        {
+            return "";
+        }
+
+        return "app/".$images[0]->path;
+    }
+
 
     public function __construct($owner)
     {
@@ -53,8 +64,6 @@ class ImageFile extends Model
         }
 
         $this->filename = "/".str_replace("images","image",$images[0]->path);
+        $this->guid = "/".str_replace("images","image",$images[0]->guid);
      }
-
-
-
 }

@@ -13,8 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\ViewModels\ImageFile;
 use App\ViewModels\Blogs;
+use App\ViewModels\Managers\SocialManager;
 
-class Councillors extends Model
+class HomeCouncillors extends Model
 {
     //
 
@@ -51,15 +52,7 @@ class Councillors extends Model
             $c->guid = $councillor->guid;
             $c->intro = $councillor->intro;
 
-            $social = Social::where('owner',$councillor->guid)->first();
-            if($social != null)
-            {
-                $c->facebook = strtolower($social->facebook);                
-                if(substr($c->facebook,0,4) != "http")
-                {
-                    $c->facebook = "https://".$c->facebook;
-                }
-            }
+            SocialManager::owner($councillor->guid)->addlinks($c);
 
             $i = new ImageFile($c->guid);
             $c->image = $i->filename;

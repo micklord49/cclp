@@ -92,6 +92,13 @@
         </div>
       </div>
 
+      <div class="section text-center container">
+        <h2 class="title">Our Councillors</h2>
+        <div class="row justify-content-center">
+          @each('layouts.partials.councillorcard',$Data->councillors,'councillor')
+        </div>
+      </div>
+
       @include('layouts.partials.contactform',[
           'owner' => $Data->guid, 
           'title' => 'Have a question?',

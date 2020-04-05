@@ -9,6 +9,7 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import ShareIcon from '@material-ui/icons/Share';
 import EventIcon from '@material-ui/icons/Event';
 import EmailIcon from '@material-ui/icons/Email';
+import ListsIcon from '@material-ui/icons/FormatListBulleted';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import HelpIcon from '@material-ui/icons/Help';
 
@@ -17,12 +18,13 @@ import BlogEditor from './BlogEditor';
 import Messages from './Messages';
 import Campaign from './Campaign';
 import Event from './Event';
+import ListsEditor from './contacts/ListsEditor';
 import UploadPicture from './UploadPicture'
-import SocialMedia from './SocialMedia';
+import SocialMedia from './social/SocialMedia';
 
 const styles = theme => ({
   root: {
-    backgroundColor: "#E0E5EC" ,
+    backgroundColor: "#ffffff" ,
     flexGrow: 1,
     display: 'flex',
 
@@ -121,7 +123,8 @@ class ControlPanelCLP extends Component {
             <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<ShareIcon />}<br/>Social</a>
             <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
             <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
-            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
+            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<ListsIcon />}<br/>Lists</a>
+            <a onClick={()=>{this.setState({selectedmaintab:8}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
         </Menu>
         <main id="page-wrap" style={{width: '100%', paddingRight:50}}>
         
@@ -154,6 +157,9 @@ class ControlPanelCLP extends Component {
                 <Event owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 7}>
+                <ListsEditor owner={this.props.guid} description="The contact lists I use as a councillor"/>
+            </div>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 8}>
                 <h4>Help</h4>
             </div>
 

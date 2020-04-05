@@ -76,11 +76,11 @@ class Blogs extends Model
 
         if($guidfilter != "")
         {
-            $blogs = Blog::whereIn('owner',$owners)->where('owner', 'like', $guidfilter . '%')->orderBy('created_at', 'DESC')->limit($max)->get();
+            $blogs = Blog::where('status','<>','draft')->whereIn('owner',$owners)->where('owner', 'like', $guidfilter . '%')->orderBy('created_at', 'DESC')->limit($max)->get();
         }
         else
         {
-            $blogs = Blog::whereIn('owner',$owners)->orderBy('created_at', 'DESC')->limit($max)->get();
+            $blogs = Blog::where('status','<>','draft')->whereIn('owner',$owners)->orderBy('created_at', 'DESC')->limit($max)->get();
         }
         foreach($blogs as $blog)
         {

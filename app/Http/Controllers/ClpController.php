@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Permission;
 use App\ViewModels\EditClp;
 use App\Cclp;
 use App\Ward;
+use App\Branch;
 use App\Tag;
 use App\User;
 
@@ -166,6 +167,12 @@ class ClpController extends Controller
     {
         $clpGuid = config('appsettings.clpGUID');
         return Ward::where('clp',$clpGuid)->get();
+    }
+
+    public function branchdir()
+    {
+        $clpGuid = config('appsettings.clpGUID');
+        return Branch::where('clp',$clpGuid)->get();
     }
 
     public function adduser($guid)

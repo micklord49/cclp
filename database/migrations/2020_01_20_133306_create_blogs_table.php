@@ -20,9 +20,17 @@ class CreateBlogsTable extends Migration
             $table->string('title');
             $table->text('subtitle');
             $table->longText('body');
+            $table->boolean('useactionlist');
+            $table->string('actionlist',36);
+            $table->boolean('showcampaign');
+            $table->string('campaign',36);
+            $table->text('status');
+            $table->boolean('totwitter');
+            $table->boolean('tofacebook');
+            $table->integer('priority');
             $table->datetime('publishedOn')->nullable();
+            $table->boolean('publishNow');
             $table->datetime('publishFrom')->nullable();
-            $table->datetime('unpublishFrom')->nullable();
             $table->timestamps();
         });
     }

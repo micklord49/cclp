@@ -11,12 +11,14 @@ class Councillor extends Model
     
     //
     protected $fillable = [
-        'clp', 'guid', 'ward', 'owner', 'intro'
+        'clp', 'guid', 'ward', 'owner', 'intro', 'branch'
     ];
 
     protected $attributes = [
         'dn' => '',
         'intro' => '',
+        'branch' => '',
+        'ward' => '',
         'brandAsClp' => 1,
         'active' => false,
         'campaign' => false,

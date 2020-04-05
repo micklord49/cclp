@@ -12,11 +12,13 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import StarIcon from '@material-ui/icons/Star';
+import UnreadIcon from '@material-ui/icons/Mail';
+import ReadIcon from '@material-ui/icons/Drafts';
 import StarOutlineIcon from '@material-ui/icons/StarBorder';
 import AddIcon from '@material-ui/icons/Add';
 
-import UserCard from './UserCard';
+import MessageStatus from './MessageStatus';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -45,7 +47,9 @@ const useStyles = makeStyles(theme => ({
 export default class MessageList extends Component {
   constructor(props) {
       super(props);
-      this.state = {role: new Object()};
+      this.state = {role: new Object(), selectedRow: null};
+      this.tableRef = React.createRef();
+
       //this.addUser = this.addUser.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -53,16 +57,35 @@ export default class MessageList extends Component {
   componentDidMount(){
   }
 
+  onSelect(e,selectedRow)
+  {
+    this.setState({ selectedRow })
+    this.props.onSelect(selectedRow);
+    this.tableRef.current.onQueryChange();
+  }
+
   render() 
   {
     return (
         <div style={{ maxWidth: "100%" }}>
         <MaterialTable
+          tableRef={this.tableRef}
           columns={[
+            { title: '', 
+              cellStyle:{width:50},
+              field: 'status', render: rowData => <MessageStatus status={rowData.status} /> 
+            },
             { title: 'From', field: 'from' },
             { title: 'Subject', field: 'subject' },
             { title: 'Recieved At', field: 'created_at' },
           ]}
+
+          options={{
+            rowStyle: rowData => ({
+            backgroundColor: (this.state.selectedRow && this.state.selectedRow.tableData.id === rowData.tableData.id) ? '#EEE' : '#FFF'
+            })
+          }}
+          
           data={query =>
             new Promise((resolve, reject) => {
               let url = '/message/' + this.props.owner + "/" + query.pageSize + "/" + (query.page + 1) + "/search" 
@@ -80,7 +103,7 @@ export default class MessageList extends Component {
             }
           title={this.props.title} 
           padding="dense"
-          onRowClick={this.props.onSelect}
+          onRowClick={(evt, selectedRow) => { this.onSelect(evt,selectedRow);}}
         />
       </div>
     );

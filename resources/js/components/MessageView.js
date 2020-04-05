@@ -42,7 +42,7 @@ export default class MessageView extends Component {
       super(props);
       this.state = {
         guid: props.guid, 
-        subject: props.owner, 
+        subject: "", 
         from: "", 
         to: "",
         message: "",
@@ -124,24 +124,6 @@ export default class MessageView extends Component {
         });
   }
 
-
-  async save() 
-  {
-    const post = {
-      guid: this.state.guid,
-      owner: this.state.owner,
-      title: this.state.title,
-      subtitle: this.state.subtitle,
-      body: this.state.body,
-    }
-
-    let uri = '/blog/'+this.props.guid;
-    await axios.patch(uri, post)
-      .then((response) => {
-      })
-    console.log("Saving post");
-  }
-
   
   render() 
   {
@@ -168,22 +150,44 @@ export default class MessageView extends Component {
       paddingRight: 20,
       paddingTop:20,
       paddingBottom: 20,
+      borderTop: "thin ridge silver",
+      borderRadius: 20,
     };
 
     return (
       <div style={dlg}>
             <Grid container spacing={2} style={neu}>
                 <Grid item xs={12}>
-                    {this.state.from}
+                  <TextField  label="From" 
+                              variant="outlined" 
+                              fullWidth
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                              value={this.state.from} />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField  label="Subject" 
+                              variant="outlined" 
+                              fullWidth
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                              value={this.state.subject} />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField  label="Subject" 
+                              variant="outlined" 
+                              fullWidth
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                              multiline
+                              rows="6"
+                              value={this.state.message} />
                 </Grid>
                 <Grid item xs={12}>
                     <TagControl owner={this.props.guid} tags={this.state.fromtags} addTag={(guid) => this.addTag(guid)} onremovetag={(guid)=>{this.removeTag(guid)}} />
-                </Grid>
-                <Grid item xs={12}>
-                  <p>{this.state.subject}</p>
-                </Grid>
-                <Grid item xs={12}>
-                  <p>{this.state.message}</p>
                 </Grid>
             </Grid>
       </div>

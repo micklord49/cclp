@@ -11,8 +11,8 @@ import { IoLogoFacebook } from 'react-icons/io';
 import SaveIcon from '@material-ui/icons/Save';
 import VpnKey from '@material-ui/icons/VpnKey';
 
-import HelpText from './HelpText';
-import AlertSave from './AlertSave';
+import HelpText from '../HelpText';
+import AlertSave from '../AlertSave';
 
 
 

@@ -18,6 +18,7 @@ class CreateCouncillorsTable extends Migration
             $table->string('guid',36);
             $table->string('clp',36);
             $table->string('ward',36);
+            $table->string('branch',36);
             $table->string('owner',36);
             $table->string('dn');
             $table->string('email');

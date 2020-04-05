@@ -16,7 +16,14 @@ class SocialController extends Controller
 {
     public function load($owner)
     {
-        return Social::firstOrNew([ 'owner' => $owner]);
+        $ret = Social::firstOrNew([ 'owner' => $owner]);
+        $ret->twitterfeed = $ret->twitterfeed ?? false;
+        $ret->twitterapikey = $ret->twitterapikey ?? "";
+        $ret->twitterapisecret = $ret->twitterapisecret ?? "";
+        $ret->twittertokenkey = $ret->twittertokenkey ?? "";
+        $ret->twittertokensecret = $ret->twittertokensecret ?? "";
+
+        return $ret;
     }
 
     public function save(Request $request)
@@ -53,6 +60,11 @@ class SocialController extends Controller
                     break;
                 case 'TWITTER':
                     $social->twitter = $request->twitter ?? '';
+                    $social->twitterfeed = $request->twitterfeed ?? '';
+                    $social->twitterapikey = $request->twitterapikey ?? '';
+                    $social->twitterapisecret = $request->twitterapisecret ?? '';
+                    $social->twittertokenkey = $request->twittertokenkey ?? '';
+                    $social->twittertokensecret = $request->twittertokensecret ?? '';
                     break;
                 case 'YOUTUBE':
                     $social->youtube = $request->youtube ?? '';
