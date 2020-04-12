@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="/css/appthememod.css">
     <style>
     body {
-        backgroundColor: "#E0E5EC"         
+        backgroundColor: "#ffffff"         
     }
     </style>
 </head>

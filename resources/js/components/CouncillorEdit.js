@@ -45,7 +45,7 @@ const styles = theme => ({
 });
 
 
-class ControlPanelCLP extends Component {
+class CouncillorEdit extends Component {
 
   constructor(props) {
       super(props);
@@ -171,5 +171,5 @@ class ControlPanelCLP extends Component {
   }
 }
 
-export default withStyles(styles)(ControlPanelCLP);
+export default withStyles(styles)(CouncillorEdit);
 

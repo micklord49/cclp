@@ -4,6 +4,10 @@ namespace App\ViewModels;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use App\ViewModels\Managers\BlogManager;
+
+use App\Council;
+use App\Candidate;
 
 class Home extends Model
 {
@@ -13,6 +17,8 @@ class Home extends Model
     public $description;
     public $guid;
     public $msg;
+    public $councils;
+    public $candidate;
     public $news;
     public $menu;
 
@@ -35,7 +41,38 @@ class Home extends Model
         $this->name = $clps[0]->name;
         $this->description = $clps[0]->description;
 
-        $this->news = new Blogs($clpGuid,6,true,true);
+        $councils = Council::where('clp',$clpGuid)->count();
+        if($councils == 1)
+        {
+            $council = Council::where('clp',$clpGuid)->first();
+            $this->councilsingle = true;
+            $this->councilcardtitle = $council->name;
+            $this->councilguid = $council->guid;
+        }
+        elseif($councils > 0)
+        {
+            $this->councilcardtitle = "Our Councils";
+            $this->councilsingle = false;
+            $councils = Council::where('clp',$clpGuid)->get();
+            $this->councils = array();
+            foreach($councils as $council)
+            {
+                $b = new \stdClass();
+                $b->name = $council->name;
+                $b->guid = $council->guid;
+                array_push($this->councils,$b);
+            }
+        }
+
+
+        $candidate = Candidate::where('clp',$clpGuid)->first();
+        if(isset($candidate))
+        {
+            $this->candidate = $candidate->card();
+        }
+
+        //$this->news = new Blogs($clpGuid,6,true,true);
+        $this->news = BlogManager::for($clpGuid)->getCards();
 
         $this->menu = new Menu($clpGuid);
 

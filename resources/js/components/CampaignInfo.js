@@ -49,10 +49,10 @@ import 'react-quill/dist/quill.snow.css'; // ES6
 
 const styles = theme => ({
   root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    //background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     border: 0,
     borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    //boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     color: 'white',
     height: 48,
     padding: '0 30px',
@@ -85,6 +85,16 @@ class CampaignInfo extends Component {
         title: '', 
         subtitle: '', 
         body: '', 
+        active: true, 
+
+        usesubscriptionlist: true, 
+        subscriptionlist: '', 
+        subscriptionlists: [{value: '', display: '(Select your list)'}],
+
+        useactionlist: true, 
+        actionlist: '', 
+        actionlists: [{value: '', display: '(Select your list)'}],
+
         dn: '', 
 
         adminusers: new Array(),
@@ -183,6 +193,13 @@ class CampaignInfo extends Component {
                         title: response.data.title, 
                         subtitle: response.data.subtitle, 
                         body: response.data.body,
+                        active: response.data.active,
+                        usesubscriptionlist: response.data.usesubscriptionlist,
+                        subscriptionlist: response.data.subscriptionlist && '',
+                        subscriptionlists: response.data.subscriptionlists,
+                        useactionlist: response.data.useactionlist,
+                        actionlist: response.data.actionlist && '',
+                        actionlists: response.data.actionlists,
                         adminusers: response.data.adminusers,
                         tags: response.data.tags
                       });
@@ -202,6 +219,11 @@ class CampaignInfo extends Component {
       title: this.state.title,
       subtitle: this.state.subtitle,
       body: this.state.body,
+      active: this.state.active,
+      usesubscriptionlist: this.state.usesubscriptionlist,
+      subscriptionlist: this.state.subscriptionlist,
+      useactionlist: this.state.useactionlist,
+      actionlist: this.state.actionlist,
     }
 
     let uri = '/campaign/'+this.props.guid;
@@ -253,18 +275,18 @@ class CampaignInfo extends Component {
     };
 
     const container = {
-      border: '1px solid gray',
-      minHeight: 400,
+      //border: '1px solid gray',
+      //minHeight: 400,
       backgroundColor: '#ffffff',
-      marginLeft: 20,
+      //marginLeft: 20,
       marginRight: 20,
       paddingLeft:0,
       paddingRight:20,
     };
 
     return (
-      <div style={container}>
-    <form noValidate autoComplete="off" onSubmit={()=>this.handleSubmit()} >
+    <div style={container}>
+    <form noValidate autoComplete="off" onSubmit={(e)=>this.handleSubmit(e)} >
       <Grid container spacing={2}>
         <Grid item xs={12}>
             <Button color="primary" type="submit">
@@ -295,6 +317,80 @@ class CampaignInfo extends Component {
                 placeholder="Subtitle of your campaign"
                 helperText="One sentence that expands on yoour title"/>
             </Grid>
+
+
+            <Grid item xs={12}>
+              <FormControlLabel
+                  control={
+                    <Switch
+                      name="active"
+                      checked={this.state.active == 1}
+                      onChange={(e)=>{this.handleChange(e);}}
+                      value="active"
+                      color="primary"
+                    />
+                  }
+                  label="Campaign is active"
+                />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControlLabel
+                  control={
+                    <Switch
+                      name="useactionlist"
+                      checked={this.state.useactionlist == 1}
+                      onChange={(e)=>{this.handleChange(e);}}
+                      value="useactionlist"
+                      color="primary"
+                    />
+                  }
+                  label="Use an action list"
+                />
+                <FormControl fullWidth>
+                  <InputLabel id="actionlist-select-label">Action List</InputLabel>
+                  <Select
+                    labelId="actionlist-select-label"
+                    id="actionlist-select"
+                    value={this.state.actionlist}
+                    name="actionlist"
+                    autoWidth
+                    onChange={(e)=>{this.handleChange(e);}}
+                  >
+                  {this.state.actionlists.map((list) => <MenuItem key={'k'+list.value} value={list.value}>{list.display}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControlLabel
+                  control={
+                    <Switch
+                      name="usesubscriptionlist"
+                      checked={this.state.usesubscriptionlist == 1}
+                      onChange={(e)=>{this.handleChange(e);}}
+                      value="usesubscriptionlist"
+                      color="primary"
+                    />
+                  }
+                  label="Use a news subscription list"
+                />
+                <FormControl fullWidth>
+                  <InputLabel id="subscriptionlist-select-label">Action List</InputLabel>
+                  <Select
+                    labelId="subscriptionlist-select-label"
+                    id="subscriptionlist-select"
+                    value={this.state.subscriptionlist}
+                    name="subscriptionlist"
+                    autoWidth
+                    onChange={(e)=>{this.handleChange(e);}}
+                  >
+                  {this.state.subscriptionlists.map((list) => <MenuItem key={'k'+list.value} value={list.value}>{list.display}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+
+
             <Grid item xs={12}>
               <p>Add tags to categorise this campaign</p>
               <TagControl onremovetag={(guid)=>{this.removeTag(guid)}} tags={this.state.tags} addTag={(guid) => this.addTag(guid)}/>              

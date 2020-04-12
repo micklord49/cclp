@@ -13,7 +13,7 @@ use App\ViewModels\HomeBranch;
 use App\ViewModels\HomeBranches;
 use App\ViewModels\EditBranch;
 use App\ViewModels\Managers\SocialManager;
-use App\ViewModels\VisitManager;
+use App\ViewModels\Managers\VisitManager;
 use App\BranchAdministrator;
 use Illuminate\Http\Request;
 

@@ -12,6 +12,8 @@ use Spatie\Permission\Models\Permission;
 use App\Council;
 use App\Ward;
 
+use App\ViewModels\HomeCouncil;
+use App\ViewModels\Managers\VisitManager;
 
 class CouncilsController extends Controller
 {
@@ -68,12 +70,14 @@ class CouncilsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Councillor  $councillor
+     * @param  \App\Council  $councillor
      * @return \Illuminate\Http\Response
      */
-    public function show($request)
+    public function show($council)
     {
-        //
+        $data = new HomeCouncil($council);
+        VisitManager::visit($council,"Home");
+        return view("council",['Data' => $data]);
     }
 
     /**

@@ -13,7 +13,7 @@
                 <img src="/images/block-thanks.png" alt="Circle Image" class="img-raised rounded-circle img-fluid">
               </div>
               <div class="name">
-                <h3 class="title">Thank you for your message.</h3>
+                <h3 class="title">{{ $Data->msg = '' ? "Thank you for your message." : $Data->msg }}</h3>
               </div>
             </div>
           </div>

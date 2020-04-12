@@ -9,12 +9,13 @@ use Spatie\Permission\Models\Permission;
 
 use App\Campaign;
 use App\CampaignUser;
+use App\ContactList;
 use App\Tag;
 use App\TagOwner;
 
 use App\ViewModels\HomeCampaign;
 use App\ViewModels\EditCampaign;
-use App\ViewModels\VisitManager;
+use App\ViewModels\Managers\VisitManager;
 use Illuminate\Http\Request;
 
 use App\ViewModels\Managers\TagManager;
@@ -64,6 +65,9 @@ class CampaignController extends Controller
             'owner' => $request->owner,
             'subtitle' => '',
             'body' => '',
+            'active' => false,
+            'usesubscriptionlist' => false,
+            'useactionlist' => false,
         ));
 
     }
@@ -110,7 +114,30 @@ class CampaignController extends Controller
      public function edit($campaign)
     {
         //
-        $ret = Campaign::where('guid',$campaign)->firstOrFail();        
+        $ret = Campaign::where('guid',$campaign)->firstOrFail();
+
+        $subscriptionlists = ContactList::where('owner',$campaign)->where('type',1)->get();
+        $select = array();
+        foreach($subscriptionlists as $list)
+        {
+            $l = new \stdClass();
+            $l->value = $list->guid;
+            $l->display = $list->title;
+            array_push($select,$l);
+        }
+        $ret->subscriptionlists = $select;
+
+        $actionlists = ContactList::where('owner',$campaign)->where('type','>',1)->get();
+        $select = array();
+        foreach($actionlists as $list)
+        {
+            $l = new \stdClass();
+            $l->value = $list->guid;
+            $l->display = $list->title;
+            array_push($select,$l);
+        }
+        $ret->actionlists = $select;
+
         $users = CampaignUser::where('campaign',$campaign)->get();
         $adminusers = array();
         foreach($users as $user)
@@ -120,6 +147,7 @@ class CampaignController extends Controller
             array_push($adminusers,$new);
         }
         $ret->adminusers = $adminusers;
+
         $t = TagOwner::where('owner',$campaign)->get();
         $tags = array();
         foreach($t as $tag)
@@ -161,6 +189,11 @@ class CampaignController extends Controller
                 if(isset($request->title)) $cmp->title = $request->title;
                 if(isset($request->subtitle)) $cmp->subtitle = $request->subtitle;
                 if(isset($request->body)) $cmp->body = $request->body;
+                if(isset($request->active)) $cmp->active = $request->active;
+                if(isset($request->usesubscriptionlist)) $cmp->usesubscriptionlist = $request->usesubscriptionlist;
+                if(isset($request->subscriptionlist)) $cmp->subscriptionlist = $request->subscriptionlist;
+                if(isset($request->useactionlist)) $cmp->useactionlist = $request->useactionlist;
+                if(isset($request->actionlist)) $cmp->actionlist = $request->actionlist;
                 if(isset($request->dn)) $cmp->dn = $request->dn;
                 break;
         }
@@ -265,6 +298,4 @@ class CampaignController extends Controller
         }
         TagManager::owner($campaign)->addtag($tag);
     }
-
-
 }

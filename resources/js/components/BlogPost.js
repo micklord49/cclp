@@ -72,8 +72,11 @@ export default class BlogPost extends Component {
 
         useactionlist: false,
         actionlist: "",
-
         lists: [{value: '', display: '(Select your list)'}],
+
+        showcampaign: false,
+        campaign: "",
+        campaigns: [{value: '', display: '(Select your campaign)'}],
 
         published: false,
         publishnow: true,
@@ -132,6 +135,11 @@ export default class BlogPost extends Component {
         useactionlist: response.data.useactionlist,
         actionlist: response.data.actionlist || '',
         lists: response.data.lists,
+
+        showcampaign: response.data.showcampaign,
+        campaign: response.data.campaign || '',
+        campaigns: response.data.campaigns,
+
         status: response.data.status,
         priority: response.data.priority,
         published: response.data.published,
@@ -155,6 +163,8 @@ export default class BlogPost extends Component {
       body: this.state.body,
       useactionlist: this.state.useactionlist,
       actionlist: this.state.actionlist,
+      showcampaign: this.state.showcampaign,
+      campaign: this.state.campaign,
       priority: this.state.priority,
       totwitter: this.state.totwitter,
       tofacebook: this.state.tofacebook,
@@ -293,6 +303,35 @@ export default class BlogPost extends Component {
                               onChange={(e)=>{this.handleChangeBody(e);}} />
                 </div>
               </Grid>
+
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      name="showcampaign"
+                      checked={this.state.showcampaign == 1}
+                      onChange={(e)=>{this.handleChange(e);}}
+                      value="showcampaign"
+                      color="primary"
+                    />
+                  }
+                  label="Include a link to a campaign"
+                />
+              <FormControl fullWidth>
+                <InputLabel id="campaign-select-label">Campaign</InputLabel>
+                <Select
+                  labelId="campaign-select-label"
+                  id="campaign-select"
+                  value={this.state.campaign}
+                  name="campaign"
+                  autoWidth
+                  onChange={(e)=>{this.handleChange(e);}}
+                >
+                  {this.state.campaigns.map((list) => <MenuItem key={'k'+list.value} value={list.value}>{list.display}</MenuItem>)}
+                </Select>
+              </FormControl>
+              </Grid>
+
               <Grid item xs={12}>
                 <FormControlLabel
                   control={

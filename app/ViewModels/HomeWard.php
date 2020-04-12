@@ -110,8 +110,6 @@ class HomeWard extends Model
             }
         }
 
-
-        $this->news = new Blogs($guid,6,true,true);
         $this->menu = new Menu($clpGuid);
 
         SocialManager::owner($guid)->addlinks($this);

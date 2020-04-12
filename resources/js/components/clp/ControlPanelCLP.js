@@ -31,6 +31,7 @@ import ControlPanelCLPCouncils from './ControlPanelCLPCouncils';
 import ControlPanelCLPBranches from './ControlPanelCLPBranches';
 import ControlPanelCLPEC from './ControlPanelCLPEC';
 import ControlPanelCLPCouncillors from './ControlPanelCLPCouncillors';
+import ControlPanelCLPCandidates from './ControlPanelCLPCandidates';
 import BlogEditor from '../BlogEditor';
 import Campaign from '../Campaign';
 import Event from '../Event';
@@ -190,7 +191,7 @@ class ControlPanelCLP extends Component {
                 <ControlPanelCLPCouncillors />
               </div>
               <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedtab != 2}>
-                  Candidate Details
+                <ControlPanelCLPCandidates />
               </div>
 
             </div>

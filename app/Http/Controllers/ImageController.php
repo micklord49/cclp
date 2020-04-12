@@ -174,6 +174,7 @@ class ImageController extends Controller
     {
 
         $clpGuid = config('appsettings.clpGUID');
+        Log::debug("Image ID :".$id);
         $image = new ImageFile($id);        
 
         if($image->filename=="")
@@ -203,8 +204,6 @@ class ImageController extends Controller
     public function blur($id)
     {
 
-        $clpGuid = config('appsettings.clpGUID');
-
         $filename = ImageFile::Filename($id);        
         if($filename=="")
         {
@@ -223,6 +222,7 @@ class ImageController extends Controller
             }
         }
 
+        Log::debug("Image ID :".$id);
         Log::debug("Image URL :".$filename);
         Log::debug("Image File:".storage_path($filename));
         Log::debug("No filename returned - so using default user image");

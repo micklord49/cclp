@@ -15,6 +15,7 @@ import PersonIcon from '@material-ui/icons/Person';
 
 import ControlPanelCLPEC from './ControlPanelCLPEC';
 import ControlPanelCLPCouncillors from './ControlPanelCLPCouncillors';
+import ControlPanelCLPCandidates from './ControlPanelCLPCandidates';
 
 import HelpText from '../HelpText';
 
@@ -88,7 +89,7 @@ export default function SimpleTabs() {
         <ControlPanelCLPCouncillors />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Candidate Details
+        <ControlPanelCLPCandidates />
       </TabPanel>
     </div>
   );

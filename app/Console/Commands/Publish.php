@@ -63,6 +63,7 @@ class Publish extends Command
             break;
         }
         $blog->status='published';
+        $blog->publishedOn =Carbon::now();
         $blog->save();
     }
 

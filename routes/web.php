@@ -2,10 +2,11 @@
 
 use App\ViewModels\Home;
 use App\ViewModels\HomeCouncillors;
+use App\ViewModels\HomeCandidate;
 use App\ViewModels\Ec;
 use App\ViewModels\HomeCampaigns;
 
-use App\ViewModels\VisitManager;
+use App\ViewModels\Managers\VisitManager;
 
 use Spatie\Honeypot\ProtectAgainstSpam;
 
@@ -43,6 +44,14 @@ Route::get('/councillors', function () {
     VisitManager::visit($home->clpguid,"Councillors");
     return view('councillors',['Data' => $home]);
 });
+
+Route::get('/ourcandidate', function () {
+    $home = new HomeCandidate();
+    VisitManager::visit($home->clpguid,"Candidate");
+    return view('candidate',['Data' => $home]);
+});
+
+
 Route::get('/committee', function () {
     $home = new Ec();
     VisitManager::visit($home->clpguid,"Committee");
@@ -64,8 +73,9 @@ Route::resource('ec', 'ECController');
 Route::resource('people', 'PeopleController');
 Route::resource('userdir', 'UserdirController');
 Route::resource('branch', 'BranchController');
-Route::resource('councils', 'CouncilsController');
+Route::resource('council', 'CouncilsController');
 Route::resource('councillor', 'CouncillorController');
+Route::resource('candidate', 'CandidateController');
 Route::resource('wards', 'WardsController');
 Route::resource('campaign', 'CampaignController');
 Route::resource('blog', 'BlogController');
@@ -103,6 +113,7 @@ Route::get('blog/{perpage}/{page}/{owner}/ownersearch', 'BlogController@ownersea
 Route::patch('blog/', 'BlogController@store');
 
 Route::get('list/{perpage}/{page}/{owner}/ownersearch', 'ListController@ownersearch');
+Route::post('list/{list}/sign', 'ListController@sign')->middleware(ProtectAgainstSpam::class);
 Route::patch('list/', 'ListController@store');
 
 Route::get('ec/{role}/{user}/adduser', 'ECController@addroleuser');
@@ -127,6 +138,13 @@ Route::get('councillors/{user}/removeuser', 'CouncillorController@removeuser');
 Route::get('councillors/{councillor}/{user}/addadminuser', 'CouncillorController@addadminuser');
 Route::get('councillors/{councillor}/{user}/removeadminuser', 'CouncillorController@removeadminuser');
 Route::get('councillors/{councillor}/infoedit', 'CouncillorController@infoedit');
+
+Route::get('candidate/dir/all', 'CandidateController@dir');
+Route::get('candidate/{user}/adduser', 'CandidateController@adduser');
+Route::get('candidate/{user}/removeuser', 'CandidateController@removeuser');
+Route::get('candidate/{candidate}/{user}/addadminuser', 'CandidateController@addadminuser');
+Route::get('candidate/{candidate}/{user}/removeadminuser', 'CandidateController@removeadminuser');
+Route::get('candidate/{candidate}/infoedit', 'CandidateController@infoedit');
 
 Route::get('cpl/branch/{branch}', 'BranchController@showcplbranch');
 Route::get('branch/dir/all', 'BranchController@dir');

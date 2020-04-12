@@ -21,6 +21,11 @@ class CreateCampaignsTable extends Migration
             $table->string('title');
             $table->text('subtitle');
             $table->longText('body');
+            $table->boolean('active');
+            $table->boolean('usesubscriptionlist');
+            $table->string('subscriptionlist',36);
+            $table->boolean('useactionlist');
+            $table->string('actionlist',36);
             $table->timestamps();
         });
     }

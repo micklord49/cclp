@@ -69,11 +69,12 @@
       <h2 class="title">Discover the neighbourhoods we cover</h2>
       <div class="team">
         <div class="row">
-          <div class="col-md-6">
+
+        <div class="col-md-4">
             <div class="team-player">
               <div class="card card-plain" style="cursor:pointer" onclick="document.location='/wards';return false;">
                 <div class="col-md-6 ml-auto mr-auto">
-                  <img src="/images/block-ward.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                  <img src="/images/block-wards.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
                 </div>
                 <h4 class="card-title">Wards
                   <br>
@@ -87,7 +88,54 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+
+
+        @if($Data->councilsingle)
+          <div class="col-md-4">
+            <div class="team-player">
+              <div class="card card-plain" style="cursor:pointer" onclick="document.location='/wards';return false;">
+                <div class="col-md-6 ml-auto mr-auto">
+                  <img src="/images/block-wards.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                </div>
+                <h4 class="card-title">{{ $Data->councilcardtitle }}</h4>
+                <div class="card-body">
+                  <p class="card-description">A ward is the primary unit of English electoral geography for civil parishes and borough and district councils</p>
+                </div>
+                <div class="card-footer justify-content-center">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          @else
+
+          <div class="col-md-4">
+            <div class="team-player">
+              <div class="card card-plain">
+                <div class="col-md-6 ml-auto mr-auto">
+                  <img src="/images/block-council.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                </div>
+                <h4 class="card-title">{{ $Data->councilcardtitle }}</h4>
+                <div class="card-body">
+                  <p class="card-description">
+                  @foreach ($Data->councils as $council)
+                  <button class="btn btn-primary btn-round" onclick="document.location='/council/{{ $council->guid }}';return false;">
+                    {{ $council->name }}
+                  </button>
+                  @endforeach
+                  </p>
+                </div>
+                <div class="card-footer justify-content-center">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          @endif
+
+
+          <div class="col-md-4">
             <div class="team-player">
               <div class="card card-plain" style="cursor:pointer" onclick="document.location='/branch';return false;">
                 <div class="col-md-6 ml-auto mr-auto">
@@ -140,21 +188,30 @@
           </div>
           <div class="col-md-4">
             <div class="team-player">
-              <div class="card card-plain">
+              <div class="card card-plain" style="cursor:pointer" onclick="document.location='/ourcandidate';return false;">
                 <div class="col-md-6 ml-auto mr-auto">
                   <img src="/images/block-candidate.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
                 </div>
-                <h4 class="card-title">Parliamentary Candidate
+                <h4 class="card-title">{{ $Data->candidate->name }}
                   <br>
-                  <small class="card-description text-muted">(Prospective)</small>
+                  <small class="card-description text-muted">{{ $Data->candidate->title }}</small>
                 </h4>
                 <div class="card-body">
-                  <p class="card-description">Meet John, our local candidate for Parliament.</p>
+                  <p class="card-description">{{ $Data->candidate->intro }}</p>
                 </div>
                 <div class="card-footer justify-content-center">
-                  <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-twitter"></i></a>
-                  <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-instagram"></i></a>
-                  <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-facebook-square"></i></a>
+                    @if(isset($branch->facebook))
+                        <a href="{{ $branch->facebook }}" class="btn btn-just-icon btn-link btn-facebook"><i class="fa fa-facebook"></i></a>
+                    @endif
+                    @if(isset($branch->instagram))
+                        <a href="{{ $branch->instagram }}" class="btn btn-just-icon btn-link btn-instagram"><i class="fa fa-instagram"></i></a>
+                    @endif
+                    @if(isset($branch->twitter))
+                        <a href="{{ $branch->twitter }}" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
+                    @endif
+                    @if(isset($branch->youtube))
+                        <a href="{{ $branch->youtube }}" class="btn btn-just-icon btn-link btn-youtube"><i class="fa fa-youtube"></i></a>
+                    @endif
                 </div>
               </div>
             </div>
@@ -163,7 +220,7 @@
             <div class="team-player">
               <div class="card card-plain" style="cursor:pointer" onclick="document.location='/committee';return false;">
                 <div class="col-md-6 ml-auto mr-auto">
-                  <img src="/images/block-council.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                  <img src="/images/block-ec.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
                 </div>
                 <h4 class="card-title">The EC
                   <br>

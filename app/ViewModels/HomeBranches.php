@@ -12,7 +12,8 @@ use App\Event;
 use App\Social;
 
 use App\ViewModels\ImageFile;
-use App\ViewModels\Blogs;
+use App\ViewModels\Managers\BlogManager;
+use App\ViewModels\Managers\SocialManager;
 
 
 
@@ -46,20 +47,12 @@ class HomeBranches extends Model
 
         foreach($branches as $branch)
         {
-            $b = new class {};
+            $b = new \stdClass();
             $b->branch = $branch->name;
             $b->guid = $branch->guid;
             array_push($owners,$branch->guid);
 
-            $social = Social::where('owner',$branch->guid)->first();
-            if($social != null)
-            {
-                $b->facebook = strtolower($social->facebook);                
-                if(substr($b->facebook,0,4) != "http")
-                {
-                    $b->facebook = "https://".$b->facebook;
-                }
-            }
+            SocialManager::owner($branch->guid)->addlinks($this->branch);
 
             $i = new ImageFile($b->guid);
             if($i->filename=="") {
@@ -102,8 +95,7 @@ class HomeBranches extends Model
             array_push($this->campaigns,$c);
         }
     
-        $this->news = new Blogs($clpGuid,6,false,true,"BRC");
-
+        $this->news = BlogManager::forBranches($clpGuid)->getCards();
         $this->menu = new Menu($clpGuid);
 
 

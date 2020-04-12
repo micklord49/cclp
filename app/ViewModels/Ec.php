@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 use App\ViewModels\ImageFile;
-use App\ViewModels\Blogs;
+use App\ViewModels\Managers\BlogManager;
 
 class Ec extends Model
 {
@@ -81,7 +81,7 @@ class Ec extends Model
             }
         }
 
-        $this->news = new Blogs($clpGuid,6,true,false);
+        $this->news = BlogManager::for($clpGuid)->getCards();
 
         $this->menu = new Menu($clpGuid);
 

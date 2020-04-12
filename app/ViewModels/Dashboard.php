@@ -8,8 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Message;
 use App\Campaign;
 use App\Branch;
+use App\Ward;
 use App\Councillor;
 use App\CouncillorAdministrator;
+use App\Council;
+use App\Candidate;
+use App\CandidateAdministrator;
 use App\BranchAdministrator;
 use App\Blog;
 use App\Visit;
@@ -52,13 +56,33 @@ class Dashboard extends Model
         }
 
         $user = auth()->user();
+
+        $cb = "";
         
         $councillor = Councillor::where('owner',$user->guid)->count();
         if($councillor>0)
         {
             $councillor = Councillor::where('owner',$user->guid)->first();
+            $ward = Ward::where('guid',$councillor->ward)->first();
+            array_push($this->boards,$this->StatsForOwner($ward->council,"My Council's Page","/councillor","/council/".$ward->council));
             array_push($this->boards,$this->StatsForOwner($councillor->guid,"My info as a Councillor","/councillor","/councillor/".$councillor->guid));
+            $cb = $councillor->branch;                        
         }
+        $candidate = Candidate::where('owner',$user->guid)->count();
+        if($candidate>0)
+        {
+            $candidate = Candidate::where('owner',$user->guid)->first();
+            array_push($this->boards,$this->StatsForOwner($candidate->guid,"My info as a Candidate","/candidate","/candidate/".$candidate->guid));
+        }
+
+        $candidates = CandidateAdministrator::where('user',$user->guid)->get();
+        foreach($candidates as $candidate)
+        {
+            $clr = Candidate::where('guid',$candidate->candidate)->first();
+            $usr = User::where('guid',$clr->owner)->first();
+            array_push($this->boards,$this->StatsForOwner($clr->guid,"Info for Candidate ".$usr->name,"/candidate/".$clr->guid,"/candidate/".$candidate->guid));
+        }
+
         $councillors = CouncillorAdministrator::where('user',$user->guid)->get();
         foreach($councillors as $councillor)
         {

@@ -39,7 +39,7 @@ class HomeWards extends Model
         {
             $i = new ImageFile($council->guid);
             if($i->filename=="") {
-                $council->image = "/images/defaultbranch.png";
+                $council->image = "/images/defaultward.png";
             }            
             else  {
                 $council->image = $i->filename;
@@ -49,7 +49,7 @@ class HomeWards extends Model
             {
                 $i = new ImageFile($council->guid);
                 if($i->filename=="") {
-                    $ward->image = "/images/defaultbranch.png";
+                    $ward->image = "/images/defaultward.png";
                 }            
                 else  {
                     $ward->image = $i->filename;

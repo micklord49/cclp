@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\ViewModels\ImageFile;
 use App\ViewModels\Blogs;
 use App\ViewModels\Managers\SocialManager;
+use App\ViewModels\Managers\BlogManager;
 
 class HomeCouncillors extends Model
 {
@@ -66,7 +67,7 @@ class HomeCouncillors extends Model
             array_push($this->councillors,$c);
         }
 
-        $this->news = new Blogs($clpGuid,6,false,true,"CNR");
+        $this->news = BlogManager::forCouncillors($clpGuid)->getCards();
 
         $this->menu = new Menu($clpGuid);
 

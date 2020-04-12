@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Log;
 
 use App\ContactList;
 use App\ListContact;
+use App\Contact;
+use App\ContactEvent;
+use App\ViewModels\Managers\TagManager;
+use App\ViewModels\Home;
+
+use App\Notifications\ConfirmEmail;
 
 class ListController extends Controller
 {
@@ -130,4 +136,103 @@ class ListController extends Controller
         return(json_encode($data));
     }
 
+    public function sign(Request $request,$guid)
+    {
+        $clpGuid = config('appsettings.clpGUID');
+
+        app('debugbar')->disable();
+
+        $contactlist = ContactList::where("guid",$guid)->firstOrFail();
+        $email = strtolower($request->email);
+
+        $contact = Contact::where('email',$email)->first();
+        if(empty($contact))
+        {
+            //  Insert a new contact
+            $from = uniqid("CNT");
+            $contact = Contact::create(array(
+                'guid' => $from,
+                'name' => $request->name,
+                'email' => $request->email,
+                'address1' => $request->address1 ?? '',
+                'address2' => $request->address2 ?? '',
+                'clp' => $clpGuid,
+                ));            
+        }
+        else
+        {
+            $from = $contact->guid;
+            if(isset($request->address1))       $contact->address1=$request->address1;
+            if(isset($request->address2))       $contact->address2=$request->address2;
+            $contact->save();
+        }
+
+        $listc = ListContact::where('list',$guid)->where('contact',$from)->count();
+        if($listc>0)
+        {
+            $data = new Home();
+            $message = "THANK YOU";
+            switch($contactlist->type)
+            {
+                case 1:     
+                    $message = "You have already subscribed to this list.";
+                    break;
+                case 2:     
+                    $message = "You have already signed this petition.";
+                    break;
+                case 3:     
+                    $message = "You have already signed this open letter.";
+                    break;
+            }
+            $data->msg = $message;
+            return view('thankyou',['Data' => $data]);
+        }
+
+        $contact = ListContact::create(array(
+            'guid' => uniqid("LCT"),
+            'list' => $guid,
+            'contact' => $from,
+        ));            
+
+
+        $event = "LIST";
+        $message = "THANK YOU";
+
+        switch($contactlist->type)
+        {
+            case 1:     
+                $event = "Added to Subscription List ".$contactlist->title;
+                $message = "Thank you for signing up to ".$contactlist->subtitle;
+                break;
+            case 2:     
+                $event = "Signed Petition ".$contactlist->title;
+                $message = "Thank you for signing ".$contactlist->subtitle;
+                break;
+            case 3:     
+                $event = "Signed Open Letter ".$contactlist->title;
+                $message = "Thank you for signing ".$contactlist->subtitle;
+                break;
+        }
+
+        ContactEvent::create(array(
+            'guid' => uniqid("CEV"),
+            'contact' => $from,
+            'event' => $event,
+        ));
+
+        foreach(TagManager::owner($guid)->tags() as $tag)
+        {
+            TagManager::owner($from)->addtag($tag->guid);
+        }
+
+        if($contact->email_verified_at==null)
+        {
+            $contact->notify(new ConfirmEmail($guid));
+        }
+
+        $data = new Home();
+        $data->msg = $message;
+        return view('thankyou',['Data' => $data]);
+
+    }
 }

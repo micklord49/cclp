@@ -14,7 +14,7 @@ use App\Ward;
 
 use App\ViewModels\HomeWard;
 use App\ViewModels\HomeWards;
-use App\ViewModels\VisitManager;
+use App\ViewModels\Managers\VisitManager;
 
 class WardsController extends Controller
 {

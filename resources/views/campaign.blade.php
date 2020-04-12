@@ -79,13 +79,34 @@
 
 
       </div>
-  </div>
+
+      <div class="section container">
+      <div class="row justify-content-center">
+        @if($Data->useactionlist)
+          @include('layouts.partials.list',[
+                'list' => $Data->actionlist, 
+              ])
+        @endif
+
+        @if($Data->usesubscriptionlist)
+          @include('layouts.partials.list',[
+                  'list' => $Data->subscriptionlist, 
+                ])
+        @endif
+      </div>
+    </div>
+
 
   @include('layouts.partials.contactform',[
           'owner' => $Data->guid, 
           'title' => 'Have a comment?',
           'subtitle' => 'Would you like to contact us about our campaign? We welcome any contribution.'
         ])
+
+
+
+  </div>
+
 
   <footer class="footer footer-default">
     <div class="container">

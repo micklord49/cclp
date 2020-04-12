@@ -92,6 +92,26 @@ class Menu
         }
     }
 
+    private function CandidateMenu($menu)
+    {
+        if(!Auth::check())          return;     //  Only available for logged in user
+        $user = auth()->user();
+        $candidate = Candidate::where('owner',$user->guid)->count();
+        if($candidate>0)
+        {
+            $candidate = Candidate::where('owner',$user->guid)->first();
+            $menu->AddSubMenu(new MenuItem("My info as an MP/Candidate","/candidate/",true));
+        }
+        $candidates = CandidateAdministrator::where('user',$user->guid)->get();
+        foreach($candidates as $candidate)
+        {
+            $clr = Candidate::where('guid',$candidate->candidate)->first();
+            $usr = User::where('guid',$clr->owner)->first();
+            $menu->AddSubMenu(new MenuItem("Info for MP/Candidate ".$usr->name,"/candidate/".$clr->guid."/infoedit",true));
+        }
+        return;
+    }
+
 
     private function CouncillorMenu($menu)
     {
@@ -111,7 +131,7 @@ class Menu
             $menu->AddSubMenu(new MenuItem("Info for Councillor ".$usr->name,"/councillors/".$clr->guid."/infoedit",true));
         }
         return;
-}
+    }
 
     private function ECMenu($clpGuid)
     {

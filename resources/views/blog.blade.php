@@ -19,12 +19,15 @@
   <div class="container">
     
     <div class="section text-center">
-
-        <img src="{{ $Data->image }}" class="img-raised rounded img-fluid">
+      <img src="{{ $Data->image }}" class="img-raised rounded img-fluid">
 
 
 
       <div class="row text-left">
+        <div>
+          <span style="font-style: italic;font-size: small;color: rgb(180,96,180);margin-top:10px;">Published On {{ Carbon\Carbon::parse($Data->publishedon)->format('l jS F Y g:ia') }}</span>
+          <span style="font-style: italic;font-size: small;color: rgb(180,96,180);margin-top:10px;"> By <a href="{{ $Data->publishedby->url }}">{{ $Data->publishedby->name }}</a></span>
+        </div>
         <div class="col-md-12 ml-auto mr-auto">
           <h5 class="description">{!! $Data->body !!}</h5>
         </div>
@@ -32,15 +35,21 @@
 
     </div>
 
-    @if($Data->useactionlist)
     <div class="section container">
-        <div class="row justify-content-center">
-      @include('layouts.partials.list',[
-            'list' => $Data->list, 
-          ])
-        </div>
+      <div class="row justify-content-center">
+        @if($Data->useactionlist)
+          @include('layouts.partials.list',[
+                'list' => $Data->list, 
+              ])
+        @endif
+
+        @if($Data->showcampaign)
+          @include('layouts.partials.campaigncard',[
+                  'campaign' => $Data->campaign, 
+                ])
+        @endif
+      </div>
     </div>
-    @endif
 
     @include('layouts.partials.contactform',[
           'owner' => $Data->guid, 

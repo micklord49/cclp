@@ -48,8 +48,11 @@ ga('send', 'pageview');
     .material-icons.md-36 { font-size: 36px; vertical-align: middle;}
     .material-icons.md-48 { font-size: 48px; vertical-align: middle;}
 
-    </style>
+    body {
+        background-color: #ffffff;
+    }
 
+    </style>
 
 </head>
 <body class="landing-page">

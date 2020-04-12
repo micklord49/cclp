@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 use App\ViewModels\EditCouncillor;
 use App\ViewModels\HomeCouncillor;
-use App\ViewModels\VisitManager;
+use App\ViewModels\Managers\VisitManager;
 
 class CouncillorController extends Controller
 {
@@ -258,7 +258,7 @@ class CouncillorController extends Controller
         if($count==0)
         {
             CouncillorAdministrator::create(array(
-                'guid' => uniqid("BAU"),
+                'guid' => uniqid("CAU"),
                 'councillor' => $councillor,
                 'user' => $user
             ));

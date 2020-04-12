@@ -16,6 +16,7 @@ use App\Ward;
 use App\User;
 
 use App\ViewModels\Managers\SocialManager;
+use App\ViewModels\Managers\BlogManager;
 
 
 class HomeBranch extends Model
@@ -126,7 +127,7 @@ class HomeBranch extends Model
         }
 
 
-        $this->news = new Blogs($guid,6,true,true);
+        $this->news = BlogManager::for($guid)->getCards();
         $this->menu = new Menu($clpGuid);
 
         SocialManager::owner($guid)->addlinks($this);

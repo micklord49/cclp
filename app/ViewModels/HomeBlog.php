@@ -8,8 +8,10 @@ use Spatie\CalendarLinks\Link;
 
 use App\Blog;
 use App\ContactList;
+use App\Campaign;
 
 use App\ViewModels\Managers\SocialManager;
+use App\ViewModels\Managers\LinkManager;
 
 
 class HomeBlog extends Model
@@ -23,6 +25,8 @@ class HomeBlog extends Model
     public $subtitle;
     public $body;
     public $image;
+    public $publishedon;
+    public $publishedby;
     public $campaigns = array();
     public $events = array();
     public $nextevent;
@@ -30,6 +34,8 @@ class HomeBlog extends Model
     public $useactionlist;
     public $actionlist;
     public $list;
+    public $showcampaign;
+    public $campaign;
     public $menu;    
 
     public function __construct($guid)
@@ -55,6 +61,8 @@ class HomeBlog extends Model
         $this->body = $blog->body;
         $this->status = $blog->status;
         $this->priority = $blog->priority;        
+        $this->publishedon = $blog->publishedOn;        
+        $this->publishedby = LinkManager::for($blog->owner);        
 
         $i = new ImageFile($guid);
         if($i->guid != "")
@@ -68,6 +76,18 @@ class HomeBlog extends Model
         if(($this->actionlist ?? '') != '')
         {
             $this->list = ContactList::where('guid',$blog->actionlist)->first();
+        }
+
+        $this->showcampaign = $blog->showcampaign == 1;
+        if(($blog->campaign ?? '') != '')
+        {
+            $this->campaign = Campaign::where('guid',$blog->campaign)->first();
+            $i = new ImageFile($blog->campaign);
+            if($i->guid != "")
+            {
+                $this->campaign->imageguid = $i->guid;
+                $this->campaign->image = $i->filename;
+            }
         }
 
         $this->menu = new Menu($clpGuid);

@@ -1,6 +1,6 @@
 <div class="row">
 
-@foreach ($Data->news->items as $news)
+@foreach ($Data->news as $news)
     @isset($news->image)
         <div class="col-md-6"  style="cursor:pointer" onclick="document.location='/blog/{{ $news->guid }}';return false;">
             <div class="card bg-dark text-white">

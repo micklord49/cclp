@@ -28,7 +28,7 @@ class Councillor extends Model
      {
         if($this->email != "")      return $this->email;
 
-        $users = User::where('clp',$this->owner)->get();
+        $users = User::where('guid',$this->owner)->get();
         $emailaddress = "";
         foreach($users as $user)
         {

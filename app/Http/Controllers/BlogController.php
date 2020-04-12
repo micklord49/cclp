@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Blog;
 use App\PublishEvent;
 use App\ContactList;
+use App\Campaign;
+use App\ViewModels\Managers\CampaignManager;
 
 use App\ViewModels\HomeBlog;
 
@@ -121,9 +123,19 @@ class BlogController extends Controller
             $l->display = $list->title;
             array_push($select,$l);
         }
-
-
         $post->lists = $select;
+
+        $select = array();
+        $clpGuid = config('appsettings.clpGUID');
+        foreach(CampaignManager::forCLP($clpGuid)->get() as $campaign)
+        {
+            $l = new \stdClass();
+            $l->value = $campaign->guid;
+            $l->display = $campaign->title;
+            array_push($select,$l);
+        }
+        $post->campaigns = $select;
+        
         return $post->toJson();
     }
 

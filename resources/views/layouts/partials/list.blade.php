@@ -1,18 +1,15 @@
 
-@csrf
-@honeypot
 @if($list->type==1)
 
 <div class="col-md-6">
-<form method="POST" action="/list/sign/{{ $list->guid }}">
+<form method="POST" id="subscribeform" action="/list/{{ $list->guid }}/sign">
+@csrf
+@honeypot
     <div class="card">
       <div class="card-header card-header-primary">
-        <div class="card-icon">
-          <i class="material-icons">subscriptions</i>
           <div class="card-title">
             {{ $list->subtitle }}
           </div>
-        </div>
       </div>
         <div class="card-body">
           <div>
@@ -61,7 +58,7 @@
 
 
           <p class="card-text" style="font-style: italic;">If you have not previously verified your email address with us, you will recieve an email asking you to confirm your address. You will not get updates if you do not confirm.</p>
-          <a href="javascript:;" class="btn btn-primary">Subscribe</a>
+          <a href="javascript:document.getElementById('subscribeform').submit();" class="btn btn-primary">Subscribe</a>
         </div>
 
     </div>
@@ -74,15 +71,14 @@
 @elseif($list->type==3)
 
 <div class="col-md-6">
-<form method="POST" action="/list/sign/{{ $list->guid }}">
+<form method="POST" id="signletter" action="/list/{{ $list->guid }}/sign">
+@csrf
+@honeypot
     <div class="card bg-dark text-white">
       <div class="card-header card-header-primary">
-        <div class="card-icon">
-          <i class="material-icons">description</i>
           <div class="card-title">
             {{ $list->subtitle }}
           </div>
-        </div>
       </div>
         <div class="card-body">
           <div>
@@ -131,7 +127,7 @@
 
 
           <p class="card-text" style="font-style: italic;">If you have not previously verified your email address with us, you will recieve an email asking you to confirm your address. Your signature will not count if you do not confirm.</p>
-          <a href="javascript:;" class="btn btn-primary">Sign the letter</a>
+          <a href="javascript:document.getElementById('signletter').submit();" class="btn btn-primary">Sign the letter</a>
         </div>
 
     </div>
@@ -141,15 +137,14 @@
 @else
 
 <div class="col-md-6">
-<form method="POST" action="/list/sign/{{ $list->guid }}">
+<form method="POST" id="signpetition" action="/list/{{ $list->guid }}/sign">
+@csrf
+@honeypot
     <div class="card">
       <div class="card-header card-header-success">
-        <div class="card-icon">
-          <i class="material-icons">playlist_add_check</i>
           <div class="card-title">
             {{ $list->subtitle }}
           </div>
-        </div>
       </div>
         <div class="card-body">
           <div>
@@ -198,7 +193,7 @@
 
 
           <p class="card-text" style="font-style: italic;">If you have not previously verified your email address with us, you will recieve an email asking you to confirm your address. Your signature will not count if you do not confirm.</p>
-          <a href="javascript:;" class="btn btn-primary">Sign the Petition</a>
+          <a href="javascript:document.getElementById('signpetition').submit();" class="btn btn-success">Sign the Petition</a>
         </div>
 
     </div>

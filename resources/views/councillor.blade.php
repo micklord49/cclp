@@ -2,15 +2,15 @@
 
 @section('content')
 
-<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{ $Data->image }}');"></div>
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/image{{ $Data->imageguid }}/blur');"></div>
   <div class="main main-raised">
-    <div class="profile-content">
+    <div class="profile-content">  
       <div class="container">
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile">
               <div class="avatar">
-                <img src="/images/block-council.png" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                <img src="/images/block-councillor.png" alt="Circle Image" class="img-raised rounded-circle img-fluid">
               </div>
               <div class="name">
                 <h3 class="title">{{ $Data->name }}</h3>
@@ -31,6 +31,10 @@
           </div>
         </div>
         <div class="description text-center">
+
+          <img src="{{ $Data->image }}" class="img-raised rounded img-fluid">
+
+
           <p>{{ $Data->intro }}</p>
         </div>
         <div class="row">
@@ -71,7 +75,7 @@
           </div>
           <div class="tab-pane text-center gallery" id="favorite">
             <div class="row">
-                Campaigns
+            @each('layouts.partials.campaigncard',$Data->campaigns,'campaign')
             </div>
           </div>
         </div>

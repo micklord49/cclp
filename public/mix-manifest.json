@@ -4,7 +4,9 @@
     "/css/app.css": "/css/app.css",
     "/js/branch.js": "/js/branch.js",
     "/js/campaign.js": "/js/campaign.js",
+    "/js/candidate.js": "/js/candidate.js",
     "/js/contacts.js": "/js/contacts.js",
+    "/js/council.js": "/js/council.js",
     "/js/councillor.js": "/js/councillor.js",
     "/js/people.js": "/js/people.js",
     "/js/profile.js": "/js/profile.js"

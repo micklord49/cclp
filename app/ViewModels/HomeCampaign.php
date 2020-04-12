@@ -9,8 +9,10 @@ use App\Branch;
 use App\Campaign;
 use App\Event;
 use App\Social;
+use App\ContactList;
 
 use App\ViewModels\Managers\SocialManager;
+use App\ViewModels\Managers\BlogManager;
 
 
 class HomeCampaign extends Model
@@ -23,6 +25,10 @@ class HomeCampaign extends Model
     public $title;
     public $subtitle;
     public $body;
+    public $usesubscriptionlist;
+    public $subscriptionlist;
+    public $useactionlist;
+    public $actionlist;
     public $image;
     public $events = array();
     public $nextevent;
@@ -61,11 +67,24 @@ class HomeCampaign extends Model
         {
             $this->image = "/images/defaultcampaign.png";
         }
+
+        $this->useactionlist = $campaign->useactionlist == 1;
+        if(($campaign->actionlist ?? '') != '')
+        {
+            $this->actionlist = ContactList::where('guid',$campaign->actionlist)->first();
+        }
+
+        $this->usesubscriptionlist = $campaign->usesubscriptionlist == 1;
+        if(($campaign->subscriptionlist ?? '') != '')
+        {
+            $this->subscriptionlist = ContactList::where('guid',$campaign->subscriptionlist)->first();
+        }
+        
     
         $this->nextevent = Event::where('owner',$guid)->where('starttime','>',now())->first();
 
 
-        $this->news = new Blogs($guid,6,true,true);
+        $this->news = BlogManager::for($guid)->getCards();
         $this->menu = new Menu($clpGuid);
 
         SocialManager::owner($guid)->addlinks($this);
