@@ -13,6 +13,7 @@ use App\Event;
 use App\Social;
 
 use App\ViewModels\Managers\SocialManager;
+use App\ViewModels\Managers\CouncillorManager;
 
 class HomeWard extends Model
 {
@@ -55,15 +56,7 @@ class HomeWard extends Model
         $this->intro = $ward->intro;
         $this->about = $ward->about;
 
-        $this->councillors = Councillor::where('ward',$guid)->get();
-        foreach($this->councillors as $councillor)
-        {
-            array_push($owners,$councillor->guid);
-            $i = new ImageFile($councillor->guid);
-            $councillor->image = $i->filename;
-
-            SocialManager::owner($councillor->guid)->addlinks($councillor);
-        }
+        $this->councillors = CouncillorManager::forWard($guid)->addCards($owners);
 
 
         $i = new ImageFile($guid);
@@ -75,6 +68,7 @@ class HomeWard extends Model
         {
             $this->image = "/images/defaultward.png";
         }
+        $this->imageguid = $i->guid;
 
 
         $campaigns = Campaign::whereIn('owner',$owners)->get();

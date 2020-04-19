@@ -215,18 +215,8 @@ class ClpController extends Controller
         ]);
     }
 
-    public function tags($owner)
+    public function tags()
     {
-        if(Auth::check())
-        {
-            if(!auth()->user()->can('Edit CLP'))
-            {
-                abort(403);
-            }
-        }
-        else {
-            abort(403);
-        }
         $clpGuid = config('appsettings.clpGUID');
         return Tag::where('clp',$clpGuid)->get();
     }

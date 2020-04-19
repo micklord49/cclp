@@ -124,7 +124,7 @@ class CampaignInfo extends Component {
   }
 
   handleChangeBody(value) {
-    this.setState({ about: value })
+    this.setState({ body: value })
   }
 
   componentDidUpdate(prevProps) 
@@ -195,14 +195,15 @@ class CampaignInfo extends Component {
                         body: response.data.body,
                         active: response.data.active,
                         usesubscriptionlist: response.data.usesubscriptionlist,
-                        subscriptionlist: response.data.subscriptionlist && '',
+                        subscriptionlist: response.data.subscriptionlist,
                         subscriptionlists: response.data.subscriptionlists,
                         useactionlist: response.data.useactionlist,
-                        actionlist: response.data.actionlist && '',
+                        actionlist: response.data.actionlist,
                         actionlists: response.data.actionlists,
                         adminusers: response.data.adminusers,
                         tags: response.data.tags
                       });
+                      console.log(this.state);
       })
       .catch(function (error) {
         console.log(error);
@@ -335,55 +336,56 @@ class CampaignInfo extends Component {
             </Grid>
 
             <Grid item xs={12}>
-              <FormControlLabel
-                  control={
-                    <Switch
-                      name="useactionlist"
-                      checked={this.state.useactionlist == 1}
-                      onChange={(e)=>{this.handleChange(e);}}
-                      value="useactionlist"
-                      color="primary"
-                    />
-                  }
-                  label="Use an action list"
-                />
                 <FormControl fullWidth>
-                  <InputLabel id="actionlist-select-label">Action List</InputLabel>
+                  <InputLabel id="actionlist-select-label">Include an Action List</InputLabel>
                   <Select
                     labelId="actionlist-select-label"
                     id="actionlist-select"
                     value={this.state.actionlist}
                     name="actionlist"
                     autoWidth
+                    disabled={!this.state.useactionlist}
                     onChange={(e)=>{this.handleChange(e);}}
+                    startAdornment={
+                      <InputAdornment position="start">
+                      <Switch
+                            name="useactionlist"
+                            checked={this.state.useactionlist == 1}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="useactionlist"
+                            color="primary"
+                          />
+                      </InputAdornment>
+                    }
                   >
                   {this.state.actionlists.map((list) => <MenuItem key={'k'+list.value} value={list.value}>{list.display}</MenuItem>)}
                 </Select>
+
               </FormControl>
             </Grid>
 
             <Grid item xs={12}>
-              <FormControlLabel
-                  control={
-                    <Switch
-                      name="usesubscriptionlist"
-                      checked={this.state.usesubscriptionlist == 1}
-                      onChange={(e)=>{this.handleChange(e);}}
-                      value="usesubscriptionlist"
-                      color="primary"
-                    />
-                  }
-                  label="Use a news subscription list"
-                />
                 <FormControl fullWidth>
-                  <InputLabel id="subscriptionlist-select-label">Action List</InputLabel>
+                  <InputLabel id="subscriptionlist-select-label">Use a news subscription list</InputLabel>
                   <Select
                     labelId="subscriptionlist-select-label"
                     id="subscriptionlist-select"
                     value={this.state.subscriptionlist}
                     name="subscriptionlist"
                     autoWidth
+                    disabled={!this.state.usesubscriptionlist}
                     onChange={(e)=>{this.handleChange(e);}}
+                    startAdornment={
+                      <InputAdornment position="start">
+                      <Switch
+                            name="usesubscriptionlist"
+                            checked={this.state.usesubscriptionlist == 1}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="usesubscriptionlist"
+                            color="primary"
+                          />
+                      </InputAdornment>
+                    }
                   >
                   {this.state.subscriptionlists.map((list) => <MenuItem key={'k'+list.value} value={list.value}>{list.display}</MenuItem>)}
                 </Select>

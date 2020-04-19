@@ -11,8 +11,10 @@ import EmailIcon from '@material-ui/icons/Email';
 import ListsIcon from '@material-ui/icons/FormatListBulleted';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import HelpIcon from '@material-ui/icons/Help';
+import WardsIcon from '@material-ui/icons/PinDrop';
 
 import CouncilInfo from './CouncilInfo';
+import Wards from './Wards';
 import BlogEditor from '../BlogEditor';
 import Messages from '../Messages';
 import Campaign from '../Campaign';
@@ -51,11 +53,9 @@ class CouncilEdit extends Component {
   }
 
   componentDidMount(){
-    console.log("Editing Councillor:"+this.props.guid)
   }
 
   handleMainChange(event, value) {
-    console.log("Selected Tab:"+value);
     this.setState({ selectedmaintab: value });
   };
 
@@ -121,7 +121,8 @@ class CouncilEdit extends Component {
             <a onClick={()=>{this.setState({selectedmaintab:4}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
             <a onClick={()=>{this.setState({selectedmaintab:5}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
             <a onClick={()=>{this.setState({selectedmaintab:6}); }} className="menu-item">{<ListsIcon />}<br/>Lists</a>
-            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
+            <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<WardsIcon />}<br/>Wards</a>
+            <a onClick={()=>{this.setState({selectedmaintab:8}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
         </Menu>
         <main id="page-wrap" style={{width: '100%', paddingRight:50}}>
         
@@ -138,19 +139,22 @@ class CouncilEdit extends Component {
                 <CouncilInfo guid={this.props.guid}/>
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 3}>
-                <h4>Images of me as a councillor</h4>
-                <UploadPicture title="Upload Home page picture" helptext="profile.picture" owner={this.props.guid} />
+                <h4>Image to represent the council</h4>
+                <UploadPicture title="Upload Home page picture" helptext="council.picture" owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 4}>
-                <h4>The campaigns I run as a councillor</h4>
+                <h4>The campaigns run jointly by the councillors of the council</h4>
                 <Campaign owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 5}>
-                <h4>The events I organise as a councillor</h4>
+                <h4>The events I organise as a council</h4>
                 <Event owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 6}>
                 <ListsEditor owner={this.props.guid} description="The contact lists for use as a council"/>
+            </div>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 7}>
+                <Wards council={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 8}>
                 <h4>Help</h4>

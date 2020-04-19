@@ -29,21 +29,25 @@ class LinkManager
                 $l = Councillor::where('guid',$guid)->firstOrFail();
                 $u = User::where('guid',$l->owner)->firstOrFail();
                 $ret->name = $u->name;
+                $ret->description = "Councillor";
                 $ret->url = "/councillor/".$guid;
                 break;
             case 'CNC':
                 $l = Council::where('guid',$guid)->firstOrFail();
                 $ret->name = $l->name;
+                $ret->description = "Council";
                 $ret->url = "/council/".$guid;
                 break;
             case 'BRC':
                 $l = Branch::where('guid',$guid)->firstOrFail();
                 $ret->name = $l->name;
+                $ret->description = "Local Branch";
                 $ret->url = "/branch/".$guid;
                 break;
             case 'CMP':
                 $l = Campaign::where('guid',$guid)->firstOrFail();
                 $ret->name = $l->name;
+                $ret->description = "The Campaign";
                 $ret->url = "/campaign/".$guid;
                 break;
             break;

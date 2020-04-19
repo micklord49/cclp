@@ -58,7 +58,7 @@ ga('send', 'pageview');
 <body class="landing-page">
 <div id="app">
 @include('layouts.partials.menu')
-<main class="py-4">
+<main class="py-4" style="background-color: #ffffff;">
     @yield('content')
 </main>
 </div>

@@ -2,6 +2,9 @@
 
 @section('content')
 
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>
+
 <div class="page-header header-filter" data-parallax="true" style="background-image: url('/image{{ $Data->imageguid }}/blur');"></div>
   <div class="main main-raised">
     <div class="profile-content">  
@@ -92,6 +95,18 @@
           @endif
         </div>
       </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 ml-auto mr-auto">
+            {!! $Data->twitterembed !!}
+          </div>
+          <div class="col-md-6 ml-auto mr-auto">
+            <div class="fb-page" data-href="https://www.facebook.com/{{ $Data->facebookfeed }}/" data-tabs="timeline" data-width="" data-height="400" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" adapt_container_width="true"><blockquote cite="https://www.facebook.com/WestminsterLabour/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/{{ $Data->facebookfeed }}/">{{ $Data->name }}</a></blockquote></div>
+          </div>
+        </div>
+      </div>
+
 
       @include('layouts.partials.contactform',[
           'owner' => $Data->guid, 

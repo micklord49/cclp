@@ -38,8 +38,6 @@ export default class ControlPanelCLPBranchInfo extends Component {
   {
     let uri = '/branch/'+this.props.guid+'/'+ user +'/adduser';
     axios.get(uri, {}).then((response) => {
-          //this.props.history.push('/display-item');
-          console.log("Firing ControlPanelCLPCouncillors.onChange event")
           this.refresh();
         });
 
@@ -49,7 +47,6 @@ export default class ControlPanelCLPBranchInfo extends Component {
   {
     let uri = '/branch/'+this.props.guid+'/'+user+'/removeuser';
     axios.get(uri, {}).then((response) => {      
-          //this.props.history.push('/display-item');
           this.refresh();
         });
   }
@@ -92,7 +89,6 @@ export default class ControlPanelCLPBranchInfo extends Component {
 
     let uri = '/branch/'+this.props.guid;
     axios.patch(uri, branch).then((response) => {
-          //this.props.history.push('/display-item');
           this.props.onChange();
     });
   }

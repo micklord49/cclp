@@ -88,6 +88,7 @@ Route::resource('contacts', 'ContactsController');
 
 Route::get('clpapi/wards', 'ClpController@warddir');
 Route::get('clpapi/branches', 'ClpController@branchdir');
+Route::get('clpapi/tags', 'ClpController@tags');
 
 Route::get('clp/{user}/adduser', 'ClpController@adduser');
 Route::get('clp/{user}/removeuser', 'ClpController@removeuser');
@@ -129,7 +130,8 @@ Route::get('campaign/{campaign}/{tag}/removetag', 'CampaignController@removetag'
 Route::get('event/{owner}/dir', 'EventController@dir');
 
 Route::get('councils/dir/all', 'CouncilsController@dir');
-Route::get('councils/{council}/wards', 'CouncilsController@wards');
+Route::get('council/{council}/wards', 'CouncilsController@wards');
+Route::get('council/{council}/infoedit', 'CouncilsController@infoedit');
 
 
 Route::get('councillors/dir/all', 'CouncillorController@dir');

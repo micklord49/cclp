@@ -14,6 +14,7 @@ use App\ViewModels\HomeBranches;
 use App\ViewModels\EditBranch;
 use App\ViewModels\Managers\SocialManager;
 use App\ViewModels\Managers\VisitManager;
+use App\ViewModels\Managers\ListsManager;
 use App\BranchAdministrator;
 use Illuminate\Http\Request;
 
@@ -122,6 +123,9 @@ class BranchController extends Controller
     {
         //
         $ret = Branch::where('guid',$branch)->firstOrFail();        
+
+        ListsManager::owner($branch)->AddLists($ret);
+
         $users = BranchAdministrator::where('branch',$branch)->get();
         $adminusers = array();
         foreach($users as $user)

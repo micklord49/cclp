@@ -55,7 +55,7 @@ export default class ControlPanelCLPCouncil extends Component {
   
   refresh()
   {
-    axios.get("/councils/" + this.props.council + "/edit")
+    axios.get("/council/" + this.props.council + "/edit")
       .then(response => {
         this.setState({ 
           name: response.data.name, 
@@ -75,35 +75,17 @@ export default class ControlPanelCLPCouncil extends Component {
       about: this.state.about,
     }
 
-    let uri = '/councils/'+this.props.council;
+    let uri = '/council/'+this.props.council;
     axios.patch(uri, council).then((response) => {
-          //this.props.history.push('/display-item');
           this.props.onChange();
     });
   }
 
-
-  handleSubmit(event) 
-  {
-    event.preventDefault();
-
-    const council = {
-      name: this.state.name,
-      about: this.state.about,
-    }
-
-    let uri = '/councils/'+this.props.council;
-    axios.patch(uri, council).then((response) => {
-          //this.props.history.push('/display-item');
-          this.props.onChange();
-    });
-  }
 
 
   render() 
   {
     const neu = {
-      //backgroundColor: "#E0E5EC" ,
       borderRadius:4,
       marginLeft: "auto",
       marginRight: 50,
@@ -111,7 +93,6 @@ export default class ControlPanelCLPCouncil extends Component {
       paddingBottom:16,
       paddingRight: 30,
       paddingLeft: 20,
-      //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
 
     const form = {

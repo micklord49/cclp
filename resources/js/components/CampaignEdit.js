@@ -84,7 +84,8 @@ class CampaignEdit extends Component {
     const { classes } = this.props;
 
     const containerStyle = {
-      paddingTop: 46 
+      paddingTop: 46 ,
+      backgroundColor: "#ffffff" ,
     };
 
       const tabStyle = {

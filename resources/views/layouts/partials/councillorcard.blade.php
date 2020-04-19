@@ -4,7 +4,7 @@
             <div class="col-md-6 ml-auto mr-auto"  style="cursor:pointer" onclick="document.location='/councillor/{{ $councillor->guid }}';return false;">
                 <img src="{{ $councillor->image }}" alt="Thumbnail Image" class="img-raised rounded img-fluid">
             </div>
-            <h4 class="card-title">{{ $councillor->name }}
+            <h4 class="card-title text-center">{{ $councillor->name }}
                 <br>
                 <small class="card-description text-muted">{{ $councillor->ward }} - <i>{{ $councillor->council }}</i></small>
             </h4>

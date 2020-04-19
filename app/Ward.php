@@ -11,4 +11,9 @@ class Ward extends Model
         'clp', 'council', 'guid', 'name', 'about'
     ];
 
+    protected $attributes = [
+        'description' => '',
+     ];
+
+
 }

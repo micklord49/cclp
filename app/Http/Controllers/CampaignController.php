@@ -15,9 +15,10 @@ use App\TagOwner;
 
 use App\ViewModels\HomeCampaign;
 use App\ViewModels\EditCampaign;
-use App\ViewModels\Managers\VisitManager;
 use Illuminate\Http\Request;
 
+use App\ViewModels\Managers\VisitManager;
+use App\ViewModels\Managers\ListsManager;
 use App\ViewModels\Managers\TagManager;
 use App\ViewModels\Managers\StatsManager;
 
@@ -116,27 +117,7 @@ class CampaignController extends Controller
         //
         $ret = Campaign::where('guid',$campaign)->firstOrFail();
 
-        $subscriptionlists = ContactList::where('owner',$campaign)->where('type',1)->get();
-        $select = array();
-        foreach($subscriptionlists as $list)
-        {
-            $l = new \stdClass();
-            $l->value = $list->guid;
-            $l->display = $list->title;
-            array_push($select,$l);
-        }
-        $ret->subscriptionlists = $select;
-
-        $actionlists = ContactList::where('owner',$campaign)->where('type','>',1)->get();
-        $select = array();
-        foreach($actionlists as $list)
-        {
-            $l = new \stdClass();
-            $l->value = $list->guid;
-            $l->display = $list->title;
-            array_push($select,$l);
-        }
-        $ret->actionlists = $select;
+        ListsManager::owner($campaign)->AddLists($ret);
 
         $users = CampaignUser::where('campaign',$campaign)->get();
         $adminusers = array();

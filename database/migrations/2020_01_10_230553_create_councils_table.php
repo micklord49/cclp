@@ -19,6 +19,11 @@ class CreateCouncilsTable extends Migration
             $table->string('clp',36);
             $table->string('name');
             $table->longText('about');
+            $table->string('wardlocator',512);
+            $table->boolean('usesubscriptionlist');
+            $table->string('subscriptionlist',36);
+            $table->boolean('useactionlist');
+            $table->string('actionlist',36);
             $table->timestamps();
         });
     }

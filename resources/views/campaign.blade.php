@@ -10,18 +10,29 @@
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile">
               <div class="avatar">
-                <img src="/images/block-branch.png" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                <img src="/images/block-campaigns.png" alt="Circle Image" class="img-raised rounded-circle img-fluid">
               </div>
               <div class="name">
                 <h3 class="title">{{ $Data->title }}</h3>
-                <a href="#pablo" class="btn btn-just-icon btn-link btn-facebook"><i class="fa fa-dribbble"></i></a>
-                <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
-                <a href="#pablo" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-pinterest"></i></a>
+                @if(isset($Data->facebook))
+                  <a href="{{ $Data->facebook }}" class="btn btn-just-icon btn-link btn-facebook"><i class="fa fa-facebook"></i></a>
+                @endif
+                @if(isset($Data->instagram))
+                  <a href="{{ $Data->instagram }}" class="btn btn-just-icon btn-link btn-instagram"><i class="fa fa-instagram"></i></a>
+                @endif
+                @if(isset($Data->twitter))
+                  <a href="{{ $Data->twitter }}" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
+                @endif
+                @if(isset($Data->youtube))
+                  <a href="{{ $Data->youtube }}" class="btn btn-just-icon btn-link btn-youtube"><i class="fa fa-youtube"></i></a>
+                @endif
               </div>
             </div>
           </div>
         </div>
+
         <div class="description text-center">
+          <img src="{{ $Data->image }}" class="img-raised rounded img-fluid">
           <p>{{ $Data->subtitle }}</p>
         </div>
 
@@ -44,40 +55,35 @@
         @endisset
 
 
-        <div class="row">
-          <div class="col-md-6 ml-auto mr-auto">
-            <div class="profile-tabs">
-              <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
-                <li class="nav-item">
-                  <a class="nav-link active" href="#studio" role="tab" data-toggle="tab">
-                    <i class="material-icons">info</i> About
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#news" role="tab" data-toggle="tab">
-                    <i class="material-icons">local_library</i> News
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="tab-content tab-space">
-          <div class="tab-pane active text-center gallery" id="studio">
+
+          <div class="tab-pane active gallery" id="studio">
             <div class="row">
                 {!! $Data->body !!}
             </div>
           </div>
-          <div class="tab-pane text-center gallery" id="news">
-            <div class="row">
-            @include('layouts.partials.news')
-            </div>
-          </div>
+
+
+
         </div>
       </div>
 
 
+      <div class="row" text-center>
+        <div class="col-md-8 ml-auto mr-auto text-center">
+          <h2 class="title">Latest news</h2>
+          <h5 class="description">Here is the latest news from our campaign.</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 ml-auto mr-auto">
+        @include('layouts.partials.news')
+        </div>
+      </div>
 
+      <div class="section container">
+        <div class="row justify-content-center">
+          <h4>This campaign was started by <a href="{{ $Data->by->url }}">{{ $Data->by->description . ' ' . $Data->by->name }}</a>
+        </div>
       </div>
 
       <div class="section container">

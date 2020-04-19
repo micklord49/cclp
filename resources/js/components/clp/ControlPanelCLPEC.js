@@ -23,8 +23,6 @@ export default class ControlPanelCLPEC extends Component {
   constructor(props) {
       super(props);
       this.state = {roles: new Array(), selectedrole: ''};
-      //this.selectRole = this.selectRole.bind(this);
-      //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   selectRole(r){
@@ -63,14 +61,12 @@ export default class ControlPanelCLPEC extends Component {
 
     let uri = '/clp/1';
     axios.patch(uri, clp).then((response) => {
-          //this.props.history.push('/display-item');
     });
   }
 
 
   rolechanged()
   {
-    console.log("ControlPanelEC - role changes");
     axios.get("/ec/1/edit")
     .then(response => {
       this.setState({  roles: response.data.roles });

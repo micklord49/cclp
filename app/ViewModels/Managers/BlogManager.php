@@ -4,6 +4,8 @@ namespace App\ViewModels\Managers;
 
 use App\Branch;
 use App\Councillor;
+use App\Council;
+use App\Ward;
 use App\Campaign;
 use App\Blog;
 
@@ -32,7 +34,9 @@ class BlogManager
                 break;
             case 'CMP':
                 $ret->addReference($guid);
-            break;
+            case 'CNC':
+                $ret->addCouncil($guid);
+                break;
         }
 
         return $ret;
@@ -74,6 +78,24 @@ class IBlogs
             $this->addCampaigns($branch->guid);
         }
     }
+
+    public function addCouncil($council)
+    {
+        $wards = Ward::where("council",$council)->get();
+        foreach($wards as $ward)
+        {
+            array_push($this->owners,$ward->guid);
+            $councillors = Councillor::where("ward",$ward->guid)
+                        ->where('active',true)
+                        ->get();
+            foreach($councillors as $councillor)
+            {
+                array_push($this->owners,$councillor->guid);
+                $this->addCampaigns($councillor->guid);
+            }
+        }
+    }
+
 
     public function addCouncillors($owner)
     {

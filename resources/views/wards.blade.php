@@ -31,6 +31,13 @@
 
             <div class="section text-center">
                 <h2 class="title">{{ $council->name }}</h2>
+                @isset($council->wardlocator)
+                <h2 class="title">
+                  <button class="btn btn-primary btn-round" onclick="document.location='{{ $council->wardlocator }}';return false;">
+                    Find Your Ward <i class="material-icons">search</i>
+                  </button>
+                <h2>
+                @endisset
                 <div class="team">
                 <div class="row">
 

@@ -14,6 +14,11 @@ class Campaign extends Model
         'guid', 'title', 'subtitle', 'body', 'dn', 'owner'
     ];
 
+    protected $attributes = [
+        'actionlist' => '',
+        'subscriptionlist' => '',
+     ];
+
     public function tags()
     {
         return $this->hasMany('App\TagOwner','owner','guid');

@@ -29,8 +29,6 @@ export default class ControlPanelCLPECRole extends Component {
   {
     let uri = '/ec/'+this.props.role.guid+'/'+guid+'/adduser';
     axios.get(uri, {}).then((response) => {
-          //this.props.history.push('/display-item');
-          console.log("Firing ControlPanelECRole.onChange event")
           this.props.onChange();
         });
   }
@@ -39,8 +37,6 @@ export default class ControlPanelCLPECRole extends Component {
   {
     let uri = '/ec/'+this.props.role.guid+'/'+guid+'/removeuser';
     axios.get(uri, {}).then((response) => {
-          //this.props.history.push('/display-item');
-          console.log("Firing ControlPanelECRole.onChange event")
           this.props.onChange();
         });
   }

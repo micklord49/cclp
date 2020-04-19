@@ -13,6 +13,7 @@ use App\ContactList;
 
 use App\ViewModels\Managers\SocialManager;
 use App\ViewModels\Managers\BlogManager;
+use App\ViewModels\Managers\LinkManager;
 
 
 class HomeCampaign extends Model
@@ -32,6 +33,7 @@ class HomeCampaign extends Model
     public $image;
     public $events = array();
     public $nextevent;
+    public $by;
     public $news;
     public $menu;    
 
@@ -49,6 +51,7 @@ class HomeCampaign extends Model
         $this->analytics = $clps[0]->analytics;
 
         $campaign = Campaign::where('guid',$guid)->firstOrFail();
+        $this->by = LinkManager::for($campaign->owner);
         $owners = array();
 
         $this->guid = $guid;

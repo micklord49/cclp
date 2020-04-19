@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -28,7 +29,7 @@ export default class TagControl extends Component {
 
   refresh()
   {
-    axios.get("/clp/1/tags") 
+    axios.get("/clpapi/tags") 
     .then(response => {
       this.setState({  alltags: response.data });
     })
@@ -95,13 +96,20 @@ export default class TagControl extends Component {
                                 name="selectedtag"
                                 onChange={(e)=>{this.handleChange(e);}}
                                 autoWidth={true}
+                                startAdornment={
+                                  <InputAdornment position="start">
+                                    <Button startIcon={<AddIcon />} 
+                                            autoFocus color="inherit" 
+                                            onClick={()=>{this.addTag();}}>
+                                        Add Tag
+                                    </Button>
+                                  </InputAdornment>
+                                }
+            
                             >
                             {listitems}
                             </Select>
                         </FormControl>
-                <Button startIcon={<AddIcon />} autoFocus color="inherit" onClick={()=>{this.addTag();}}>
-                    Add Tag
-                </Button>
             </Grid>
             <Grid item xs={12}>
                 <TagList tags={this.props.tags} onremovetag={(guid) => {this.onRemoveTag(guid);}} />

@@ -16,7 +16,10 @@ import 'react-quill/dist/quill.snow.css'; // ES6
 export default class ControlPanelCLPWard extends Component {
   constructor(props) {
       super(props);
-      this.state = {name: "", about: ""};
+      this.state = {
+        name: "", 
+        about: ""
+      };
   }
 
   handleChangeName(e){
@@ -80,7 +83,6 @@ export default class ControlPanelCLPWard extends Component {
 
     let uri = '/wards/'+this.props.ward;
     axios.patch(uri, ward).then((response) => {
-          //this.props.history.push('/display-item');
     });
   }
 

@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{ $Data->image }}');"></div>
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/image{{ $Data->imageguid }}/blur');"></div>
   <div class="main main-raised">
     <div class="profile-content">
       <div class="container">
@@ -31,49 +31,18 @@
           </div>
         </div>
         <div class="description text-center">
+          <img src="{{ $Data->image }}" class="img-raised rounded img-fluid">
           <p>{!! $Data->about !!}</p>
         </div>
 
 
-        <div class="section text-center">
-            <h2 class="title">Councillors</h2>
-            <div class="team">
-
-            @foreach ($Data->councillors as $councillor)
-            <div class="col-md-4">
-              <div class="team-player">
-                <div class="card card-plain">
-                  <div class="col-md-6 ml-auto mr-auto"  style="cursor:pointer" onclick="document.location='/councillor/{{ $councillor->guid }}';return false;">
-                    <img src="{{ $councillor->image }}" alt="Thumbnail Image" class="img-raised rounded img-fluid">
-                  </div>
-                  <h4 class="card-title">{{ $councillor->name }}
-                    <br>
-                    <small class="card-description text-muted"></small>
-                  </h4>
-                  <div class="card-body">
-                    <p class="card-description">{{ $councillor->intro }}</p>
-                  </div>
-                  <div class="card-footer justify-content-center">
-                    @if(isset($councillor->facebook))
-                        <a href="{{ $councillor->facebook }}" class="btn btn-just-icon btn-link btn-facebook"><i class="fa fa-facebook"></i></a>
-                    @endif
-                    @if(isset($councillor->instagram))
-                        <a href="{{ $councillor->instagram }}" class="btn btn-just-icon btn-link btn-instagram"><i class="fa fa-instagram"></i></a>
-                    @endif
-                    @if(isset($councillor->twitter))
-                        <a href="{{ $councillor->twitter }}" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
-                    @endif
-                    @if(isset($councillor->youtube))
-                        <a href="{{ $councillor->youtube }}" class="btn btn-just-icon btn-link btn-youtube"><i class="fa fa-youtube"></i></a>
-                    @endif
-                  </div>
-                </div>
-              </div>
-            </div>
-            @endforeach
-            
+        <div class="section text-center container">
+            <h2 class="title">Your Councillors</h2>
+            <div class="row justify-content-center">
+              @each('layouts.partials.councillorcard',$Data->councillors,'councillor')
           </div>
-      </div>
+        </div>
+
 
 
       </div>

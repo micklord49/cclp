@@ -94,7 +94,6 @@ export default class ControlPanelCLPHome extends Component {
   {
     let uri = '/clp/'+guid+'/adduser';
     axios.get(uri, {}).then((response) => {
-          //this.props.history.push('/display-item');
           this.refresh();
         });
 
@@ -104,7 +103,6 @@ export default class ControlPanelCLPHome extends Component {
   {
     let uri = '/clp/'+guid+'/removeuser';
     axios.get(uri, {}).then((response) => {
-          //this.props.history.push('/display-item');
           this.refresh();
         });
   }
@@ -113,7 +111,6 @@ export default class ControlPanelCLPHome extends Component {
   {
     let uri = '/clp/'+guid+'/removetag';
     axios.get(uri, {}).then((response) => {
-          //this.props.history.push('/display-item');
           this.refresh();
         });
   }
@@ -127,7 +124,6 @@ export default class ControlPanelCLPHome extends Component {
     this.setState({newtag:""});
     let uri = '/clp/1/addtag';
     axios.patch(uri, tag).then((response) => {
-          //this.props.history.push('/display-item');
           this.refresh();
     });
   }
@@ -148,7 +144,6 @@ export default class ControlPanelCLPHome extends Component {
 
     let uri = '/clp/1';
     axios.patch(uri, clp).then((response) => {
-          //this.props.history.push('/display-item');
     });
   }
 

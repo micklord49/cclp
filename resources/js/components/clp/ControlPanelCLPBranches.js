@@ -82,7 +82,6 @@ export default class ControlPanelCLPBranches extends Component {
 
   branchselected(guid)
   {
-    console.log("Selecting branch:"+guid)
     if(typeof(guid)=="undefined")                         return;
     if(typeof(this.state.selectedbranch)=="undefined")   return;
     if(this.state.selectedbranch.guid==guid)             return;

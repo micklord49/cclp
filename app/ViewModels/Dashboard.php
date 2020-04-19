@@ -17,6 +17,7 @@ use App\CandidateAdministrator;
 use App\BranchAdministrator;
 use App\Blog;
 use App\Visit;
+use App\User;
 use Carbon\Carbon;
 
 use App\ViewModels\Managers\SocialManager;
@@ -63,9 +64,12 @@ class Dashboard extends Model
         if($councillor>0)
         {
             $councillor = Councillor::where('owner',$user->guid)->first();
-            $ward = Ward::where('guid',$councillor->ward)->first();
-            array_push($this->boards,$this->StatsForOwner($ward->council,"My Council's Page","/councillor","/council/".$ward->council));
             array_push($this->boards,$this->StatsForOwner($councillor->guid,"My info as a Councillor","/councillor","/councillor/".$councillor->guid));
+            if(isset($councillor->ward) && $councillor->ward != "")
+            {
+                $ward = Ward::where('guid',$councillor->ward)->first();
+                array_push($this->boards,$this->StatsForOwner($ward->council,"My Council's Page","/council/".$ward->council.'/infoedit',"/council/".$ward->council));
+            }
             $cb = $councillor->branch;                        
         }
         $candidate = Candidate::where('owner',$user->guid)->count();

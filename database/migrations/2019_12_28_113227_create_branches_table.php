@@ -22,6 +22,10 @@ class CreateBranchesTable extends Migration
             $table->longText('about');
             $table->string('ecofficer',36);
             $table->string('email');
+            $table->boolean('usesubscriptionlist');
+            $table->string('subscriptionlist',36);
+            $table->boolean('useactionlist');
+            $table->string('actionlist',36);
             $table->timestamps();
         });
     }

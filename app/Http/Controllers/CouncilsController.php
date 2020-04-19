@@ -10,9 +10,11 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use App\Council;
+use App\Councillor;
 use App\Ward;
 
 use App\ViewModels\HomeCouncil;
+use App\ViewModels\EditCouncil;
 use App\ViewModels\Managers\VisitManager;
 
 class CouncilsController extends Controller
@@ -89,7 +91,7 @@ class CouncilsController extends Controller
     public function edit($council)
     {
         //
-        $ret = Council::select('guid','name', 'about')->where("guid",$council)->firstOrFail();        
+        $ret = Council::select('guid','name', 'about', 'wardlocator')->where("guid",$council)->firstOrFail();        
         return($ret);
     }
 
@@ -106,6 +108,10 @@ class CouncilsController extends Controller
         {
             if(!auth()->user()->can('Edit CLP'))
             {
+                //$c = Councillor::where('council',$council)->where('owner',auth()->user()->guid)->count();
+            }
+            else
+            {
                 abort(403);
             }
         }
@@ -120,6 +126,7 @@ class CouncilsController extends Controller
         {
             $c->name = $request->name;
             $c->about = $request->about;
+            if(isset($request->wardlocator))     $c->wardlocator = $request->wardlocator;
         }
         catch(Exception $e)
         {
@@ -143,6 +150,19 @@ class CouncilsController extends Controller
         //
     }
 
+
+    public function infoedit($council)
+    {
+        $clpGuid = config('appsettings.clpGUID');
+
+        if(!Auth::check())
+        {
+            abort(404);
+        }
+        $data = new EditCouncil($council);
+        return view("editcouncil",['Data' => $data]);
+    }
+
     public function dir()
     {
         Log::info('Councils DIR');
@@ -164,7 +184,7 @@ class CouncilsController extends Controller
 
         app('debugbar')->disable();
 
-        $wards = Ward::select('guid','name')->where("council",$council)->get();        
+        $wards = Ward::select('guid','name')->where("council",$council)->orderBy('name', 'ASC')->get();        
 
         return($wards);
     }

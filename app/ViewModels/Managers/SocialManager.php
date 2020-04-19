@@ -26,12 +26,14 @@ class ISocialOwner
         $social = Social::where("owner",$this->owner)->first();
         if(isset($social->facebook)) 
         {
-            if($social->facebook != "") $obj->facebook = $this->sanitize($social->facebook);
+            $obj->facebookfeed =$social->facebook;
+            if($social->facebook != "") $obj->facebook = "https://facebook.com/".$social->facebook."/";
         }
         if(isset($social->twitter)) 
         {
             if($social->twitter != "") $obj->twitter = "https://twitter.com/".$social->twitter;
             $obj->twitterfeed = $social->twitterfeed;
+            $obj->twitterembed = '<a class="twitter-timeline" data-height="400" href="https://twitter.com/'.$social->twitter.'?ref_src=twsrc%5Etfw">Tweets</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
         }
         if(isset($social->youtube))
         {

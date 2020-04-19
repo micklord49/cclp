@@ -27,6 +27,10 @@ class CreateCouncillorsTable extends Migration
             $table->boolean('brandAsClp');
             $table->boolean('active');
             $table->boolean('campaign');
+            $table->boolean('usesubscriptionlist');
+            $table->string('subscriptionlist',36);
+            $table->boolean('useactionlist');
+            $table->string('actionlist',36);
             $table->timestamps();
         });
     }

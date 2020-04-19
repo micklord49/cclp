@@ -31,11 +31,19 @@
           </div>
         </div>
         <div class="description text-center">
+          <img src="{{ $Data->image }}" class="img-raised rounded img-fluid">
           <p>{!! $Data->about !!}</p>
         </div>
 
         <div class="section text-center container">
             <h2 class="title">Wards</h2>
+            @isset($Data->wardlocator)
+              <h2 class="title">
+                <button class="btn btn-primary btn-round" onclick="document.location='{{ $Data->wardlocator }}';return false;">
+                  Find Your Ward <i class="material-icons">search</i>
+                </button>
+              <h2>
+              @endisset
             <div class="row justify-content-center">
 
                 @each('layouts.partials.wardcard',$Data->wards,'ward')
@@ -52,7 +60,19 @@
         </div>
 
 
+        <div class="section text-center container">
+            <h2 class="title">Latest News</h2>
+            <div class="row justify-content-center">
+            @include('layouts.partials.news')
+          </div>
+        </div>
 
+        <div class="section text-center container">
+            <h2 class="title">Our Campaigns</h2>
+            <div class="row justify-content-center">
+            @each('layouts.partials.campaigncard',$Data->campaigns,'campaign')
+          </div>
+        </div>
 
       @include('layouts.partials.contactform',[
           'owner' => $Data->guid, 

@@ -27,8 +27,8 @@ class HomeCouncil extends Model
     public $clpname;
     public $guid;
     public $name;
-    public $intro;
     public $about;
+    public $wardlocator;
     public $image;
     public $campaigns = array();
     public $councillors = array();
@@ -57,8 +57,8 @@ class HomeCouncil extends Model
         array_push($owners,$guid);
 
         $this->name = $council->name;
-        $this->intro = $council->intro;
         $this->about = $council->about;
+        $this->wardlocator = $council->wardlocator;
 
         $i = new ImageFile($guid);
         if($i->filename != "")
@@ -70,6 +70,42 @@ class HomeCouncil extends Model
             $this->image = "/images/defaultcouncil.png";
         }
 
+
+        $this->wards = Ward::where('council',$guid)->get();
+        foreach($this->wards as $ward)
+        {
+            $i = new ImageFile($ward->guid);
+            if($i->filename=="") {
+                $ward->image = "/images/defaultward.png";
+            }            
+            else  {
+                $ward->image = $i->filename;
+            }
+
+            $councillors = Councillor::where('ward',$ward->guid)->get();
+            foreach($councillors as $councillor)
+            {
+                array_push($owners,$councillor->guid);
+                $c = new class {};
+                $usr = User::where('guid',$councillor->owner)->first();
+                $c->name = $usr->name;
+                $c->guid = $councillor->guid;
+                $c->intro = $councillor->intro;
+    
+                SocialManager::owner($councillor->guid)->addlinks($c);
+    
+                $i = new ImageFile($c->guid);
+                $c->image = $i->filename;
+    
+                $ward = Ward::where('guid',$councillor->ward)->first();
+                $c->ward = $ward->name;
+    
+                $council = Council::where('guid',$ward->council)->first();
+                $c->council = $council->name;
+    
+                array_push($this->councillors,$c);
+            }
+        }
 
         $campaigns = Campaign::whereIn('owner',$owners)->get();
         foreach($campaigns as $campaign)
@@ -91,40 +127,6 @@ class HomeCouncil extends Model
             array_push($this->campaigns,$c);
         }
 
-        $this->wards = Ward::where('council',$guid)->get();
-        foreach($this->wards as $ward)
-        {
-            $i = new ImageFile($ward->guid);
-            if($i->filename=="") {
-                $ward->image = "/images/defaultward.png";
-            }            
-            else  {
-                $ward->image = $i->filename;
-            }
-
-            $councillors = Councillor::where('ward',$ward->guid)->get();
-            foreach($councillors as $councillor)
-            {
-                $c = new class {};
-                $usr = User::where('guid',$councillor->owner)->first();
-                $c->name = $usr->name;
-                $c->guid = $councillor->guid;
-                $c->intro = $councillor->intro;
-    
-                SocialManager::owner($councillor->guid)->addlinks($c);
-    
-                $i = new ImageFile($c->guid);
-                $c->image = $i->filename;
-    
-                $ward = Ward::where('guid',$councillor->ward)->first();
-                $c->ward = $ward->name;
-    
-                $council = Council::where('guid',$ward->council)->first();
-                $c->council = $council->name;
-    
-                array_push($this->councillors,$c);
-            }
-        }
         
         $this->nextevent = Event::where('owner',$guid)->where('starttime','>',now())->first();
         $this->nexteventlink = "";

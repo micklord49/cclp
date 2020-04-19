@@ -30,10 +30,6 @@ class SocialController extends Controller
     {
         if(Auth::check())
         {
-            if(!auth()->user()->can('Edit CLP'))
-            {
-                abort(403);
-            }
         }
         else {
             abort(403);

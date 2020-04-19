@@ -24,7 +24,13 @@ import ControlPannelCLPWard from './ControlPanelCLPWard';
 export default class ControlPanelCLPWards extends Component {
   constructor(props) {
       super(props);
-      this.state = {wards: new Array(), selectedcouncil: '', selectedward: '', open:false, newname: ''};
+      this.state = {
+        wards: new Array(), 
+        selectedcouncil: '', 
+        selectedward: '', 
+        open:false, 
+        newname: ''
+      };
   }
 
   componentDidMount()
@@ -34,21 +40,11 @@ export default class ControlPanelCLPWards extends Component {
 
   componentDidUpdate(prevProps) 
   {
-    if(typeof(this.props.council)=="undefined")
-    {
-      return;
-    }
-    if(this.props.council=="")
-    {
-      return;
-    }
-    if(this.props.council==this.state.selectedcouncil)
-    {
-      return;
-    }
+    if(typeof(this.props.council)=="undefined")   return;
+    if(this.props.council=="") return;
+    if(this.props.council==this.state.selectedcouncil)  return;
     this.refresh();
   }
-
 
   handleClickOpen()
   {
@@ -73,8 +69,7 @@ export default class ControlPanelCLPWards extends Component {
 
   refresh()
   {
-    console.log("Loading wards...");
-    axios.get("/councils/" + this.props.council + "/wards")
+    axios.get("/council/" + this.props.council + "/wards")
           .then(response => {
             const items = response.data;
             this.setState({ wards: items,
@@ -123,7 +118,6 @@ export default class ControlPanelCLPWards extends Component {
 
     let uri = '/wards';
     axios.post(uri, ward).then((response) => {
-          //this.props.history.push('/display-item');
           this.refresh();
     });
   }

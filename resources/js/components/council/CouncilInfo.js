@@ -81,10 +81,9 @@ class CouncilInfo extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        dn: '', 
-        email: '', 
-        intro: '', 
+        name: '', 
         about: '', 
+        wardlocator: '', 
 
         opensuccess: false, 
         openfail: false, 
@@ -122,16 +121,14 @@ class CouncilInfo extends Component {
   refresh()
   {
     console.log("Retrieving councillor");
-    axios.get("/councillor/"+this.props.guid+"/edit")
+    axios.get("/council/"+this.props.guid+"/edit")
       .then(response => {
         this.setState({ 
           dn: response.data.dn, 
           email: response.data.email, 
-          intro: response.data.intro, 
+          name: response.data.name, 
           about: response.data.about, 
-          active: response.data.active==1, 
-          campaign: response.data.campaign==1, 
-          adminusers: response.data.adminusers,
+          wardlocator: response.data.wardlocator, 
         });
       })
       .catch(function (error) {
@@ -166,10 +163,9 @@ class CouncilInfo extends Component {
 
     const user = {
       type: 'INFO',
-      dn: this.state.dn,
-      email: this.state.email,
-      intro: this.state.intro,
+      name: this.state.name,
       about: this.state.about,
+      wardlocator: this.state.wardlocator,
     }
 
     let uri = '/council/'+this.props.guid;
@@ -239,46 +235,26 @@ class CouncilInfo extends Component {
         <Grid item md={6} xs={12}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-                <TextField id="info-intro" 
-                value={this.state.intro} 
-                label="Introduce the Council" 
+                <TextField 
+                value={this.state.name} 
+                label="The name of the Council" 
                 name="intro"
                 onChange={(e)=>{this.handleChange(e);}} 
                 fullWidth
                 multiline
-                placeholder="Introduce Yourself"
-                helperText="This is a short description to be shown on the card."/>
+                placeholder="Name"
+                helperText="This is the full official name of the council."/>
             </Grid>
             <Grid item xs={12}>
-                <p>You can and should specify an email address for the work of the councillors for this council.</p>
-                <FormControl >
-                      <InputLabel htmlFor="clp-email">Email</InputLabel>
-                      <Input
-                        id="council-email"
-                        type='text'
-                        value={this.state.email}
-                        name="email"
-                        onChange={(e)=>{this.handleChange(e);}}  
-                        endAdornment={<InputAdornment position="end"><MailIcon /></InputAdornment>}
-                  />
-                </FormControl>
-
-            </Grid>
-            <Grid item xs={12}>
-                <p>You can also point your own internet domain name to this site it you like.</p>
-                <TextField id="info-dn" 
+                <p>You can specify the URL of a web page to help someone locate their ward.</p>
+                <TextField 
                 value={this.state.dn} 
-                label="Domain Name" 
-                name="dn"
+                label="Ward Locator" 
+                name="wardlocator"
                 onChange={(e)=>{this.handleChange(e);}} 
                 fullWidth
-                helperText="This is your personal domain name."/>
+                helperText="This is often a service provided by the local council."/>
             </Grid>
-            <Grid item xs={12}>
-                <p>Select the users who will be able to access your council administration screen in addition to yourself</p>
-                <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.adminusers} addUser={(guid) => this.addUser(guid)}/>              
-            </Grid>
-          
           </Grid>
         </Grid>
         <Grid item md={6} xs={12}>

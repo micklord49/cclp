@@ -175,7 +175,7 @@
                 </div>
                 <h4 class="card-title">Councillors
                   <br>
-                  <small class="card-description text-muted">8</small>
+                  <small class="card-description text-muted">Meet the Labour Councillors of our CLP</small>
                 </h4>
                 <div class="card-body">
                   <p class="card-description">These are your representatives on the local council. They can help you with a wide range of issues from 

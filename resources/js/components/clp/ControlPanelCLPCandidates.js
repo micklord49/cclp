@@ -37,7 +37,6 @@ export default class ControlPanelCLPCandidates extends Component {
   {
     let uri = '/candidate/'+guid+'/adduser';
     axios.get(uri, {}).then((response) => {
-          //this.props.history.push('/display-item');
           this.refresh();
         });
 
