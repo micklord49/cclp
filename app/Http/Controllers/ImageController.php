@@ -117,12 +117,13 @@ class ImageController extends Controller
 
         $newimage = uniqid("IMG");
         $owner = request()->owner;
-
         $path = request()->file('image')->store('images');
 
-        Image::create(array('guid' => $newimage,
-        'owner' => $owner,
-        'path' => $path));
+        Image::create(array(
+            'guid' => $newimage,
+            'owner' => $owner,
+            'path' => $path
+        ));
         
         return back()
             ->with('success','You have successfully upload image.')
@@ -199,6 +200,39 @@ class ImageController extends Controller
             ['Content-Type' => 'image/jpg']
         );
     
+    }
+
+    public function delete($id)
+    {
+        $i = Image::where('owner',$id)->firstOrFail();
+        Storage::disk('images')->delete($i->path);
+        $i->delete();
+    }
+
+    public function aclock($id)
+    {
+        $i = new ImageFile($id);
+        $filename = 'app' . $i->filename;
+        $filename = str_replace("image","images",$filename);
+        if($filename=="")
+        {
+            Log::debug("No filename returned - so using default user image");
+
+        }
+        ImageEdit::make(storage_path($filename))->rotate(90)->save();
+    }
+
+    public function rclock($id)
+    {
+        $i = new ImageFile($id);
+        $filename = 'app' . $i->filename;
+        $filename = str_replace("image","images",$filename);
+        if($filename=="")
+        {
+            Log::debug("No filename returned - so using default user image");
+
+        }
+        ImageEdit::make(storage_path($filename))->rotate(-90)->save();
     }
 
     public function blur($id)

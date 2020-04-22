@@ -5,6 +5,7 @@ namespace App\ViewModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\ViewModels\Managers\BlogManager;
+use App\ViewModels\Managers\SocialManager;
 
 use App\Council;
 use App\Candidate;
@@ -15,6 +16,7 @@ class Home extends Model
 
     public $name;
     public $description;
+    public $specialheadline;
     public $guid;
     public $msg;
     public $councils;
@@ -40,6 +42,19 @@ class Home extends Model
 
         $this->name = $clps[0]->name;
         $this->description = $clps[0]->description;
+        $this->specialheadline = $clps[0]->specialheadline;
+
+        $i = new ImageFile($clpGuid);
+        if($i->filename != "")
+        {
+            $this->image = $i->filename;
+        }
+        else
+        {
+            $this->image = "/images/defaultclp.jpg";
+        }
+
+
 
         $councils = Council::where('clp',$clpGuid)->count();
         if($councils == 1)
@@ -73,7 +88,7 @@ class Home extends Model
 
         //$this->news = new Blogs($clpGuid,6,true,true);
         $this->news = BlogManager::for($clpGuid)->getCards();
-
+        SocialManager::owner($clpGuid)->addlinks($this);
         $this->menu = new Menu($clpGuid);
 
 

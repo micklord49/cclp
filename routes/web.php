@@ -151,12 +151,18 @@ Route::get('candidate/{candidate}/infoedit', 'CandidateController@infoedit');
 Route::get('cpl/branch/{branch}', 'BranchController@showcplbranch');
 Route::get('branch/dir/all', 'BranchController@dir');
 Route::get('branch/{branch}/{user}/adduser', 'BranchController@adduser');
+Route::get('branch/{branch}/{user}/addchair', 'BranchController@addchair');
+Route::get('branch/{branch}/{user}/addsecretary', 'BranchController@addsecretary');
+Route::get('branch/{branch}/{user}/addrep', 'BranchController@addrep');
 Route::get('branch/{branch}/{user}/removeuser', 'BranchController@removeuser');
 
 Route::post('image/{user}/changeimage', 'ImageController@changeimage');
 Route::get('image/{user}/imagefile', 'ImageController@imagefile');
 Route::get('image/{user}/image', 'ImageController@image');
 Route::get('image/{user}/blur', 'ImageController@blur');
+Route::get('image/{user}/aclock', 'ImageController@aclock');
+Route::get('image/{user}/rclock', 'ImageController@rclock');
+Route::get('image/{user}/delete', 'ImageController@delete');
 
 Route::get('social/load/{owner}', 'SocialController@load');
 Route::post('social/save', 'SocialController@save');

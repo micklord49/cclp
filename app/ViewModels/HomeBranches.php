@@ -52,7 +52,7 @@ class HomeBranches extends Model
             $b->guid = $branch->guid;
             array_push($owners,$branch->guid);
 
-            SocialManager::owner($branch->guid)->addlinks($this->branch);
+            SocialManager::owner($branch->guid)->addlinks($b);
 
             $i = new ImageFile($b->guid);
             if($i->filename=="") {

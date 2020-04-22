@@ -126,7 +126,7 @@ class BranchController extends Controller
 
         ListsManager::owner($branch)->AddLists($ret);
 
-        $users = BranchAdministrator::where('branch',$branch)->get();
+        $users = BranchAdministrator::where('branch',$branch)->where('type','admin')->get();
         $adminusers = array();
         foreach($users as $user)
         {
@@ -135,6 +135,37 @@ class BranchController extends Controller
             array_push($adminusers,$new);
         }
         $ret->adminusers = $adminusers;
+
+        $users = BranchAdministrator::where('branch',$branch)->where('type','chair')->get();
+        $adminusers = array();
+        foreach($users as $user)
+        {
+            $new = new \stdClass();
+            $new->guid = $user->user;
+            array_push($adminusers,$new);
+        }
+        $ret->chair = $adminusers;
+
+        $users = BranchAdministrator::where('branch',$branch)->where('type','secretary')->get();
+        $adminusers = array();
+        foreach($users as $user)
+        {
+            $new = new \stdClass();
+            $new->guid = $user->user;
+            array_push($adminusers,$new);
+        }
+        $ret->secretary = $adminusers;
+
+        $users = BranchAdministrator::where('branch',$branch)->where('type','ec rep')->get();
+        $adminusers = array();
+        foreach($users as $user)
+        {
+            $new = new \stdClass();
+            $new->guid = $user->user;
+            array_push($adminusers,$new);
+        }
+        $ret->rep = $adminusers;
+
         return $ret;
     }
 
@@ -237,7 +268,71 @@ class BranchController extends Controller
         BranchAdministrator::create(array(
             'guid' => uniqid("BAU"),
             'branch' => $branch,
-            'user' => $user
+            'user' => $user,
+            'type' => 'admin',
+        ));
+
+        Log::info('Adding user '.$user.' as a branch admin user');
+    }
+
+    public function addchair($branch,$user)
+    {
+        if(Auth::check())
+        {
+        }
+        else {
+            abort(404);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+
+        BranchAdministrator::create(array(
+            'guid' => uniqid("BAU"),
+            'branch' => $branch,
+            'user' => $user,
+            'type' => 'chair',
+        ));
+
+        Log::info('Adding user '.$user.' as a branch admin user');
+    }
+
+    public function addsecretary($branch,$user)
+    {
+        if(Auth::check())
+        {
+        }
+        else {
+            abort(404);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+
+        BranchAdministrator::create(array(
+            'guid' => uniqid("BAU"),
+            'branch' => $branch,
+            'user' => $user,
+            'type' => 'secretary',
+        ));
+
+        Log::info('Adding user '.$user.' as a branch admin user');
+    }
+
+    public function addrep($branch,$user)
+    {
+        if(Auth::check())
+        {
+        }
+        else {
+            abort(404);
+        }
+
+        $clpGuid = config('appsettings.clpGUID');
+
+        BranchAdministrator::create(array(
+            'guid' => uniqid("BAU"),
+            'branch' => $branch,
+            'user' => $user,
+            'type' => 'ec rep',
         ));
 
         Log::info('Adding user '.$user.' as a branch admin user');

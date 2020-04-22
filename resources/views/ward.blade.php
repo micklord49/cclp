@@ -35,38 +35,32 @@
           <p>{!! $Data->about !!}</p>
         </div>
 
-
+        @isset($Data->councillors)
+        @if(count($Data->councillors) > 0)
         <div class="section text-center container">
+            @if(count($Data->councillors) == 1)
+            <h2 class="title">Your Councillor</h2>
+            @else
             <h2 class="title">Your Councillors</h2>
+            @endif
             <div class="row justify-content-center">
               @each('layouts.partials.councillorcard',$Data->councillors,'councillor')
           </div>
         </div>
+        @endif
+        @endisset
 
-
+        <div class="section text-center container">
+            <div class="row justify-content-center">
+          </div>
+        </div>
 
       </div>
   </div>
+  </div>
 
 
-  <footer class="footer footer-default">
-    <div class="container">
-        <nav class="float-left">
-            <ul>
-                <li>
-                    <a href="/about">
-                    About Us
-                    </a>
-                </li>
-                <li>
-                    <a href="/news">
-                    News
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-  </footer>
+  @include('layouts.partials.footer',[])
 
 
   @endsection

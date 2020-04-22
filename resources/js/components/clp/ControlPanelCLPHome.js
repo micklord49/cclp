@@ -37,6 +37,7 @@ export default class ControlPanelCLPHome extends Component {
       this.state = {
         name: '', 
         description: '', 
+        specialheadline: '', 
         analytics: '', 
         dn: '', 
         phone: '', 
@@ -65,6 +66,11 @@ export default class ControlPanelCLPHome extends Component {
       description: text
     })
   }
+  handleChangeSpecial(text){
+    this.setState({
+      specialheadline: text
+    })
+  }
 
   componentDidMount(){
     this.refresh();
@@ -77,6 +83,7 @@ export default class ControlPanelCLPHome extends Component {
         this.setState({ 
           name: response.data.name, 
           description: response.data.description, 
+          specialheadline: response.data.specialheadline, 
           dn: response.data.dn, 
           analytics: response.data.analytics, 
           phone: response.data.phone, 
@@ -136,6 +143,7 @@ export default class ControlPanelCLPHome extends Component {
       type: 'INFO',
       name: this.state.name,
       description: this.state.description,
+      specialheadline: this.state.specialheadline,
       analytics: this.state.analytics,
       dn: this.state.dn,
       phone: this.state.phone,
@@ -151,7 +159,7 @@ export default class ControlPanelCLPHome extends Component {
   render() 
   {
     const neu = {
-      backgroundColor: "#E0E5EC" ,
+      backgroundColor: "#ffffff" ,
       borderRadius:4,
       marginLeft: "auto",
       marginRight: "auto",
@@ -267,6 +275,16 @@ export default class ControlPanelCLPHome extends Component {
               <div style={{backgroundColor:"#ffffff", minHeight:300}}>
                 <ReactQuill value={this.state.description}
                             onChange={(e)=>{this.handleChangeDescription(e);}} />
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <h3>Add a special headline</h3>
+              <p>Normally you would leave this blank.</p>
+            </Grid>
+            <Grid item xs={12}>
+              <div style={{backgroundColor:"#ffffff", minHeight:300}}>
+                <ReactQuill value={this.state.specialheadline}
+                            onChange={(e)=>{this.handleChangeSpecial(e);}} />
               </div>
             </Grid>
           </Grid>

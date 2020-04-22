@@ -200,7 +200,10 @@ export default class SMTwitter extends Component {
         </Grid>
         <Grid item xs={12} style={upstyle}>
             <Grid container>
-              <Grid item xs={3}>
+              <Grid item xs={12}>
+                <p>If you would like, you can have your twitter feed appear on your home page.</p>
+              </Grid>
+              <Grid item xs={12}>
                 <FormControlLabel
                   control={
                     <Switch
@@ -214,9 +217,6 @@ export default class SMTwitter extends Component {
                   label="Show Twitter Feed"
                 />
 
-              </Grid>
-              <Grid item xs={9}>
-                <p>If you would like, you can have your twitter feed appear on your home page.</p>
               </Grid>
             </Grid>
         </Grid>

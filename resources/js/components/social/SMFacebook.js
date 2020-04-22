@@ -5,6 +5,12 @@ import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
+import IconButton from '@material-ui/core/IconButton';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Switch from '@material-ui/core/Switch';
 
 import { IconContext } from "react-icons";
 import { IoLogoFacebook } from 'react-icons/io';
@@ -22,7 +28,8 @@ export default class SMFacebook extends Component {
       this.state = {
           facebook: '', 
           facebookKey: '', 
-          facebookSecret: '',
+          facebookfeed: false,
+          facebookKey: '', 
 
           opensuccess: false, 
           openfail: false, 
@@ -52,11 +59,13 @@ export default class SMFacebook extends Component {
         console.log(response);
         this.setState({  
             facebook: response.data.facebook,
+            facebookfeed: response.data.facebookfeed,
             });
       })
       .catch(function (error) {
         this.setState({  
           facebook: "",
+          facebookfeed: false, 
           facebookKey: "", 
           facebookSecret: "", 
         });
@@ -74,6 +83,7 @@ export default class SMFacebook extends Component {
         type: 'FACEBOOK',
         owner: this.props.owner,
         facebook: this.state.facebook,
+        facebookfeed: this.state.facebookfeed,
         facebookKey: this.state.facebookKey,
         facebookSecret: this.state.facebookSecret,
     }
@@ -95,7 +105,7 @@ export default class SMFacebook extends Component {
   render() 
   {
     const neu = {
-      backgroundColor: "#E0E5EC" ,
+      backgroundColor: "#ffffff" ,
       borderRadius:4,
       marginLeft: "auto",
       marginRight: 120,
@@ -138,15 +148,44 @@ export default class SMFacebook extends Component {
           </Button>
         </Grid>
         <Grid item xs={12}>
-            <IoLogoFacebook />
             <TextField 
-                id="sm-facebook" 
                 fullWidth
                 name="facebook"
                 value={this.state.facebook} 
                 onChange={(e)=>{this.handleChange(e);}} 
-                label="Facebook" 
+                helperText="This is your facebook username, not a link to your facebook page."
+                label="Facebook Username" 
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IoLogoFacebook />
+                    </InputAdornment>
+                  ),
+                }}
+
             />
+        </Grid>
+        <Grid item xs={12} style={upstyle}>
+            <Grid container>
+              <Grid item xs={12}>
+                <p>If you would like, you can have your facebook feed appear on your home page.</p>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      name="facebookfeed"
+                      checked={this.state.facebookfeed}
+                      onChange={(e)=>{this.handleChange(e);}}
+                      value="facebookfeed"
+                      color="primary"
+                    />
+                  }
+                  label="Show Facebook Feed"
+                />
+
+              </Grid>
+            </Grid>
         </Grid>
         <Grid item xs={12} style={upstyle}>
             <HelpText name='facebook.api' style="neuhelp"/>      

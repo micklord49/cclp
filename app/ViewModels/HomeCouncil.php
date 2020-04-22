@@ -30,6 +30,7 @@ class HomeCouncil extends Model
     public $about;
     public $wardlocator;
     public $image;
+    public $imageguid;
     public $campaigns = array();
     public $councillors = array();
     public $events = array();
@@ -61,6 +62,7 @@ class HomeCouncil extends Model
         $this->wardlocator = $council->wardlocator;
 
         $i = new ImageFile($guid);
+        $this->imageguid = $i->guid;
         if($i->filename != "")
         {
             $this->image = $i->filename;

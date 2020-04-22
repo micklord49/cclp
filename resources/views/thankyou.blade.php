@@ -28,25 +28,8 @@
 
 
 
-  <footer class="footer footer-default">
-    <div class="container">
-        <nav class="float-left">
-            <ul>
-                <li>
-                    <a href="/about">
-                    About Us
-                    </a>
-                </li>
-                <li>
-                    <a href="/news">
-                    News
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-  </footer>
+@include('layouts.partials.footer',[])
 
 
-  @endsection
+@endsection
 

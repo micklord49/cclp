@@ -8,7 +8,7 @@ class BranchAdministrator extends Model
 {
     //
     protected $fillable = [
-        'guid', 'branch', 'user'
+        'guid', 'branch', 'user', 'type'
     ];
 
 }

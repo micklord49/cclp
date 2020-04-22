@@ -36,9 +36,7 @@ class EditEC extends Model
         $clpGuid = config('appsettings.clpGUID');
         $this->clpGuid = $clpGuid;
 
-        Log::info('Retrieving roles for CLP '.$clpGuid);
         $roles = Clprole::where('clp',$clpGuid)->get();
-
         foreach($roles as $role)
         {
             $roleview = new \stdClass();

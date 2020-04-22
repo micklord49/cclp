@@ -9,6 +9,10 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import DeleteIcon from '@material-ui/icons/Delete';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import RotateRightIcon from '@material-ui/icons/RotateRight';
+import CropIcon from '@material-ui/icons/Crop';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import HelpText from './HelpText';
@@ -17,7 +21,6 @@ import AlertSave from './AlertSave';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css'; 
 
-const cropper = React.createRef(null);
 
 import {
   MuiPickersUtilsProvider,
@@ -31,6 +34,8 @@ import { notchedOutline } from 'material-components-web';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
+
+
 
 export default class UploadPicture extends Component {
   constructor(props) {
@@ -47,6 +52,9 @@ export default class UploadPicture extends Component {
       };
       //this.handleChangeAbout = this.handleChangeAbout.bind(this);
       //this.handleSubmit = this.handleSubmit.bind(this);
+
+      this.cropper = React.createRef();
+
   }
 
   handleChangeAbout(e){
@@ -65,10 +73,13 @@ export default class UploadPicture extends Component {
       this.loadImage();
     }
   }
+
   
+
   loadImage()
   {
     if(this.props.owner=='')   return;
+    console.log('Loading Image:'+this.props.owner);
     axios.get("/image/"+this.props.owner+"/imagefile")
       .then(response => {
         this.setState({ imagefile: response.data.filename, 
@@ -85,14 +96,61 @@ export default class UploadPicture extends Component {
 
   _crop(){
     // image in dataUrl
-    //console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
+    console.log(this.cropper.current.getCroppedCanvas().toDataURL());
+    return;
+    event.preventDefault();
+    axios.get("/image/" + this.props.owner + "/crop")
+    .then(response => {
+      this.loadImage();
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
+
+  deleteimage(e)
+  {
+    event.preventDefault();
+    axios.get("/image/" + this.props.owner + "/delete")
+    .then(response => {
+      this.cropper.current.replace(this.state.imagefile);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
+
+  rotateclockwise(e)
+  {
+    event.preventDefault();
+    axios.get("/image/" + this.props.owner + "/rclock")
+    .then(response => {
+      this.cropper.current.replace(this.state.imagefile);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
+  rotateanticlockwise(e)
+  {
+    event.preventDefault();
+    axios.get("/image/" + this.props.owner + "/aclock")
+    .then(response => {
+      this.cropper.current.replace(this.state.imagefile);
+     })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
+
+  cropimage(e)
+  {
+    this._crop();
   }
 
   uploadfile(event) {
     event.preventDefault();
     event.persist();
-
-    console.log(event);
 
     this.setState({ selectedfile: event.target.files[0] });
     
@@ -174,7 +232,7 @@ export default class UploadPicture extends Component {
         <Grid container>
           <Grid item xs={sz} style={{height: 400}}>
             <Cropper
-                    ref={cropper}
+                    ref={this.cropper}
                     src={this.state.imagefile}
                     style={{height: '100%', width: '100%', objectFit: 'contain', backgroundColor: "#ffffff"}}
                     // Cropper.js options
@@ -203,6 +261,36 @@ export default class UploadPicture extends Component {
                     {this.props.title}
                   </Button>
                 </label>                
+              </Grid>
+              <Grid item xs={12} style={upstyle}>
+                <IconButton
+                    variant="contained"
+                    color="primary"
+                    onClick={(e)=>this.rotateanticlockwise(e)}
+                    >
+                    <RotateLeftIcon />
+                  </IconButton>
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    onClick={(e)=>this.rotateclockwise(e)}
+                    >
+                      <RotateRightIcon />
+                  </IconButton>
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    onClick={(e)=>this.cropimage(e)}
+                    >
+                      <CropIcon />
+                  </IconButton>
+                  <IconButton
+                    variant="contained"
+                    color="secondary"
+                    onClick={(e)=>this.deleteimage(e)}
+                    >
+                      <DeleteIcon />
+                  </IconButton>
               </Grid>
               <Grid item xs={12} style={upstyle}>
                 <HelpText name={this.props.helptext} style="neuhelp"/>      

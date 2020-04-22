@@ -17,6 +17,9 @@ class SocialController extends Controller
     public function load($owner)
     {
         $ret = Social::firstOrNew([ 'owner' => $owner]);
+
+        $ret->facebookfeed = $ret->facebookfeed ?? false;
+
         $ret->twitterfeed = $ret->twitterfeed ?? false;
         $ret->twitterapikey = $ret->twitterapikey ?? "";
         $ret->twitterapisecret = $ret->twitterapisecret ?? "";
@@ -50,6 +53,7 @@ class SocialController extends Controller
             {
                 case 'FACEBOOK':
                     $social->facebook = $request->facebook ?? '';
+                    $social->facebookfeed = $request->facebookfeed ?? false;
                     break;
                 case 'INSTAGRAM':
                     $social->instagram = $request->instagram ?? '';

@@ -17,7 +17,8 @@ class CreateCclpsTable extends Migration
             $table->bigIncrements('id');
             $table->string('guid',36);
             $table->string('name',128);
-            $table->string('description',2048);
+            $table->longText('description');
+            $table->longText('specialheadline');
             $table->string('analytics',48);
             $table->string('dn');
             $table->string('email');

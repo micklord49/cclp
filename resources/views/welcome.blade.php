@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="page-header header-filter" data-parallax="true" style="background-image: url('/images/514307-PI8QDN-910.jpg')">
+
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{ $Data->image }}')">
   <div class="container">
     <div class="row">
       <div class="col-md-6">
@@ -20,6 +21,16 @@
   <div class="container">
     
     <div class="section text-center">
+
+    @isset($Data->specialheadline)
+    @if($Data->specialheadline != '')
+    <div class="row">
+        <div class="col-md-8 ml-auto mr-auto text-left">
+          {!! $Data->specialheadline !!}
+        </div>
+      </div>
+    @endif
+    @endisset
 
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto">
@@ -78,7 +89,7 @@
                 </div>
                 <h4 class="card-title">Wards
                   <br>
-                  <small class="card-description text-muted">Discover our wards</small>
+                  <small class="card-description text-muted">Discover the neighbourhoods that make up our constituency</small>
                 </h4>
                 <div class="card-body">
                   <p class="card-description">A ward is the primary unit of English electoral geography for civil parishes and borough and district councils</p>
@@ -255,6 +266,7 @@
         </div>
     </div>
 
+    @include('layouts.partials.socialfeed',['intro' => 'Our',]);
 
     @include('layouts.partials.contactform',[
           'owner' => $Data->guid, 
@@ -268,28 +280,8 @@
 </div>
 
 
-<footer class="footer footer-default">
-  <div class="container">
-    <nav class="float-left">
-      <ul>
-        <li>
-          <a href="/about">
-            About Us
-          </a>
-        </li>
-        <li>
-          <a href="/news">
-            News
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <div class="copyright float-right">
-      &copy; {{ $Data->name }}
-    </div>
-  </div>
-</footer>
 
+@include('layouts.partials.footer',[])
 
 
 @endsection

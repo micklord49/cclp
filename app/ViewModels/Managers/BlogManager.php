@@ -31,6 +31,7 @@ class BlogManager
                 break;
             case 'BRC':
                 $ret->addCampaigns($guid);
+                $ret->addBranchCouncillors($guid);
                 break;
             case 'CMP':
                 $ret->addReference($guid);
@@ -100,6 +101,18 @@ class IBlogs
     public function addCouncillors($owner)
     {
         $councillors = Councillor::where("clp",$owner)
+                                    ->where('active',true)
+                                    ->get();
+        foreach($councillors as $councillor)
+        {
+            array_push($this->owners,$councillor->guid);
+            $this->addCampaigns($councillor->guid);
+        }
+    }
+
+    public function addBranchCouncillors($owner)
+    {
+        $councillors = Councillor::where("branch",$owner)
                                     ->where('active',true)
                                     ->get();
         foreach($councillors as $councillor)

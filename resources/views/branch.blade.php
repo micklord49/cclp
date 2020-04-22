@@ -99,6 +99,13 @@
         </div>
       </div>
 
+      <div class="section text-center container">
+        <h2 class="title">Our People</h2>
+        <div class="row justify-content-center">
+          @each('layouts.partials.personcard',$Data->roles,'person')
+        </div>
+      </div>
+
       @include('layouts.partials.contactform',[
           'owner' => $Data->guid, 
           'title' => 'Have a question?',

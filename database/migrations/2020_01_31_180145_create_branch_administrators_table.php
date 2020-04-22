@@ -18,6 +18,7 @@ class CreateBranchAdministratorsTable extends Migration
             $table->string('guid',36);
             $table->string('branch',36);
             $table->string('user',36);
+            $table->string('type',32);
             $table->timestamps();
         });
     }

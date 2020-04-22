@@ -56,6 +56,8 @@ ga('send', 'pageview');
 
 </head>
 <body class="landing-page">
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>
 <div id="app">
 @include('layouts.partials.menu')
 <main class="py-4" style="background-color: #ffffff;">

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\CalendarLinks\Link;
 
 use App\Branch;
+use App\BranchAdministrator;
 use App\Campaign;
 use App\Event;
 use App\Social;
@@ -32,6 +33,7 @@ class HomeBranch extends Model
     public $image;
     public $campaigns = array();
     public $councillors = array();
+    public $roles = array();
     public $events = array();
     public $nextevent;
     public $news;
@@ -114,6 +116,38 @@ class HomeBranch extends Model
 
             array_push($this->councillors,$c);
         }
+
+
+        $roles = BranchAdministrator::where('branch',$guid)->where('type','!=','admin')->get();
+        foreach($roles as $role)
+        {
+            $roleview = new \stdClass();
+            $roleview->guid = $role->user;
+            switch($role->type)
+            {
+                case 'chair':
+                    $roleview->description = 'Chair' ;
+                    break;
+                case 'secretary':
+                    $roleview->description = 'Seretary';
+                    break;
+                default:
+                    $roleview->description = 'EC Representative';
+                    break;
+            }
+            $u = User::where('guid',$role->user)->first();
+            $roleview->name = $u->name;
+            $i = new ImageFile($role->user);
+            if($i->filename=="") {
+                $roleview->image = "/images/defaultuser.png";
+            }
+            else  {
+                $roleview->image = $i->filename;
+            }
+
+            array_push($this->roles,$roleview);
+        }
+
 
 
         $this->nextevent = Event::where('owner',$guid)->where('starttime','>',now())->first();

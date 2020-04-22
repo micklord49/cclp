@@ -143,15 +143,16 @@ class BranchInfo extends Component {
                         intro: response.data.intro, 
                         about: response.data.about, 
                         name: response.data.name,
-                        name: response.data.name,
-                        name: response.data.name,
                         usesubscriptionlist: response.data.usesubscriptionlist,
                         subscriptionlist: response.data.subscriptionlist,
                         subscriptionlists: response.data.subscriptionlists,
                         useactionlist: response.data.useactionlist,
                         actionlist: response.data.actionlist,
                         actionlists: response.data.actionlists,
-                        adminusers: response.data.adminusers
+                        adminusers: response.data.adminusers,
+                        chair: response.data.chair,
+                        secretary: response.data.secretary,
+                        rep: response.data.rep,
                       });
       })
       .catch(function (error) {
@@ -189,13 +190,34 @@ class BranchInfo extends Component {
 
   addUser(user)
   {
-    let uri = '/branch/'+this.props.guid+'/'+ user +'/adduser';
-    axios.get(uri, {}).then((response) => {
-          //this.props.history.push('/display-item');
-          console.log("Firing ControlPanelCLPCouncillors.onChange event")
+    axios.get('/branch/'+this.props.guid+'/'+ user +'/adduser', {})
+        .then((response) => {
           this.refresh();
         });
+  }
 
+  addChair(user)
+  {
+    axios.get('/branch/'+this.props.guid+'/'+ user +'/addchair', {})
+        .then((response) => {
+          this.refresh();
+        });
+  }
+
+  addSecretary(user)
+  {
+    axios.get('/branch/'+this.props.guid+'/'+ user +'/addsecretary', {})
+        .then((response) => {
+          this.refresh();
+        });
+  }
+
+  addRep(user)
+  {
+    axios.get('/branch/'+this.props.guid+'/'+ user +'/addrep', {})
+        .then((response) => {
+          this.refresh();
+        });
   }
 
   removeUser(user)
@@ -357,6 +379,27 @@ class BranchInfo extends Component {
             </Grid>              
             <Grid item xs={12}>
               <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.adminusers} addUser={(guid) => this.addUser(guid)}/>
+            </Grid>
+            <Grid item xs={12}>
+              <h5>Chair</h5>
+              <p>Who is the Branch Chair - this can be more than one person in the event of a job share</p>
+            </Grid>              
+            <Grid item xs={12}>
+              <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.chair} addUser={(guid) => this.addChair(guid)}/>
+            </Grid>
+            <Grid item xs={12}>
+              <h5>Secretary</h5>
+              <p>Who is the Branch Secretary - this can be more than one person in the event of a job share</p>
+            </Grid>              
+            <Grid item xs={12}>
+              <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.secretary} addUser={(guid) => this.addSecretary(guid)}/>
+            </Grid>
+            <Grid item xs={12}>
+              <h5>EC Representative</h5>
+              <p>Who is the Branch representative to the CLP Executive Committee - this can be more than one person in the event of a job share</p>
+            </Grid>              
+            <Grid item xs={12}>
+              <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.rep} addUser={(guid) => this.addRep(guid)}/>
             </Grid>
           </Grid>
         </Grid>
