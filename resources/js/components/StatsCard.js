@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -48,10 +49,38 @@ export default class StatsCard extends Component {
         visits = "No visits last week.";
     }
 
-    var messages = "";
-    if(this.props.stats.unread > 0)
+    var active = "";
+    if(this.props.stats.active > 0)
     {
-        messages =<p className="card-description"><i className="material-icons md-18">mail</i>{this.props.stats.unread} unread messages</p>
+        messages=<p className="card-description">
+                    <i className="material-icons md-18" style={color="LawnGreen"}>check_circle</i> 
+                    Active
+                </p>
+    }
+    else
+    {
+        messages=<p className="card-description">
+                    <i className="material-icons md-18" >check_circle</i> 
+                    Inactive
+                </p>
+    }
+
+    var messages = "";
+    if(this.props.stats.msg.unread > 0)
+    {
+        messages=<p className="card-description">
+                    <i className="material-icons md-18" style="color:PaleGoldenRod">mail</i> 
+                    {this.props.stats.msg.unread}<br/>messages, {this.props.stats.msg.last7} messages past 7 days, 
+                    - {this.props.stats.msg.last28} messages last month 
+                </p>
+    }
+    else
+    {
+        messages=<p className="card-description">
+                    <i className="material-icons md-18">drafts</i> 
+                    (No unread messages)<br/>{this.props.stats.msg.last7} messages past 7 days, 
+                    - {this.props.stats.msg.last28} messages last month 
+                </p>
     }
 
     var blog = "";
@@ -78,9 +107,10 @@ export default class StatsCard extends Component {
                     title={this.props.stats.description}
                 />
 
+                <CardMedia
+                    image={this.props.stats.image} 
+                />
 
-            
-        
             <CardContent>
                 <p className="card-description">
                     <i className="material-icons md-18">link</i> {visits}

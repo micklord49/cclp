@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{ $Data->image }}');"></div>
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/image{{ $Data->imageguid }}/blur');"></div>
   <div class="main main-raised">
     <div class="profile-content">
       <div class="container">

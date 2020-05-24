@@ -71,6 +71,7 @@ export default class UserSearch extends Component {
             {
               field: 'url',
               Title: 'Add User',
+              wdith:50,
               render: rowData => 
                         <IconButton color="primary" onClick={() => {this.addUser(rowData.guid)}}>
                           <AddIcon />
@@ -82,6 +83,7 @@ export default class UserSearch extends Component {
           data={query =>
             new Promise((resolve, reject) => {
               let url = '/userdir/' + query.pageSize + "/" + (query.page + 1) + "/search" 
+              console.log(query);
               fetch(url)
                 .then(response => response.json())
                 .then(result => {

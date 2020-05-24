@@ -18,6 +18,8 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import CameraIcon from '@material-ui/icons/Camera';
 import EventIcon from '@material-ui/icons/Event';
 import EmailIcon from '@material-ui/icons/Email';
+import SurveyIcon from '@material-ui/icons/Poll';
+import ListsIcon from '@material-ui/icons/FormatListBulleted';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
 import ShareIcon from '@material-ui/icons/Share';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
@@ -38,6 +40,8 @@ import Event from '../Event';
 import Messages from '../Messages';
 import UploadPicture from '../UploadPicture'
 import SocialMedia from '../social/SocialMedia';
+import SurveyEditor from '../surveys/SurveyEditor';
+import ListsEditor from '../contacts/ListsEditor';
 
 
 const styles = theme => ({
@@ -148,8 +152,10 @@ class ControlPanelCLP extends Component {
             <a onClick={()=>{this.setState({selectedmaintab:7}); }} className="menu-item">{<LocalFloristIcon />}<br/>Branches</a>
 
             <a onClick={()=>{this.setState({selectedmaintab:8}); }} className="menu-item">{<RecordVoiceOverIcon />}<br/>Campaigns</a>
-            <a onClick={()=>{this.setState({selectedmaintab:9}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
-            <a onClick={()=>{this.setState({selectedmaintab:10}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
+            <a onClick={()=>{this.setState({selectedmaintab:9}); }} className="menu-item">{<SurveyIcon />}<br/>Surveys</a>
+            <a onClick={()=>{this.setState({selectedmaintab:10}); }} className="menu-item">{<ListsIcon />}<br/>Lists</a>
+            <a onClick={()=>{this.setState({selectedmaintab:11}); }} className="menu-item">{<EventIcon />}<br/>Events</a>
+            <a onClick={()=>{this.setState({selectedmaintab:12}); }} className="menu-item">{<HelpIcon />}<br/>Help</a>
         </Menu>
         <main id="page-wrap" style={{width: '100%',bgColor: '#ffffff'}}>
         
@@ -213,10 +219,18 @@ class ControlPanelCLP extends Component {
                 <Campaign owner={this.props.guid} />
             </div>
             <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 9}>
+                <SurveyEditor owner={this.props.guid} description="Surveys for the CLP"/>
+            </div>
+
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 10}>
+                <ListsEditor owner={this.props.guid}  description="The contact lists for the CLP"/>
+            </div>
+
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 11}>
                 <h4>Events organised by the CLP</h4>
                 <Event owner={this.props.guid} />
             </div>
-            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 10}>
+            <div className={classes.tabpage} role="tabpanel" hidden={this.state.selectedmaintab != 12}>
                 <h4>Help</h4>
             </div>
                 

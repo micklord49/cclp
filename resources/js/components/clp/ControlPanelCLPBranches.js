@@ -117,7 +117,7 @@ export default class ControlPanelCLPBranches extends Component {
   {
     
     const neu = {
-      backgroundColor: "#E0E5EC" ,
+      backgroundColor: "#ffffff" ,
       borderRadius:4,
       marginLeft: "auto",
       marginRight: "auto",

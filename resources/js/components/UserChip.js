@@ -71,6 +71,7 @@ class UserChip extends Component {
         <Chip
             avatar={<Avatar alt={this.state.name} src={this.state.image} />}
             label={this.state.name}
+            style={{ margin: 5}}
             onDelete={() => { this.ondelete();}}
         />
 

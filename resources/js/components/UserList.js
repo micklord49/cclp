@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Paper from '@material-ui/core/Paper';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -66,6 +67,8 @@ export default class UserList extends Component {
       overflowX: "scroll",
       overflowY: "hidden",    
       display: "flex",  
+      margin: 10,
+      padding: 5,
     };
 
 
@@ -78,9 +81,9 @@ export default class UserList extends Component {
     }
 
     return (
-        <div style={mycontainerstyle}>
+        <Paper variant="outlined" style={mycontainerstyle}>
             {users}
-        </div>
+        </Paper>
     );
   }
 }

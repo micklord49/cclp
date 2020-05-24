@@ -315,6 +315,11 @@ export default class SMTwitter extends Component {
               />
             </FormControl>
         </Grid>
+        <Grid item xs={12}>
+          <Button color="primary" variant="contained" type="submit">
+            <SaveIcon />Save
+          </Button>
+        </Grid>
       </Grid>
       </IconContext.Provider>
       <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="twitter details"/>

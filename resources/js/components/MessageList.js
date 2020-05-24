@@ -72,12 +72,13 @@ export default class MessageList extends Component {
           tableRef={this.tableRef}
           columns={[
             { title: '', 
+              width:50,
               cellStyle:{width:50},
               field: 'status', render: rowData => <MessageStatus status={rowData.status} /> 
             },
             { title: 'From', field: 'from' },
             { title: 'Subject', field: 'subject' },
-            { title: 'Recieved At', field: 'created_at' },
+            { title: 'Recieved At', width:180, field: 'received' },
           ]}
 
           options={{

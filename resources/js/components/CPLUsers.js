@@ -59,7 +59,13 @@ export default class CPLUsers extends Component {
                 Add User
             </Button>
             <CPLUserList users={this.props.users} onremoveuser={(guid) => {this.onRemoveUser(guid);}} />
-            <Dialog style={{zIndex:'4100'}} open={this.state.opensearch} onClose={()=>{this.onCancelSearch();}} >
+            <Dialog 
+                style={{zIndex:'4100'}} 
+                open={this.state.opensearch} 
+                maxWidth="xs"
+                fullWidth={true}
+                onClose={()=>{this.onCancelSearch();}} 
+            >
                 <AppBar style={{position: 'relative'}}>
                 <Toolbar>
                     <IconButton edge="start" color="inherit" onClick={()=>{this.onCancelSearch();}} aria-label="close">

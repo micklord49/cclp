@@ -96,16 +96,6 @@ export default class UploadPicture extends Component {
 
   _crop(){
     // image in dataUrl
-    console.log(this.cropper.current.getCroppedCanvas().toDataURL());
-    return;
-    event.preventDefault();
-    axios.get("/image/" + this.props.owner + "/crop")
-    .then(response => {
-      this.loadImage();
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
   }
 
   deleteimage(e)
@@ -145,7 +135,34 @@ export default class UploadPicture extends Component {
 
   cropimage(e)
   {
-    this._crop();
+    var canvas = this.cropper.current.getCanvasData();
+    var crop = this.cropper.current.getCropBoxData();
+
+    var xratio = canvas.naturalWidth / canvas.width;
+    var yratio = canvas.naturalHeight /canvas.height;
+
+    var newwidth = crop.width * xratio;
+    var newheight = crop.height * yratio;
+
+    var xorigin = crop.left - canvas.left;
+    var yorigin = crop.top - canvas.top;
+
+    xorigin *= xratio;
+    yorigin *= yratio;
+
+    xorigin = Math.floor(xorigin);
+    yorigin = Math.floor(yorigin);
+    newwidth = Math.floor(newwidth);
+    newheight = Math.floor(newheight);
+
+    event.preventDefault();
+    axios.get("/image/" + this.props.owner + "/" + xorigin + "/" + yorigin + "/" + newwidth + "/" + newheight + "/crop")
+    .then(response => {
+      this.cropper.current.replace(this.state.imagefile);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
   }
 
   uploadfile(event) {
@@ -238,7 +255,7 @@ export default class UploadPicture extends Component {
                     // Cropper.js options
                     aspectRatio={16 / 9}
                     guides={false}
-                    crop={()=>this._crop()} 
+                    crop={()=>{this._crop();}} 
             />
           </Grid>
           <Grid item xs={sz}>
@@ -264,28 +281,24 @@ export default class UploadPicture extends Component {
               </Grid>
               <Grid item xs={12} style={upstyle}>
                 <IconButton
-                    variant="contained"
                     color="primary"
                     onClick={(e)=>this.rotateanticlockwise(e)}
                     >
                     <RotateLeftIcon />
                   </IconButton>
                   <IconButton
-                    variant="contained"
                     color="primary"
                     onClick={(e)=>this.rotateclockwise(e)}
                     >
                       <RotateRightIcon />
                   </IconButton>
                   <IconButton
-                    variant="contained"
                     color="primary"
                     onClick={(e)=>this.cropimage(e)}
                     >
                       <CropIcon />
                   </IconButton>
                   <IconButton
-                    variant="contained"
                     color="secondary"
                     onClick={(e)=>this.deleteimage(e)}
                     >

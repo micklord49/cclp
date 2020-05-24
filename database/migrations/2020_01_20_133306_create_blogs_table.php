@@ -20,10 +20,16 @@ class CreateBlogsTable extends Migration
             $table->string('title');
             $table->text('subtitle');
             $table->longText('body');
-            $table->boolean('useactionlist');
-            $table->string('actionlist',36);
-            $table->boolean('showcampaign');
-            $table->string('campaign',36);
+
+            $table->boolean('useactionlist')->nullable();
+            $table->string('actionlist',36)->nullable();
+
+            $table->boolean('showcampaign')->nullable();
+            $table->string('campaign',36)->nullable();
+
+            $table->boolean('showsurvey')->nullable();
+            $table->string('survey',36)->nullable();
+
             $table->text('status');
             $table->boolean('totwitter');
             $table->boolean('tofacebook');

@@ -93,7 +93,7 @@ class MessageController extends Controller
         app('debugbar')->disable();
 
 
-        $data->data = Message::select('guid','from','to','subject','message','status')->where("to",$owner)->orderBy('created_at','DESC')->skip($perpage*($page-1))->take($perpage)->get();        
+        $data->data = Message::select('guid','from','to','subject','message','status','created_at')->where("to",$owner)->orderBy('created_at','DESC')->skip($perpage*($page-1))->take($perpage)->get();        
         $data->page = $page;
         $data->count = User::where("clp",$clpGuid)->count();
         foreach($data->data as $msg)
@@ -103,12 +103,30 @@ class MessageController extends Controller
             $msg->fromname=$contact->name;
             $msg->from=$contact->name . ' [' . $contact->email . ']';
 
-            $recieved = new Carbon($contact->created_at);
-            $msg->created_at = $recieved->toDateTimeString();
+            Log::debug($msg);
+            $d = $msg->created_at->format('H:i');
+            $recieved = new Carbon($msg->created_at);
+            $t = $recieved->timestamp;
+            $msg->received = $d.' '.$this->get_day_name($t);
         }
 
         return(json_encode($data));
     }
+
+    function get_day_name($timestamp) {
+
+        $date = date('d/m/Y', $timestamp);
+    
+        if($date == date('d/m/Y')) {
+          $date = 'Today';
+        } 
+        else if($date == date('d/m/Y',time() - (24 * 60 * 60))) {
+          $date = 'Yesterday';
+        }
+        Log::debug($date);
+        return $date;
+    }
+    
 
     /**
      * Update the specified resource in storage.

@@ -34,7 +34,7 @@ export default class TagChip extends Component {
       <Fade in={this.state.checked}>
             <Chip
                 label={this.state.name}
-                color="primary"
+                style={{backgroundColor:'LightGreen', margin: 5}}
                 onDelete={() => { this.ondelete();}}
             />
         </Fade>

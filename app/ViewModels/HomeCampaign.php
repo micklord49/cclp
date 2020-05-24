@@ -70,6 +70,8 @@ class HomeCampaign extends Model
         {
             $this->image = "/images/defaultcampaign.png";
         }
+        $this->imageguid = $i->guid;
+
 
         $this->useactionlist = $campaign->useactionlist == 1;
         if(($campaign->actionlist ?? '') != '')

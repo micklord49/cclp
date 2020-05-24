@@ -11,10 +11,7 @@ try {
     console.log("Initializing jquery");
     $ = window.$ = window.jQuery = require('jquery');
 
-    require('bootstrap');
-
-
-
+    //require('bootstrap');
     
 } catch (e) {}
 

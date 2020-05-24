@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TagChip from './TagChip';
+import Paper from '@material-ui/core/Paper';
 import { arrayIncludes } from '@material-ui/pickers/_helpers/utils';
 
 export default class TagList extends Component {
@@ -29,7 +30,8 @@ export default class TagList extends Component {
       overflowX: "hidden",
       overflowY: "scroll",    
       display: "flex",  
-      margin: 3,
+      margin: 10,
+      padding: 5,
     };
 
     if(this.props.tags != null)
@@ -40,9 +42,9 @@ export default class TagList extends Component {
     }
 
     return (
-        <div style={mycontainerstyle}>
+        <Paper variant="outlined" style={mycontainerstyle}>
             {tags}
-        </div>
+        </Paper>
     );
   }
 }

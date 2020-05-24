@@ -117,7 +117,7 @@ export default class ControlPanelCLPBranchInfo extends Component {
         <form style={neu} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
           <Grid style={{paddingLeft: 10}} container spacing={3}>
             <Grid item xs={12}>
-              <Button color="primary" type="submit">
+              <Button color="primary" variant="contained" type="submit">
                 <SaveIcon />Save
               </Button>
             </Grid>
@@ -136,7 +136,12 @@ export default class ControlPanelCLPBranchInfo extends Component {
             <Grid item xs={12}>
               <CPLUsers onremoveuser={(guid)=>{this.removeUser(guid)}} users={this.state.adminusers} addUser={(guid) => this.addUser(guid)}/>
             </Grid>
-          </Grid>
+            <Grid item xs={12}>
+              <Button color="primary" variant="contained" type="submit">
+                <SaveIcon />Save
+              </Button>
+            </Grid>
+         </Grid>
         </form>  
   </div>
     );

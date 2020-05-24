@@ -5,7 +5,7 @@
     @isset($news->image)
         <div class="col-md-4"  style="cursor:pointer" onclick="document.location='/blog/{{ $news->guid }}';return false;">
             <div class="card bg-dark text-white">
-                <img class="card-img" src="{{ $news->image }}" alt="Card image">
+                <img class="card-img" style="filter: brightness(50%);" src="{{ $news->image }}" alt="Card image">
                 <div class="card-img-overlay">
                     <h4 class="card-title">{{ $news->title}}</h4>
                 </div>

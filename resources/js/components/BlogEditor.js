@@ -185,12 +185,13 @@ export default class BlogEditor extends Component {
             tableRef={this.tableRef}
             columns={[
               { title: '', 
+                width:50,
                 cellStyle:{width:50},
                 field: 'status', render: rowData => <BlogStatus status={rowData.status} /> 
               },
               { title: 'Title', field: 'title', cellStyle:{padding:0}  },
-              { title: 'Status', field: 'status', cellStyle:{padding:0}  },
-              { title: 'Published On', field: 'publishedOn', type:"datetime", cellStyle:{padding:0} },
+              { title: 'Status', field: 'status', cellStyle:{padding:0}, width:150  },
+              { title: 'Published On', field: 'publishedOn', type:"datetime", width:180, cellStyle:{padding:0} },
             ]}
             data={query =>
                     new Promise((resolve, reject) => {
@@ -271,7 +272,7 @@ export default class BlogEditor extends Component {
 
 
 
-      <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="blog"/>
+      <AlertSave style="z-index:5000" opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="blog"/>
     </div>    );
   }
 }

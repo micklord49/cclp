@@ -222,6 +222,19 @@ class ImageController extends Controller
         ImageEdit::make(storage_path($filename))->rotate(90)->save();
     }
 
+    public function crop($id,$x,$y,$w,$h)
+    {
+        $i = new ImageFile($id);
+        $filename = 'app' . $i->filename;
+        $filename = str_replace("image","images",$filename);
+        if($filename=="")
+        {
+            Log::debug("No filename returned - so using default user image");
+
+        }
+        ImageEdit::make(storage_path($filename))->crop($w,$h,$x,$y)->save();
+    }
+
     public function rclock($id)
     {
         $i = new ImageFile($id);

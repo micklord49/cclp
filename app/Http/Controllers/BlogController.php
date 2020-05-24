@@ -8,7 +8,10 @@ use App\Blog;
 use App\PublishEvent;
 use App\ContactList;
 use App\Campaign;
+use App\Survey;
+
 use App\ViewModels\Managers\CampaignManager;
+use App\ViewModels\Managers\SurveyManager;
 
 use App\ViewModels\HomeBlog;
 
@@ -52,6 +55,8 @@ class BlogController extends Controller
             if(isset($request->actionlist))     $blog->actionlist=$request->actionlist;
             if(isset($request->showcampaign))     $blog->showcampaign=$request->showcampaign;
             if(isset($request->campaign))     $blog->campaign=$request->campaign;
+            if(isset($request->showsurvey))     $blog->showsurvey=$request->showsurvey;
+            if(isset($request->survey))     $blog->survey=$request->survey;
             if(isset($request->status))     $blog->status=$request->status;
             if(isset($request->tofacebook))     $blog->tofacebook=$request->tofacebook;
             if(isset($request->totwitter))     $blog->totwitter=$request->totwitter;
@@ -77,10 +82,19 @@ class BlogController extends Controller
      * @param  \App\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function show($guid)
+    public function show(Request $request,$guid)
     {
         //
         $post = new HomeBlog($guid);
+        $post->showsurveyresult = 0;
+        if($post->showsurvey == 1)
+        {            
+            if($request->cookie($post->survey->guid) != null)
+            {
+                $post->showsurveyresult = 1;
+                $post->surveyitems = SurveyManager::get($post->survey->guid)->itemresult();
+            }
+        }
         $post->published = $post->status=="published";
         return view('blog',['Data' => $post]);
     }
@@ -136,6 +150,19 @@ class BlogController extends Controller
         }
         $post->campaigns = $select;
         
+
+        $select = array();
+        $clpGuid = config('appsettings.clpGUID');
+        foreach(Survey::where('owner',$clpGuid)->get() as $survey)
+        {
+            $l = new \stdClass();
+            $l->value = $survey->guid;
+            $l->display = $survey->name;
+            array_push($select,$l);
+        }
+        $post->surveys = $select;
+
+
         return $post->toJson();
     }
 
@@ -178,7 +205,7 @@ class BlogController extends Controller
         foreach($data->data as $post)
         {
 
-            if($post->publishedOn = null) {
+            if($post->publishedOn == null) {
                 $post->edit = true;
             }
             else{
@@ -187,6 +214,11 @@ class BlogController extends Controller
         }
 
         return(json_encode($data));
+    }
+
+    public function showpanel()
+    {
+
     }
 
 }

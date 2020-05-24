@@ -64,7 +64,7 @@ class Dashboard extends Model
         if($councillor>0)
         {
             $councillor = Councillor::where('owner',$user->guid)->first();
-            array_push($this->boards,$this->StatsForOwner($councillor->guid,"My info as a Councillor","/councillor","/councillor/".$councillor->guid));
+            array_push($this->boards,$this->StatsForOwner($councillor->guid,"My info as a Councillor","/councillor/".$councillor->guid.'/infoedit',"/councillor/".$councillor->guid));
             if(isset($councillor->ward) && $councillor->ward != "")
             {
                 $ward = Ward::where('guid',$councillor->ward)->first();
@@ -76,7 +76,7 @@ class Dashboard extends Model
         if($candidate>0)
         {
             $candidate = Candidate::where('owner',$user->guid)->first();
-            array_push($this->boards,$this->StatsForOwner($candidate->guid,"My info as a Candidate","/candidate","/candidate/".$candidate->guid));
+            array_push($this->boards,$this->StatsForOwner($candidate->guid,"My info as a Candidate","/candidate/".$candidate->guid.'/infoedit',"/candidate/".$candidate->guid));
         }
 
         $candidates = CandidateAdministrator::where('user',$user->guid)->get();
@@ -84,7 +84,7 @@ class Dashboard extends Model
         {
             $clr = Candidate::where('guid',$candidate->candidate)->first();
             $usr = User::where('guid',$clr->owner)->first();
-            array_push($this->boards,$this->StatsForOwner($clr->guid,"Info for Candidate ".$usr->name,"/candidate/".$clr->guid,"/candidate/".$candidate->guid));
+            array_push($this->boards,$this->StatsForOwner($clr->guid,"Info for Candidate ".$usr->name,"/candidate/".$clr->guid.'/infoedit',"/candidate/".$clr->guid));
         }
 
         $councillors = CouncillorAdministrator::where('user',$user->guid)->get();
@@ -92,7 +92,7 @@ class Dashboard extends Model
         {
             $clr = Councillor::where('guid',$councillor->councillor)->first();
             $usr = User::where('guid',$clr->owner)->first();
-            array_push($this->boards,$this->StatsForOwner($clr->guid,"Info for Councillor ".$usr->name,"/councillor/".$clr->guid,"/councillor/".$councillor->guid));
+            array_push($this->boards,$this->StatsForOwner($clr->guid,"Info for Councillor ".$usr->name,"/councillors/".$clr->guid."/infoedit","/councillor/".$clr->guid));
         }
 
         $branches = BranchAdministrator::where('user',$user->guid)->get();

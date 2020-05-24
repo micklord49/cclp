@@ -155,7 +155,7 @@ export default class ListInfo extends Component {
       <Grid container spacing={4} style={form}>
         <Grid container item xs={12}>
           <Grid item xs={1}>
-              <Button color="primary" disabled={this.state.published} variant="contained" startIcon={<SaveIcon />} color="inherit" onClick={()=>{this.onSave();}}>
+              <Button color="primary" variant="contained" disabled={this.state.published} variant="contained" startIcon={<SaveIcon />} color="inherit" onClick={()=>{this.onSave();}}>
                 Save
               </Button>
             </Grid>

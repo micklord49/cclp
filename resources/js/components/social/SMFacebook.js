@@ -59,7 +59,7 @@ export default class SMFacebook extends Component {
         console.log(response);
         this.setState({  
             facebook: response.data.facebook,
-            facebookfeed: response.data.facebookfeed,
+            facebookfeed: response.data.facebookfeed == 1,
             });
       })
       .catch(function (error) {
@@ -111,7 +111,7 @@ export default class SMFacebook extends Component {
       marginRight: 120,
       marginTop:10,
       marginBottom:30,
-      paddingRight:50,
+      paddingRight:20,
       paddingBottom:30,
       //boxShadow: "9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)"
     };
@@ -141,9 +141,9 @@ export default class SMFacebook extends Component {
     return (
     <form style={neu} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
       <IconContext.Provider value={{ color: "skyblue", size: "3rem", style: { paddingRight: "1em", verticalAlign: 'middle' }, className: "global-class-name" }}>
-      <Grid style={{paddingLeft: 10}} container spacing={2}>          
+      <Grid style={{paddingLeft: 10}} container spacing={4}>          
         <Grid item xs={12}>
-          <Button color="primary" type="submit">
+          <Button color="primary" variant="contained" type="submit">
             <SaveIcon />Save
           </Button>
         </Grid>
@@ -211,6 +211,11 @@ export default class SMFacebook extends Component {
                 onChange={(e)=>{this.handleChange(e);}} 
                 label="Facebook Secret" 
             />
+        </Grid>
+        <Grid item xs={12}>
+          <Button color="primary" variant="contained" type="submit">
+            <SaveIcon />Save
+          </Button>
         </Grid>
       </Grid>
       </IconContext.Provider>

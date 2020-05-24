@@ -172,10 +172,10 @@ export default class ControlPanelCLPHome extends Component {
     return (
       <div style={neu}>
         <HelpText name='clp.role' style="neu"/>      
-        <form noValidate autoComplete="off" onSubmit={(e)=>{this.handleSubmit(e);}}>
+        <form noValidate onSubmit={(e)=>{this.handleSubmit(e);}}>
           <Grid container style={{paddingLeft: 10}} spacing={2} >
             <Grid item xs={12}>
-              <Button color="primary" type="submit">
+              <Button color="primary" variant="contained" type="submit">
                 <SaveIcon />Save
               </Button>
             </Grid>
@@ -288,7 +288,12 @@ export default class ControlPanelCLPHome extends Component {
               </div>
             </Grid>
           </Grid>
-        </Grid>
+          <Grid item xs={12}>
+              <Button color="primary" variant="contained" type="submit">
+                <SaveIcon />Save
+              </Button>
+            </Grid>
+       </Grid>
       </form>  
   </div>
     );

@@ -78,6 +78,12 @@ export default class BlogPost extends Component {
         campaign: "",
         campaigns: [{value: '', display: '(Select your campaign)'}],
 
+
+        showsurvey: false,
+        survey: "",
+        surveys: [{value: '', display: '(Select your survey)'}],
+
+
         published: false,
         publishnow: true,
         publishfrom: Date.now(),
@@ -132,13 +138,18 @@ export default class BlogPost extends Component {
         title: response.data.title, 
         subtitle: response.data.subtitle, 
         body: response.data.body,
+
         useactionlist: response.data.useactionlist,
         actionlist: response.data.actionlist || '',
         lists: response.data.lists,
 
         showcampaign: response.data.showcampaign,
-        campaign: response.data.campaign || '',
+        campaign: response.data.campaign ?? '',
         campaigns: response.data.campaigns,
+
+        showsurvey: response.data.showsurvey,
+        survey: response.data.survey ?? '',
+        surveys: response.data.surveys,
 
         status: response.data.status,
         priority: response.data.priority,
@@ -161,10 +172,16 @@ export default class BlogPost extends Component {
       title: this.state.title,
       subtitle: this.state.subtitle,
       body: this.state.body,
+
       useactionlist: this.state.useactionlist,
       actionlist: this.state.actionlist,
+
       showcampaign: this.state.showcampaign,
       campaign: this.state.campaign,
+
+      showsurvey: this.state.showsurvey,
+      survey: this.state.survey,
+
       priority: this.state.priority,
       totwitter: this.state.totwitter,
       tofacebook: this.state.tofacebook,
@@ -256,11 +273,45 @@ export default class BlogPost extends Component {
                 </Button>;
     }
 
+    var actionlist = ""               ;
+    if(this.state.lists.count>-0)
+    {
+      actionlist = 
+      <Grid item xs={12}>
+      <FormControlLabel
+        control={
+          <Switch
+            name="useactionlist"
+            checked={this.state.useactionlist == 1}
+            onChange={(e)=>{this.handleChange(e);}}
+            value="useactionlist"
+            color="primary"
+          />
+        }
+        label="Include subscription list"
+      />
+    <FormControl fullWidth>
+      <InputLabel id="actionlist-select-label">Action List</InputLabel>
+      <Select
+        labelId="actionlist-select-label"
+        id="actionlist-select"
+        value={this.state.actionlist}
+        name="actionlist"
+        autoWidth
+        onChange={(e)=>{this.handleChange(e);}}
+      >
+        {this.state.lists.map((list) => <MenuItem key={'k'+list.value} value={list.value}>{list.display}</MenuItem>)}
+      </Select>
+    </FormControl>
+    </Grid>;
+      }
+
+
     return (
       <Grid container spacing={4} style={form}>
         <Grid container item xs={12}>
           <Grid item xs={1}>
-              <Button color="primary" disabled={this.state.published} variant="contained" startIcon={<SaveIcon />} color="inherit" onClick={()=>{this.onSave();}}>
+              <Button color="primary" disabled={this.state.published} variant="contained" startIcon={<SaveIcon />} onClick={()=>{this.onSave();}}>
                 Save
               </Button>
             </Grid>
@@ -305,60 +356,71 @@ export default class BlogPost extends Component {
               </Grid>
 
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      name="showcampaign"
-                      checked={this.state.showcampaign == 1}
-                      onChange={(e)=>{this.handleChange(e);}}
-                      value="showcampaign"
-                      color="primary"
-                    />
-                  }
-                  label="Include a link to a campaign"
-                />
-              <FormControl fullWidth>
-                <InputLabel id="campaign-select-label">Campaign</InputLabel>
-                <Select
-                  labelId="campaign-select-label"
-                  id="campaign-select"
-                  value={this.state.campaign}
-                  name="campaign"
-                  autoWidth
-                  onChange={(e)=>{this.handleChange(e);}}
-                >
-                  {this.state.campaigns.map((list) => <MenuItem key={'k'+list.value} value={list.value}>{list.display}</MenuItem>)}
-                </Select>
-              </FormControl>
+
+                <FormControl fullWidth>
+                  <InputLabel id="campaign-select-label">Include a link to a Campaign</InputLabel>
+                  <Select
+                    labelId="campaign-select-label"
+                    id="campaign-select"
+                    value={this.state.campaign}
+                    name="campaign"
+                    autoWidth
+                    disabled={!this.state.showcampaign}
+                    onChange={(e)=>{this.handleChange(e);}}
+                    startAdornment={
+                      <InputAdornment position="start">
+                      <Switch
+                            name="showcampaign"
+                            checked={this.state.showcampaign == 1}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="showcampaign"
+                            color="primary"
+                          />
+                      </InputAdornment>
+                    }
+                  >
+                    {this.state.campaigns.map((list) => <MenuItem key={'k'+list.value} value={list.value}>{list.display}</MenuItem>)}
+                  </Select>
+                </FormControl>
               </Grid>
 
+
+
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      name="useactionlist"
-                      checked={this.state.useactionlist == 1}
-                      onChange={(e)=>{this.handleChange(e);}}
-                      value="useactionlist"
-                      color="primary"
-                    />
-                  }
-                  label="Include subscription list"
-                />
-              <FormControl fullWidth>
-                <InputLabel id="actionlist-select-label">Action List</InputLabel>
-                <Select
-                  labelId="actionlist-select-label"
-                  id="actionlist-select"
-                  value={this.state.actionlist}
-                  name="actionlist"
-                  autoWidth
-                  onChange={(e)=>{this.handleChange(e);}}
-                >
-                  {this.state.lists.map((list) => <MenuItem key={'k'+list.value} value={list.value}>{list.display}</MenuItem>)}
-                </Select>
-              </FormControl>
+
+                <FormControl fullWidth>
+                  <InputLabel id="survey-select-label">Include a Survey</InputLabel>
+                  <Select
+                    labelId="survey-select-label"
+                    id="survey-select"
+                    value={this.state.survey}
+                    name="survey"
+                    autoWidth
+                    disabled={!this.state.showsurvey}
+                    onChange={(e)=>{this.handleChange(e);}}
+                    startAdornment={
+                      <InputAdornment position="start">
+                      <Switch
+                            name="showsurvey"
+                            checked={this.state.showsurvey == 1}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="showsurvey"
+                            color="primary"
+                          />
+                      </InputAdornment>
+                    }
+                  >
+                    {this.state.surveys.map((list) => <MenuItem key={'kc'+list.value} value={list.value}>{list.display}</MenuItem>)}
+                  </Select>
+                </FormControl>
               </Grid>
+
+
+
+              {actionlist}
+
+
+
               <Grid container spacing={2}>
                 <Grid container item xs={6}>
                   <Grid item xs={12}>
@@ -462,7 +524,17 @@ export default class BlogPost extends Component {
             </Grid>
         </Grid>
       </Grid>
-    </Grid>
+      <Grid container item xs={12}>
+          <Grid item xs={1}>
+              <Button color="primary" disabled={this.state.published} variant="contained" startIcon={<SaveIcon />} onClick={()=>{this.onSave();}}>
+                Save
+              </Button>
+            </Grid>
+            <Grid item xs={11} style={{textAlign:'right'}}>
+              {pub}
+          </Grid>
+        </Grid>
+   </Grid>
   );
   }
 }

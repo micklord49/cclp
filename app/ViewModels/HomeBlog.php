@@ -9,9 +9,11 @@ use Spatie\CalendarLinks\Link;
 use App\Blog;
 use App\ContactList;
 use App\Campaign;
+use App\Survey;
 
 use App\ViewModels\Managers\SocialManager;
 use App\ViewModels\Managers\LinkManager;
+use App\ViewModels\Managers\SurveyManager;
 
 
 class HomeBlog extends Model
@@ -36,6 +38,8 @@ class HomeBlog extends Model
     public $list;
     public $showcampaign;
     public $campaign;
+    public $showsurvey;
+    public $survey;
     public $menu;    
 
     public function __construct($guid)
@@ -90,8 +94,14 @@ class HomeBlog extends Model
             }
         }
 
-        $this->menu = new Menu($clpGuid);
+        $this->showsurvey = $blog->showsurvey == 1;
+        if(($blog->survey ?? '') != '')
+        {
+            $this->survey = Survey::find($blog->survey);
+            $this->surveyitems = SurveyManager::get($blog->survey)->itemdefinition();
+        }
 
+        $this->menu = new Menu($clpGuid);
 
         //$this->indexUrl = action([PostsController::class, 'index']); 
     }

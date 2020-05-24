@@ -270,7 +270,7 @@ class CouncillorInfo extends Component {
     <form noValidate autoComplete="off" onSubmit={this.handleSubmit} >
       <Grid container spacing={2}>
         <Grid item xs={12}>
-            <Button color="primary" type="submit">
+            <Button color="primary" variant="contained" type="submit">
                 <SaveIcon />Save
             </Button>
         </Grid>
@@ -398,6 +398,11 @@ class CouncillorInfo extends Component {
               </div>
             </Grid>
           </Grid>
+        </Grid>
+        <Grid item xs={12}>
+            <Button color="primary" variant="contained" type="submit">
+                <SaveIcon />Save
+            </Button>
         </Grid>
       </Grid>
     </form>  

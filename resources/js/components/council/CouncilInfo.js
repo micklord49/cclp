@@ -228,7 +228,7 @@ class CouncilInfo extends Component {
     <form noValidate autoComplete="off" onSubmit={this.handleSubmit} >
       <Grid container spacing={2}>
         <Grid item xs={12}>
-            <Button color="primary" type="submit">
+            <Button color="primary" variant="contained" type="submit">
                 <SaveIcon />Save
             </Button>
         </Grid>
@@ -270,9 +270,14 @@ class CouncilInfo extends Component {
             </Grid>
           </Grid>
         </Grid>
+        <Grid item xs={12}>
+            <Button color="primary" variant="contained" type="submit">
+                <SaveIcon />Save
+            </Button>
+        </Grid>
       </Grid>
     </form>  
-    <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="details" style={{zIndex:1450}}/>
+    <AlertSave opensuccess={this.state.opensuccess} openfail={this.state.openfail} failmessage={this.state.failmessage} datatype="details" style={{zIndex:5000}}/>
   </div>    );
   }
 }

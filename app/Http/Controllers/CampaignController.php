@@ -211,6 +211,8 @@ class CampaignController extends Controller
             $new->key = $campaign->guid;
             $new->guid = $campaign->guid;
             $new->title = $campaign->title;
+            $new->active = $campaign->active;
+            
 
             $new->stats = StatsManager::owner($campaign->guid,$campaign->title,"/campaign/".$campaign->guid."/editor");
 

@@ -43,7 +43,7 @@
             <h2 class="title">Our Next Event</h2>
           </div>
           <div class="row justify-content-md-center">
-              @include('layouts.partials.eventcard',['event' => $Data->nextevent, 'eventlink' => $Data->nexteventlink])
+              @include('layouts.partialampallang piercings.eventcard',['event' => $Data->nextevent, 'eventlink' => $Data->nexteventlink])
           </div>            
 
           @endisset

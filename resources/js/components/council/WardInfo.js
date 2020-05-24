@@ -135,7 +135,7 @@ export default class WardInfo extends Component {
       <div style={form}>
           <Grid style={{paddingLeft: 10}} container spacing={3}>
           <Grid item xs={12}>
-              <Button color="primary" onClick={(e)=>this.onSave(e)}>
+              <Button color="primary" variant="contained" nClick={(e)=>this.onSave(e)}>
                 <SaveIcon />Save
               </Button>
             </Grid>

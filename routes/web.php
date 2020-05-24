@@ -85,6 +85,7 @@ Route::resource('image', 'ImageController');
 Route::resource('message', 'MessageController');
 Route::resource('tag', 'TagController');
 Route::resource('contacts', 'ContactsController');
+Route::resource('survey', 'SurveyController');
 
 Route::get('clpapi/wards', 'ClpController@warddir');
 Route::get('clpapi/branches', 'ClpController@branchdir');
@@ -102,7 +103,6 @@ Route::get('contacts/{contact}/verify', 'ContactsController@verify');
 Route::get('contacts/{contact}/{tag}/addtag', 'ContactsController@addtag');
 Route::get('contacts/{contact}/{tag}/removetag', 'ContactsController@removetag');
 
-
 Route::get('user/{id}', 'ProfileController@view');
 
 Route::get('userdir/{perpage}/{page}/search', 'UserdirController@search');
@@ -112,6 +112,16 @@ Route::post('message/new/{owner}', 'MessageController@newmessage')->middleware(P
 
 Route::get('blog/{perpage}/{page}/{owner}/ownersearch', 'BlogController@ownersearch');
 Route::patch('blog/', 'BlogController@store');
+
+Route::get('survey/{perpage}/{page}/{owner}/ownersearch', 'SurveyController@ownersearch');
+Route::get('survey/{owner}/ownerdir', 'SurveyController@ownerdir');
+Route::get('survey/{owner}/items', 'SurveyController@items');
+Route::get('survey/form/{survey}', 'SurveyController@showform');
+Route::patch('survey/', 'SurveyController@store');
+Route::patch('surveyitem/', 'SurveyController@newitem');
+Route::patch('surveyitem/{guid}', 'SurveyController@saveitem');
+Route::get('surveyitem/{guid}', 'SurveyController@getitem');
+Route::post('survey/submit/{guid}', 'SurveyController@submit')->middleware(ProtectAgainstSpam::class);
 
 Route::get('list/{perpage}/{page}/{owner}/ownersearch', 'ListController@ownersearch');
 Route::post('list/{list}/sign', 'ListController@sign')->middleware(ProtectAgainstSpam::class);
@@ -156,13 +166,14 @@ Route::get('branch/{branch}/{user}/addsecretary', 'BranchController@addsecretary
 Route::get('branch/{branch}/{user}/addrep', 'BranchController@addrep');
 Route::get('branch/{branch}/{user}/removeuser', 'BranchController@removeuser');
 
-Route::post('image/{user}/changeimage', 'ImageController@changeimage');
-Route::get('image/{user}/imagefile', 'ImageController@imagefile');
-Route::get('image/{user}/image', 'ImageController@image');
-Route::get('image/{user}/blur', 'ImageController@blur');
-Route::get('image/{user}/aclock', 'ImageController@aclock');
-Route::get('image/{user}/rclock', 'ImageController@rclock');
-Route::get('image/{user}/delete', 'ImageController@delete');
+Route::post('image/{id}/changeimage', 'ImageController@changeimage');
+Route::get('image/{id}/imagefile', 'ImageController@imagefile');
+Route::get('image/{id}/image', 'ImageController@image');
+Route::get('image/{id}/blur', 'ImageController@blur');
+Route::get('image/{id}/aclock', 'ImageController@aclock');
+Route::get('image/{id}/rclock', 'ImageController@rclock');
+Route::get('image/{id}/delete', 'ImageController@delete');
+Route::get('image/{id}/{x}/{y}/{w}/{h}/crop', 'ImageController@crop');
 
 Route::get('social/load/{owner}', 'SocialController@load');
 Route::post('social/save', 'SocialController@save');

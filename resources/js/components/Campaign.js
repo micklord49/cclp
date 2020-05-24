@@ -179,14 +179,10 @@ export default class Campaign extends Component {
     {
       return(<div>Loading...</div>)
     }
-    let listitems = "";
     let cards = "";
 
     if(this.state.campaigns != null)
     {
-      listitems = this.state.campaigns.map((item,key) =>
-          <MenuItem key={'mi'+item.guid} value={item.guid}>{item.title}</MenuItem>
-      );
       cards = this.state.campaigns.map((item,key) =>
           <StatsCard key={'sc'+item.guid} stats={item.stats}/>
       );

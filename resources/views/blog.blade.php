@@ -51,14 +51,52 @@
       </div>
     </div>
 
+    <div class="section container">
+      <div class="row justify-content-center">
+        <div id="survey"></div>   
+@if($Data->showsurveyresult == 1)
+@if($Data->survey->showvotes == 1)
+          @include('layouts.partials.survey.result',[
+                  'survey' => $Data->survey, 
+                  'items' => $Data->surveyitems, 
+                ])
+@else
+          @include('layouts.partials.survey.thankyou',[
+                  'survey' => $Data->survey, 
+                  'items' => $Data->surveyitems, 
+                ])
+@endif            
+@else
+          @include('layouts.partials.survey.form',[
+                  'survey' => $Data->survey, 
+                  'items' => $Data->surveyitems, 
+                ])
+@endif            
+      </div>
+    </div>
+
+<script>
+//$(document).ready(function() {
+//  $.ajax({
+//    type: 'GET', 
+//    url : "/survey/form/{{ $Data->survey->guid }}", 
+//    success : function (data) {
+//      $("#survey").html(data);
+//    }
+//  });
+//});
+</script>                   
+
+</div>
+
+
+
     @include('layouts.partials.contactform',[
           'owner' => $Data->guid, 
           'title' => 'Have a question?',
           'subtitle' => 'If you would like to ask a question about this, we wold love to hear from you.'
         ])
-
-
-    
+   
   </div>
 </div>
 
