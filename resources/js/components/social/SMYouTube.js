@@ -45,11 +45,8 @@ export default class SMYouTube extends Component {
     if(typeof(this.props.owner) == "undefined") return;
     if(this.props.owner=='') return;
 
-    console.log("Retreiving youtube")
-
     axios.get("/social/load/"+this.props.owner)
       .then(response => {
-        console.log(response);
         this.setState({  
             youtube: response.data.youtube,
             });

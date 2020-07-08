@@ -79,15 +79,12 @@ export default class UploadPicture extends Component {
   loadImage()
   {
     if(this.props.owner=='')   return;
-    console.log('Loading Image:'+this.props.owner);
     axios.get("/image/"+this.props.owner+"/imagefile")
       .then(response => {
         this.setState({ imagefile: response.data.filename, 
                         canedit: response.data.canedit, 
                         canchange: response.data.canchange, 
                          });
-        console.log('For owner:'+this.props.owner);
-        console.log('Got file:'+this.state.imagefile);
       })
       .catch(function (error) {
         console.log(error);
@@ -175,8 +172,6 @@ export default class UploadPicture extends Component {
     var imagefile = document.getElementById('fileinp'+this.props.owner);
     formData.append("image", event.target.files[0]);
     
-    console.log(formData);
-
     let uri = '/image/'+this.props.owner+"/changeimage";
     axios.post(uri, formData,{
       headers: 
@@ -187,12 +182,10 @@ export default class UploadPicture extends Component {
       .then(() => {
         this.setState({ opensuccess: true })
         this.loadImage();
-        console.log('Geting file:'+this.state.imagefile);
       })
       .catch((error) => {
         this.setState({ failmessage: error, openfail: true })
         this.loadImage();
-        console.log(error);
       });
   }
 

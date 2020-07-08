@@ -46,7 +46,14 @@ export default class QuestionEditContact extends Component {
       super(props);
       this.state = {
         getaddress: false, 
+        getgender: false, 
+        getmember: false, 
         getresident: false, 
+        getlgbt: false, 
+        getbame: false, 
+        getagerange: false, 
+        gethomestatus: false, 
+        getemploymentstatus: false, 
       };
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -58,38 +65,78 @@ export default class QuestionEditContact extends Component {
   
     this.setState({
       [name]: value,
-    });
-
-    var o = "";
-    o += this.state.getaddress ? "1" : "0";
-    o += ";";
-    o += this.state.getresident ? "1" : "0";
-
-    this.setState({
-        options: o,
-    });
-
-    if(this.props.onChange)     this.props.onChange(o);
+    },() => {
+      var o = this.state.getaddress?'1':'0';
+      o = o.concat(';',this.state.getresident?'1':'0');
+      o = o.concat(';',this.state.getgender?'1':'0');
+      o = o.concat(';',this.state.getmember?'1':'0');
+      o = o.concat(';',this.state.getlgbt?'1':'0');
+      o = o.concat(';',this.state.getbame?'1':'0');
+      o = o.concat(';',this.state.getagerange?'1':'0');
+      o = o.concat(';',this.state.gethomestatus?'1':'0');
+      o = o.concat(';',this.state.getemploymentstatus?'1':'0');
+      this.props.onChange(o);
+      });
   }
 
   componentDidMount(){
+    this.refresh();
   }
+
 
   componentDidUpdate(prevProps) {
     if (this.props.options !== prevProps.options) 
     {
-        var o = this.props.options;
-        this.setState({
-            getaddress: o[0] == 1,
-            getresident: o[1] == 1,
-        });
       this.refresh();
     }
   }
 
+  FireOnChange()
+  {
+    var o = this.state.getaddress?'1':'0';
+    o = o.concat(';',this.state.getresident?'1':'0');
+    o = o.concat(';',this.state.getgender?'1':'0');
+    o = o.concat(';',this.state.getmember?'1':'0');
+    o = o.concat(';',this.state.getlgbt?'1':'0');
+    o = o.concat(';',this.state.getbame?'1':'0');
+    o = o.concat(';',this.state.getagerange?'1':'0');
+    o = o.concat(';',this.state.gethomestatus?'1':'0');
+    o = o.concat(';',this.state.getemploymentstatus?'1':'0');
+    this.props.onChange(o);
+  }
+
+
    refresh()
    {
-   }
+       try {
+        this.setState({ 
+          getaddress: false,
+          getresident: false,
+          getgender: false,
+          getmember: false,
+          getlgbt: false,
+          getbame: false,
+          getagerange: false,
+          gethomestatus: false,
+          getemploymentstatus: false,
+        });
+
+        var opts = this.props.options.split(";");
+
+        this.setState({ 
+          getaddress: opts[0]==1,
+          getresident: opts[1]==1,
+          getgender: opts[2]==1,
+          getmember: opts[3]==1,
+          getlgbt: opts[4]==1,
+          getbame: opts[5]==1,
+          getagerange: opts[6]==1,
+          gethomestatus: opts[7]==1,
+          getemploymentstatus: opts[8]==1,
+         });
+        } catch (error) {
+      }
+    }
 
 
 
@@ -105,7 +152,7 @@ export default class QuestionEditContact extends Component {
                         control={
                             <Switch
                             name="getaddress"
-                            checked={this.state.getaddress == 1}
+                            checked={this.state.getaddress}
                             onChange={(e)=>{this.handleChange(e);}}
                             value="getaddress"
                             color="primary"
@@ -122,13 +169,134 @@ export default class QuestionEditContact extends Component {
                         control={
                             <Switch
                             name="getresident"
-                            checked={this.state.getresident == 1}
+                            checked={this.state.getresident}
                             onChange={(e)=>{this.handleChange(e);}}
                             value="getresident"
                             color="primary"
                             />
                         }
                         label="Collect an indicator if the contact is a resident."
+                    />
+                </FormGroup>
+
+            </Grid>
+
+            <Grid item xs={12}>
+            <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                            name="gethomestatus"
+                            checked={this.state.gethomestatus}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="gethomestatus"
+                            color="primary"
+                            />
+                        }
+                        label="Collect the contacts housing status."
+                    />
+                </FormGroup>
+            </Grid>
+
+            <Grid item xs={12}>
+            <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                            name="getemploymentstatus"
+                            checked={this.state.getemploymentstatus}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="getemploymentstatus"
+                            color="primary"
+                            />
+                        }
+                        label="Collect the contacts employment status."
+                    />
+                </FormGroup>
+            </Grid>
+
+            <Grid item xs={12}>
+            <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                            name="getgender"
+                            checked={this.state.getgender}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="getgender"
+                            color="primary"
+                            />
+                        }
+                        label="Collect the gender of the contact."
+                    />
+                </FormGroup>
+            </Grid>
+
+            <Grid item xs={12}>
+            <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                            name="getagerange"
+                            checked={this.state.getagerange}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="getagerange"
+                            color="primary"
+                            />
+                        }
+                        label="Collect the age range of the contact."
+                    />
+                </FormGroup>
+            </Grid>
+
+            <Grid item xs={12}>
+            <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                            name="getmember"
+                            checked={this.state.getmember}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="getmember"
+                            color="primary"
+                            />
+                        }
+                        label="Collect an indicator if the contact is a Labour member."
+                    />
+                </FormGroup>
+
+            </Grid>
+
+            <Grid item xs={12}>
+            <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                            name="getlgbt"
+                            checked={this.state.getlgbt}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="getlgbt"
+                            color="primary"
+                            />
+                        }
+                        label="Collect if the contact self idetifies as LGBTQ+."
+                    />
+                </FormGroup>
+
+            </Grid>
+            <Grid item xs={12}>
+            <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                            name="getbame"
+                            checked={this.state.getbame}
+                            onChange={(e)=>{this.handleChange(e);}}
+                            value="getbame"
+                            color="primary"
+                            />
+                        }
+                        label="Collect if the contact self idetifies as BAME."
                     />
                 </FormGroup>
 

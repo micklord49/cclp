@@ -70,12 +70,8 @@ export default class SMTwitter extends Component {
     if(typeof(this.props.owner) == "undefined") return;
     if(this.props.owner=='') return;
 
-    console.log("Retreiving twitter")
-
     axios.get("/social/load/"+this.props.owner)
       .then(response => {
-        console.log("Twitter Load");
-        console.log(response);
         this.setState({  
             twitter: response.data.twitter,
             twitterfeed: response.data.twitterfeed == 1,
@@ -84,8 +80,6 @@ export default class SMTwitter extends Component {
             twittertokenkey: response.data.twittertokenkey,
             twittertokensecret: response.data.twittertokensecret,
             });
-            console.log("Loaded...");
-            console.log(this.state);
           })
       .catch(function (error) {
         this.setState({  

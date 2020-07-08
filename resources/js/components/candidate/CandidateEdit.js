@@ -55,11 +55,9 @@ class CandidateEdit extends Component {
   }
 
   componentDidMount(){
-    console.log("Editing Candidate:"+this.props.guid)
   }
 
   handleMainChange(event, value) {
-    console.log("Selected Tab:"+value);
     this.setState({ selectedmaintab: value });
   };
 

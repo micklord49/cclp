@@ -102,15 +102,11 @@ class BranchInfo extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-    console.log(event);
-  
     this.setState({
       [name]: value
     });
 
     this.reloading = false;
-    console.log(this.state);
-
   }
 
   handleChangeAbout(value) {
@@ -135,7 +131,6 @@ class BranchInfo extends Component {
   {    
     if(typeof(this.props.guid)=="undefined")  return;
     if(this.props.uid=='')  return;
-    console.log("Retrieving branch");
     this.reloading=true;
     axios.get("/branch/"+this.props.guid+"/edit")
       .then(response => {

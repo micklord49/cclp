@@ -114,13 +114,9 @@ class CampaignInfo extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-    console.log(event);
-  
     this.setState({
       [name]: value
     });
-    console.log(this.state);
-
   }
 
   handleChangeBody(value) {
@@ -182,13 +178,11 @@ class CampaignInfo extends Component {
   refresh()
   {
     if(this.props.guid=='') return;
-    console.log("Retrieving campaign");
 
     this.Reloading = true;
 
     axios.get("/campaign/"+this.props.guid+"/edit")
       .then(response => {
-        console.log(response);
         this.setState({ dn: response.data.dn, 
                         title: response.data.title, 
                         subtitle: response.data.subtitle, 
@@ -203,7 +197,6 @@ class CampaignInfo extends Component {
                         adminusers: response.data.adminusers,
                         tags: response.data.tags
                       });
-                      console.log(this.state);
       })
       .catch(function (error) {
         console.log(error);

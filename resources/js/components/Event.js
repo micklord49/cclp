@@ -42,13 +42,10 @@ export default class Event extends Component {
   }
 
   selectEvent(r){
-    console.log("Calling select event..."+r);
-    console.log(this.state.events);
     for(let i=0;i<this.state.events.length;i++)
     {
       if(this.state.events[i].guid == r)  
       {
-        console.log("Seting event..."+this.state.events[i]);
         this.setState({ selectedevent: this.state.events[i] });
       }
     }
@@ -59,13 +56,9 @@ export default class Event extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-    console.log(event);
-  
     this.setState({
       [name]: value
     });
-    console.log(this.state);
-
   }
 
   addnewevent() 
@@ -96,12 +89,10 @@ export default class Event extends Component {
     if(this.props.owner=='')   return;
     axios.get("/event/" + this.props.owner + "/dir")
       .then(response => {
-          console.log("Reloading events...");
           response.data.forEach(event => {
             event.start=new Date(event.start);
             event.end=new Date(event.end);
           });
-          console.log(response);
           this.setState({  events: response.data });        
           if(response.data.length > 0)  this.setState({  selectedevent: response.data[0] });
       })
@@ -113,15 +104,12 @@ export default class Event extends Component {
   eventchanged()
   {
     if(this.props.owner=='')   return;
-    console.log("Event - events changes");
     axios.get("/event/"+this.props.owner+"/edit")
     .then(response => {
-      console.log("Reloading events...");
       response.data.events.forEach(event => {
         event.start=new Date(event.start);
         event.end=new Date(event.end);
       });
-      console.log(response);
       this.setState({  events: response.data.events });        
       this.selectEvent(this.state.selectedevent.guid);
     })
@@ -148,7 +136,6 @@ export default class Event extends Component {
   }
 
   onSelect(e) {
-    console.log(e);
       this.setState({
         selectedevent: e
       });

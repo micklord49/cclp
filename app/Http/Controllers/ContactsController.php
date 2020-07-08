@@ -107,46 +107,6 @@ class ContactsController extends Controller
      * @param  \App\Councillor  $councillor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $councillor)
-    {
-        //
-        if(Auth::check())
-        {
-            $user = auth()->user();
-        }
-        else {
-            abort(404);
-        }
-
-        $clpGuid = config('appsettings.clpGUID');
-        $user = Councillor::where('guid',$councillor)->firstOrFail();
-
-        switch($request->type)
-        {
-            case 'INFO':
-                if(isset($request->ward)) $user->ward = $request->ward;
-                if(isset($request->dn)) $user->dn = $request->dn;
-                if(isset($request->intro)) $user->intro = $request->intro;
-                if(isset($request->about)) $user->about = $request->about;
-                if(isset($request->active)) $user->active = $request->active;
-                if(isset($request->campaign)) $user->campaign = $request->campaign;
-                break;
-        }
-
-        $user->save();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Councillor  $councillor
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Councillor $councillor)
-    {
-        //
-    }
-
 
     public function verify($guid)
     {

@@ -59,7 +59,6 @@ export default class BlogEditor extends Component {
     }
 
   componentDidMount(){
-    console.log("Editing blog for owner:"+this.props.owner)
   }
 
 
@@ -96,10 +95,8 @@ export default class BlogEditor extends Component {
 
   onNew()
   {
-    console.log("OnNew()");
     this.setState({ postguid: ""});
     this.setState({ opennew: true});
-    console.log("Opened blog editor");
   }
 
   editPost(guid)
@@ -117,7 +114,6 @@ export default class BlogEditor extends Component {
 
   onSave()
   {
-    console.log("OnSave()");
     this.saveAndRefresh();
   }
 
@@ -137,7 +133,6 @@ export default class BlogEditor extends Component {
       .then((response) => {
         this.setState({ newtitle: "", newsubtitle: ""})
       })
-    console.log("Saving new post");
   }
 
   async saveAndRefresh()
@@ -220,7 +215,6 @@ export default class BlogEditor extends Component {
             padding="dense"
             title={this.props.description} 
             onRowClick={(e,guid) => {
-              console.log("Setting postguid to "+guid.guid)
               this.setState({postguid: guid.guid});
             }}
           />

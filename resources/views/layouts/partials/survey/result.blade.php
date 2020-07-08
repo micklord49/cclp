@@ -6,26 +6,31 @@
 
 
 @foreach($items as $item)
-<div class="form-row">
-
-<h4>{{ $item->name }}</h4>
-</div>
 
 
 @if($item->type==1)
+
+<div class="card" style="">
+<div class="card-header card-header-text card-header-primary">{{ $item->name }}</div>
+<div class="card-body">
+
 @foreach($item->votes as $vote)
-<div class="form-row">
+<h5 class="card-title">
 @if($vote->icon != '')
   <i class="material-icons">{{ $vote->icon }}</i>
 @endif
 {{ $vote->text }} - {{ $vote->percent }}% ( {{ $vote->result }})
-</div>
+</h5>
 @endforeach
+  </div>
+</div>
+
 @endif
 
 @if($item->type==4)
-<div class="form-row" style="height:160px;">
-<span class="align-middle" style="padding-right:10px;padding-top:15px;">{{ $item->minlabel }}</span>
+<div class="card" style="">
+<div class="card-header card-header-text card-header-primary">{{ $item->name }}</div>
+<div class="card-body">
 <div class="barcontainer align-middle">
 @for ($i = 1; $i <= $item->steps; $i++)
 <div class="bar" style="height:{{ $item->votes[$i-1]->percent }}%;
@@ -35,20 +40,27 @@
     {{ $item->votes[$i-1]->result }}
     </div>
 </div>
-
 @endfor
 </div>
-<div class="align-middle"  style="padding-left:10px;padding-top:15px;">{{ $item->maxlabel }}</div>
+</div>
+<div class="card-footer text-muted">
+<p style="text-align: left; width:49%; display: inline-block;">{{ $item->minlabel }}</p>
+<p style="text-align: right; width:50%;  display: inline-block;">{{ $item->maxlabel }}</p>
+
+</div>
+
+</div>
 </div>
 
 @endif
 
+<div class="row">
+</div>
 
 @endforeach
 
         </div>
       </div>
-    </div>
 
 <style>
 
@@ -63,8 +75,7 @@
 
 .barcontainer {
   position: relative;
-  border: 3px solid black;
-  border-radius: 5px 5px 0 0;
+  border-radius: 6px 6px 0 0;
   width: 60%;
   margin: 0 auto;
   height: 150px;
@@ -73,6 +84,7 @@
   min-width: 200px;
   max-width: 300px;
   z-index: 1;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .barcontainerheader {
@@ -94,9 +106,8 @@
   position: absolute;
   display: inline-block;
   bottom: 0;
-  border: 1px solid black;
-  border-radius: 6px 6px 0 0;
-  background: #663399;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(60deg,#26c6da,#0097a7);
   width: 24px;
   text-align: center;
   color: white;
@@ -106,8 +117,6 @@
 
 .barlabel {
   position: absolute;
-  border-top: 2px solid black;
-  background: #888;
   bottom: 0;
   width: 100%;
   text-shadow: 1px 1px 0px black;

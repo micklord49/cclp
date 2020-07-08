@@ -40,8 +40,6 @@ export default class CPLUserList extends Component {
 
   onRemoveUser(guid)
   {
-    console.log("Userlist recieved ondelete event from UserCard")
-    console.log("Firing UserList.onremoveuser")
     this.props.onremoveuser(guid);
   }
 
@@ -63,7 +61,6 @@ export default class CPLUserList extends Component {
         users = this.props.users.map(user => (
                 <UserChip key={user.guid} guid={user.guid} ondelete={()=>{this.onRemoveUser(user.guid);}}/>
             ))
-        console.log('Rendered '+this.props.users.length+' UserCard(s).');
     }
 
     return (

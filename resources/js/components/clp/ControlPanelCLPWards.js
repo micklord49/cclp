@@ -148,8 +148,6 @@ export default class ControlPanelCLPWards extends Component {
       ward = this.state.selectedward.guid;
     }
 
-    console.log("Rendering ControlPanelCLPWards");
-
     return (
         <div style={neu}>
             <Grid container spacing={3}>

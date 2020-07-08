@@ -15,7 +15,6 @@ if (document.getElementById('root')) {
   if (document.getElementById('datapipe')) {
     const element = document.getElementById('datapipe')
     const props = Object.assign({}, element.dataset)
-    console.log(props);
     ReactDOM.render(<Main {...props}/>, document.getElementById('root'));
   }
   else {

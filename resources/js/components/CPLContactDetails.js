@@ -64,12 +64,9 @@ export default class CPLContactDetails extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-    console.log(event);
-  
     this.setState({
       [name]: value
     });
-    console.log(this.state);
   }
 
   handleDateChange(name,value)
@@ -99,10 +96,8 @@ export default class CPLContactDetails extends Component {
     if(typeof(this.props.guid) == "undefined") return;
     if(this.props.guid=='') return;
 
-    console.log("Retrieving event");
     axios.get("/contacts/"+this.props.guid+"/edit")
       .then(response => {
-        console.log(response);
         this.setState({ name: response.data.name, 
                         email: response.data.email, 
                         tags: response.data.tags, 

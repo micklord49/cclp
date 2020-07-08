@@ -114,6 +114,7 @@ Route::get('blog/{perpage}/{page}/{owner}/ownersearch', 'BlogController@ownersea
 Route::patch('blog/', 'BlogController@store');
 
 Route::get('survey/{perpage}/{page}/{owner}/ownersearch', 'SurveyController@ownersearch');
+Route::get('survey/{perpage}/{page}/{owner}/resultsearch', 'SurveyController@resultsearch');
 Route::get('survey/{owner}/ownerdir', 'SurveyController@ownerdir');
 Route::get('survey/{owner}/items', 'SurveyController@items');
 Route::get('survey/form/{survey}', 'SurveyController@showform');

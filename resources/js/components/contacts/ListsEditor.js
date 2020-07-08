@@ -59,7 +59,6 @@ export default class ListEditor extends Component {
     }
 
   componentDidMount(){
-    console.log("Editing Lists for owner:"+this.props.owner)
   }
 
 
@@ -77,10 +76,8 @@ export default class ListEditor extends Component {
 
   onNew()
   {
-    console.log("OnNew()");
     this.setState({ listguid: ""});
     this.setState({ opennew: true});
-    console.log("Opened blog editor");
   }
 
   editPost(guid)
@@ -90,7 +87,6 @@ export default class ListEditor extends Component {
 
   onSave()
   {
-    console.log("OnSave()");
     this.saveAndRefresh();
   }
 
@@ -109,7 +105,6 @@ export default class ListEditor extends Component {
       .then((response) => {
         this.setState({ newtitle: "", newsubtitle: ""})
       })
-    console.log("Saving new list");
   }
 
   async saveAndRefresh()
@@ -191,7 +186,6 @@ export default class ListEditor extends Component {
             padding="dense"
             title={this.props.description} 
             onRowClick={(e,guid) => {
-              console.log("Setting listguid to "+guid.guid)
               this.setState({listguid: guid.guid});
             }}
           />

@@ -99,12 +99,9 @@ export default class BlogPost extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
   
-    console.log(event);
-    console.log(name+':'+value+'<--');
     this.setState({
       [name]: value
     });
-    console.log(this.state);
   }
 
   handleChangeBody(text){

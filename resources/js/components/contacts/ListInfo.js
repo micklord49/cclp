@@ -78,13 +78,8 @@ export default class ListInfo extends Component {
 
   
   componentDidMount(){
-    if(this.state.guid == "")
+    if(!this.state.guid == "")
     {
-        console.log("Creating new list for owner:"+this.props.guid)
-    }
-    else
-    {
-        console.log("Editing list :"+this.props.guid)
         this.refresh();
     }
   }

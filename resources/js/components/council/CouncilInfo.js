@@ -99,13 +99,9 @@ class CouncilInfo extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-    console.log(event);
-  
     this.setState({
       [name]: value
     });
-    console.log(this.state);
-
   }
 
   handleChangeAbout(value) {
@@ -120,7 +116,6 @@ class CouncilInfo extends Component {
 
   refresh()
   {
-    console.log("Retrieving councillor");
     axios.get("/council/"+this.props.guid+"/edit")
       .then(response => {
         this.setState({ 

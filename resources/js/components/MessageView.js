@@ -71,7 +71,6 @@ export default class MessageView extends Component {
   componentDidMount(){
     if(this.props.guid == "")
     {
-      console.log("MESSAGE GUID BLANK")
       return;
     }
     else
@@ -89,7 +88,6 @@ export default class MessageView extends Component {
 
   refresh()
   {
-    console.log("Getting message :"+this.props.guid)
     let uri = '/message/'+this.props.guid;
     axios.get(uri).then((response) => {
       this.setState({

@@ -70,7 +70,6 @@ export default class SurveyEditor extends Component {
     }
 
   componentDidMount(){
-    console.log("Editing blog for owner:"+this.props.owner);
     this.refresh();
   }
 
@@ -87,24 +86,20 @@ export default class SurveyEditor extends Component {
 
   onNew()
   {
-    console.log("OnNew()");
     this.setState({ 
       surveyguid: "",
       newtitle: "Survey",
       opennew: true
     });
-    console.log("Opened blog editor");
   }
 
   onNew()
   {
-    console.log("OnNew()");
     this.setState({ 
       surveyguid: "",
       newtitle: "Survey",
       opennew: true
     });
-    console.log("Opened blog editor");
   }
 
   editPost(guid)
@@ -114,7 +109,6 @@ export default class SurveyEditor extends Component {
 
   onSave()
   {
-    console.log("OnSave()");
     this.saveAndRefresh();
   }
 

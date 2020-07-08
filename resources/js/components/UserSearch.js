@@ -56,9 +56,7 @@ export default class UserSearch extends Component {
 
   addUser(guid)
   {
-    console.log("Recieved ControlPanelUserGroup.addUser");
     if(guid === undefined)    return;
-    console.log("Firing UserSearch.addUser");
     this.props.addUser(guid);
   }
 
@@ -83,7 +81,6 @@ export default class UserSearch extends Component {
           data={query =>
             new Promise((resolve, reject) => {
               let url = '/userdir/' + query.pageSize + "/" + (query.page + 1) + "/search" 
-              console.log(query);
               fetch(url)
                 .then(response => response.json())
                 .then(result => {

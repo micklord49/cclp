@@ -67,8 +67,6 @@ export default class SurveyItems extends Component {
         this.setState({ selectedsurvey: this.state.items[i] });
       }
     }
-    console.log(r);
-    console.log(this.state.selectedsurvey);
   }
 
   componentDidMount(){

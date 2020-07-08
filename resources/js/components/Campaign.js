@@ -58,8 +58,6 @@ export default class Campaign extends Component {
 
   campaignselected(e){
     //if(r=='') return;
-    //console.log("Calling select campaign..."+r);
-    console.log(e);
     for(let i=0;i<this.state.campaigns.length;i++)
     {
     //  if(this.state.campaigns[i].guid == r)  
@@ -90,14 +88,10 @@ export default class Campaign extends Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-
-    console.log(event);
   
     this.setState({
       [name]: value
     });
-    console.log(this.state);
-
   }
 
   addnewcampaign() 
@@ -121,10 +115,8 @@ export default class Campaign extends Component {
 
   refresh()
   {
-    console.log("Reloading campaign...")
     axios.get("/campaign/" + this.props.owner + "/dir")
     .then(response => {
-        console.log(response);
         this.setState({  
           campaigns: response.data
         });
@@ -159,7 +151,6 @@ export default class Campaign extends Component {
   {
     if(this.props.owner=='')   return;
     if(this.state.selectedcampaign==undefined)  return;
-    console.log("ControlPanelEC - campaign changes");
 
     axios.get("/campaign/"+this.props.owner+"/edit")
     .then(response => {

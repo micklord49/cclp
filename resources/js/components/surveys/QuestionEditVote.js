@@ -54,8 +54,6 @@ export default class QuestionEditVote extends Component {
     const target = event.target;   
     if(!target) 
     {
-        console.log("Error - unknown target");
-        console.log(event);
         return;
     }
     const value = target.type === 'checkbox' ? target.checked : target.value;

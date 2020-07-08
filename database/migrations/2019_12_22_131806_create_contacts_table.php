@@ -24,6 +24,12 @@ class CreateContactsTable extends Migration
             $table->string('address2');
             $table->string('city');
             $table->string('postcode');
+            $table->string('gender',1);
+            $table->string('lgbt',1);
+            $table->string('bame',1);
+            $table->string('resident',1);
+            $table->string('agerange',16);
+            $table->string('member',45);
             $table->timestamps();
         });
     }

@@ -35,6 +35,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
+import MaterialTable from 'material-table';
+
 import SaveIcon from '@material-ui/icons/Save';
 
 
@@ -43,6 +45,7 @@ import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css'; // ES6
 
 import SurveyItems from './SurveyItems';
+import { push } from 'react-burger-menu';
 
 
 export default class SurveyInfo extends Component {
@@ -55,6 +58,7 @@ export default class SurveyInfo extends Component {
         description: "",
         active: false,
         showvotes: false,
+        items: [],
       };
       //this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -101,6 +105,7 @@ export default class SurveyInfo extends Component {
         description: response.data.description, 
         active: response.data.active == 1,
         showvotes: response.data.showvotes == 1,
+        items: response.data.items, 
       });
     });
    }
@@ -158,7 +163,31 @@ export default class SurveyInfo extends Component {
       borderRadius: 20,
     };
 
- 
+    var cols = [];
+    this.state.items.forEach(element => {
+      switch(element.type)
+      {
+        case 1:
+          cols.push({ title: element.name, field: element.guid, width: 50 });
+          break;
+        case 2:
+          break;
+        case 3:
+          cols.push({ title: 'Gender', field: element.guid + '-gender', width: 50 });
+          cols.push({ title: 'Resident', field: element.guid + '-resident', width: 50 });
+          cols.push({ title: 'Age', field: element.guid + '-agerange', width: 50 });
+          cols.push({ title: 'LGBTQ+', field: element.guid + '-lgbt', width: 50 });
+          cols.push({ title: 'BAME', field: element.guid + '-bame', width: 50 });
+          cols.push({ title: 'Housing', field: element.guid + '-housing', width: 50 });
+          cols.push({ title: 'Employment', field: element.guid + '-employment', width: 50 });
+          break;
+        case 4:
+          cols.push({ title: element.name, field: element.guid, width: 50 });
+          break;
+  
+      }
+    });
+
 
     return (
     <Grid container spacing={4} style={form}>
@@ -226,6 +255,37 @@ export default class SurveyInfo extends Component {
                 Save
               </Button>
         </Grid>
+        <Grid item xs={12}>
+        <MaterialTable
+            columns={cols}
+            data={query =>
+              new Promise((resolve, reject) => {
+                let url = '/survey/' + query.pageSize + "/" + (query.page + 1) + "/" + this.props.guid + "/resultsearch" 
+                fetch(url)
+                  .then(response => response.json())
+                  .then(result => {
+                    resolve({
+                      data: result.data,
+                      page: result.page - 1,
+                      totalCount: result.count,
+                    })
+                  })
+                })
+    
+              }
+            title="Responses" 
+            padding="dense"
+            options={{
+              tableLayout: 'fixed',
+              exportButton: true,
+              exportAllData: true
+            }}
+      
+          />
+        </Grid>
+
+
+
     </Grid>
   );
   }

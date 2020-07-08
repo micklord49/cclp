@@ -20,8 +20,6 @@ if (document.getElementById('root')) {
     const element = document.getElementById('datapipe')
     const props = Object.assign({}, element.dataset)
 
-    console.log(props);
-
     // render element with props (using spread)
 
     ReactDOM.render(<Main {...props}/>, document.getElementById('root'));

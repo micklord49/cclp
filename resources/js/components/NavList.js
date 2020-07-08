@@ -16,8 +16,6 @@ import StarOutlineIcon from '@material-ui/icons/StarBorder';
 export default class NavList extends Component {
   constructor(props) {
       super(props);
-      console.log("NavList - Items");
-      console.log(this.props.items);
       this.state = {items: this.props.items, selecteditem: ''};
       if(this.props.items.length > 0)
       {
@@ -33,7 +31,6 @@ export default class NavList extends Component {
   {
     if(typeof(this.props.items)=="undefined")
     {
-      console.log("Navlist selectitem items undefined.");
       return;
     }
     this.props.items.forEach(element => {

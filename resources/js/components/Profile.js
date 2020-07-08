@@ -62,17 +62,14 @@ class Profile extends Component {
   }
 
   componentDidMount(){
-    console.log("Editing Councillor:"+this.props.guid)
   }
 
 
   handleChange(event, value) {
-    console.log("Selected Tab:"+value);
     this.setState({ selectedtab: value });
   };
 
   handleMainChange(event, value) {
-    console.log("Selected Tab:"+value);
     this.setState({ selectedmaintab: value });
   };
 

@@ -62,7 +62,6 @@ export default class SocialMedia extends Component {
             this.setState({ tumblr: true });
             break;
     }
-    console.log(this.state);
   }
 
 

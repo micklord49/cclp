@@ -26,7 +26,6 @@ export default class CPLUsers extends Component {
 
   addUser(guid)
   {
-    console.log("Firing ControlPanelUserGroup.addUser");
     this.props.addUser(guid);
   }
 
@@ -42,7 +41,6 @@ export default class CPLUsers extends Component {
 
   onRemoveUser(guid)
   {
-    console.log("Firing ControlPanelUserGroup.onremoveuser");
     this.props.onremoveuser(guid);
   }
 

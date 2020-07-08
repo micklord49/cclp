@@ -55,11 +55,9 @@ class CouncillorEdit extends Component {
   }
 
   componentDidMount(){
-    console.log("Editing Councillor:"+this.props.guid)
   }
 
   handleMainChange(event, value) {
-    console.log("Selected Tab:"+value);
     this.setState({ selectedmaintab: value });
   };
 

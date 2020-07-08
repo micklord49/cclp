@@ -78,7 +78,7 @@ export default class QuestionEdit extends Component {
   }
 
   handleChangeOption(text){
-    console.log("handleChangeOption");
+    console.log("QE: Set options=" + text);
     this.setState({
       options: text
     })

@@ -88,6 +88,17 @@ class Msg
         {
             $from = $contact->guid;
         }
+
+        // Check for spammer
+        if(TagManager::owner($from)->has("Spam"))
+        {
+            //
+            //  Don't accept a message from a spammer
+            return;
+        }
+
+
+
         $msg = uniqid("MSG");
         $newmessage = Message::create(array(
             'guid' => $msg,

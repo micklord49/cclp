@@ -40,13 +40,11 @@ export default class ControlPanelUserGroup extends Component {
 
   addUser(guid)
   {
-    console.log("Firing ControlPanelUserGroup.addUser");
     this.props.addUser(guid);
   }
 
   onRemoveUser(guid)
   {
-    console.log("Firing ControlPanelUserGroup.onremoveuser");
     this.props.onremoveuser(guid);
   }
 

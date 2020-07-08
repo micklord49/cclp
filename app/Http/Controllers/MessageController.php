@@ -154,9 +154,6 @@ class MessageController extends Controller
 
     public function newmessage(Request $request,$owner)
     {
-        Log::info('Inserting new message for the clp ');
-        Log::info($request);
-
         $msg = new Msg();
         
         $msg->owner = $owner;

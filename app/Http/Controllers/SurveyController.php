@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 
+use App\Contact;
 use App\Survey;
 use App\SurveyItem;
 use App\SurveyResponse;
+use App\SurveyResponseItem;
 
 use App\ViewModels\Managers\SurveyManager;
+
+use Illuminate\Support\Facades\Log;
 
 class SurveyController extends Controller
 {
@@ -24,6 +28,11 @@ class SurveyController extends Controller
     public function edit($guid)
     {
         $survey = Survey::find($guid);
+        $survey->items = SurveyItem::where("owner",$guid)->orderBy('order')->get();
+        foreach($survey->items as $item)
+        {
+
+        }
 
         return $survey->toJson();
     }
@@ -122,6 +131,80 @@ class SurveyController extends Controller
         return(json_encode($data));
     }
 
+    public function resultsearch($perpage,$page,$surveyguid)
+    {
+        $clpGuid = config('appsettings.clpGUID');
+
+        $data = new \stdClass();
+        
+        app('debugbar')->disable();
+
+        $survey = Survey::where("owner",$surveyguid)->get();        
+        $items = SurveyItem::where('owner',$surveyguid)->get();
+        $responses = SurveyResponse::where("survey",$surveyguid)->skip($perpage*($page-1))->take($perpage)->get();
+        $data->data = []; 
+        $data->page = $page;
+        $data->count = SurveyResponse::where("survey",$surveyguid)->skip($perpage*($page-1))->take($perpage)->count();
+        foreach($responses as $response)
+        {
+
+            $i = new \stdClass();
+            foreach($items as $item)
+            {
+                if($item->type==3)
+                {
+                    $name = $item->guid;
+                    $ri = SurveyResponseItem::where('response',$response->guid)->where('surveyitem',$item->guid)->get();
+                    if(count($ri)==0)
+                    {
+                        $name = $item->guid . "-agerange";
+                        $i->$name = "";
+                        $name = $item->guid . "-lgbt";
+                        $i->$name = "";
+                        $name = $item->guid . "-bame";
+                        $i->$name = "";
+                        $name = $item->guid . "-resident";
+                        $i->$name = "";
+                        $name = $item->guid . "-housing";
+                        $i->$name = "";
+                        $name = $item->guid . "-employment";
+                        $i->$name = "";
+
+                    }  
+                    else
+                    {
+                        $value = $ri[0]->value;
+                        $contact = Contact::where('guid',$value)->firstOrFail();
+                        $name = $item->guid . "-agerange";
+                        $i->$name = $contact->agerange;
+                        $name = $item->guid . "-lgbt";
+                        $i->$name = $contact->lgbt;
+                        $name = $item->guid . "-bame";
+                        $i->$name = $contact->bame;
+                        $name = $item->guid . "-resident";
+                        $i->$name = $contact->resident;
+                        $name = $item->guid . "-housing";
+                        $i->$name = $contact->housing;
+                        $name = $item->guid . "-employment";
+                        $i->$name = $contact->employment;
+                    }
+                }
+                else
+                {
+                    $name = $item->guid;
+                    $ri = SurveyResponseItem::where('response',$response->guid)->where('surveyitem',$item->guid)->get();
+                    if(count($ri)==0)  $value = "";
+                    else            $value = $ri[0]->value;
+                    $i->$name = $value;
+                }
+
+
+            }
+            array_push($data->data,$i);
+        }
+
+        return(json_encode($data));
+    }
 
 
     public function ownerdir($owner)
@@ -168,11 +251,16 @@ class SurveyController extends Controller
 
     public function submit(Request $form,$guid)
     {
-        $newguid = SurveyManager::get($guid)->store($form);
+        $sm = SurveyManager::get($guid);
+        $newguid = $sm->store($form);
+
         $minutes = time()+60*60*24*30;
-        Cookie::queue(Cookie::make($guid, $newguid, $minutes));
-
-
+        //Cookie::queue(Cookie::make($guid, $newguid, $minutes));
+        $items = $sm->itemresult();
+        return view('layouts.partials.survey.result',[
+            'survey' => Survey::find($guid),
+            'items' => $items
+          ]);
     }
 
 }

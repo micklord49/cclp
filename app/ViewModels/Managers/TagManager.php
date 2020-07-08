@@ -27,6 +27,20 @@ class ITagOwner
         $this->owner = $owner;
     }
 
+
+    public function has($name)
+    {
+        $tags = TagOwner::where("owner",$this->owner)->get();
+        $c = array();
+        foreach($tags as $tag)
+        {
+            $t = Tag::where("guid",$tag->tag)->firstOrFail();
+            if($t->name == $name)   return true;
+        }
+        return(false);
+    }
+
+
     public function tags()
     {
         $tags = TagOwner::where("owner",$this->owner)->get();

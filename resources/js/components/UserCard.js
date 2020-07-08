@@ -72,7 +72,6 @@ class UserCard extends Component {
   ondelete()
   {
     this.setState({ checked: false })
-    console.log("Firing UserCard.ondelete");
     this.props.ondelete();
   }
 
